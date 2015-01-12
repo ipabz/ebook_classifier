@@ -18,6 +18,13 @@ class StringHandler extends CI_Model {
    */
   private $tokens = ",?!.:;_@#$%^()[]{}/\"<>+* ";
   
+  /**
+   *  Contains an array of words which carry less meaning
+   * 
+   * @var array
+   */
+  private $stop_words = '';
+  
   
   /**
    * Constructor
@@ -26,6 +33,12 @@ class StringHandler extends CI_Model {
    */
   public function __construct() {
     parent::__construct();
+    
+    $this->stop_words = array(
+        'so',
+        'and',
+        'the'
+    );
   }
   // --------------------------------------------------------------------
   
@@ -49,6 +62,30 @@ class StringHandler extends CI_Model {
     return $words;
   } // End function tokenize
   // --------------------------------------------------------------------
+  
+  
+  /**
+   * Stopping: remove common words which are less informative
+   * 
+   * @param array $words
+   * @return array returns an array of words
+   */
+  public function remove_stop_words($words)
+  {
+    $new_words = array();
+    
+    for($x=0; $x < count($words); $x++) {
+      
+      if ( ! in_array($words[$x], $this->stop_words) ) {
+        $new_words[] = $words[$x];
+      }      
+      
+    } // end foreach
+    
+    return $new_words;
+  } // End function remove_stop_words
+  // --------------------------------------------------------------------
+  
   
 } // End class StringHandler
 
