@@ -25,6 +25,12 @@ class Welcome extends CI_Controller {
         
         print '<pre>';
         print_r($array);
+        
+        
+        
+        $this->load->library('stemmer');
+        $word = "singing";
+        echo $this->stemmer->stem($word); 
 	}
 }
 
