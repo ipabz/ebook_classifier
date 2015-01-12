@@ -19,7 +19,12 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->model('StringHandler');
+        $string = 'This is an ....... . . .example string';
+        $array = $this->StringHandler->tokenize($string);
+        
+        print '<pre>';
+        print_r($array);
 	}
 }
 
