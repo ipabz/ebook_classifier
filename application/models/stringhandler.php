@@ -49,7 +49,7 @@ class StringHandler extends CI_Model {
    * Gets all the text in a pdf file
    * 
    * @param string $pdf_file       - Path to the pdf file
-   * @return string
+   * @return string                - All the text from the pdf
    */
   public function pdf_to_text($pdf_file)
   {
@@ -102,6 +102,29 @@ class StringHandler extends CI_Model {
     
     return $new_words;
   } // End function remove_stop_words
+  // --------------------------------------------------------------------
+  
+  
+  /**
+   * Replace some characters with a space
+   * 
+   * @param string $text
+   * @return string
+   */
+  public function replace_some_chars_with_space($text)
+  {
+    $tok = strtok($text, $this->tokens);
+    $words = '';
+    
+    while ($tok !== false) {
+        $words .= $tok . ' ';
+        $tok = strtok($this->tokens);
+    }
+    
+    $words = trim($words);
+    
+    return $words;
+  } // End function replace_some_chars_with_space
   // --------------------------------------------------------------------
   
   
