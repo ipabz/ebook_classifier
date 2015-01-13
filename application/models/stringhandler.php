@@ -16,7 +16,7 @@ class StringHandler extends CI_Model {
    * 
    * @var string $tokens
    */
-  private $tokens = ",?!.:;_@#$%^()[]{}/\"<>+* ";
+  private $tokens = ",?!.:;_@#$%^()[]{}/\"<>+*1234567890 ";
   
   /**
    *  Contains an array of words which carry less meaning
@@ -33,6 +33,8 @@ class StringHandler extends CI_Model {
    */
   public function __construct() {
     parent::__construct();
+	
+	$this->load->library('pdf2text');
     
     $this->stop_words = array(
         'so',
@@ -40,6 +42,22 @@ class StringHandler extends CI_Model {
         'the'
     );
   }
+  // --------------------------------------------------------------------
+  
+  
+  /**
+   * Gets all the text in a pdf file
+   * 
+   * @param string $pdf_file       - Path to the pdf file
+   * @return string
+   */
+  public function pdf_to_text($pdf_file)
+  {
+    $this->pdf2text->setFilename($pdf_file);
+    $this->pdf2text->decodePDF();
+    
+    return $this->pdf2text->output();
+  } // End function pdf_to_text
   // --------------------------------------------------------------------
   
   
