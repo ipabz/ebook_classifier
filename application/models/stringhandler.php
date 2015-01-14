@@ -259,6 +259,12 @@ class StringHandler extends CI_Model {
   // --------------------------------------------------------------------
   
   
+  /**
+   * Remove words which are less than 3 characters in length
+   * 
+   * @param array $words
+   * @return array
+   */
   public function remove_less_meaningful_words($words)
   {
     $final_words = array();
@@ -270,7 +276,9 @@ class StringHandler extends CI_Model {
     }
     
     return $final_words;
-  }
+  } // End function remove_less_meaningful_words
+  // --------------------------------------------------------------------
+  
   
   public function process($pdf_file, $dictionary='class004.txt')
   {
