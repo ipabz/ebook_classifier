@@ -265,7 +265,7 @@ class StringHandler extends CI_Model {
     
     foreach($words as $word) {
       if (strlen($word) > 3) {
-        $final_words[] = $word;
+        $final_words[] = trim($word);
       }
     }
     
@@ -280,7 +280,13 @@ class StringHandler extends CI_Model {
     $text = $this->replace_some_chars_with_space($text);
     $tokenized = $this->tokenize($text);
     $tokenized = $this->remove_less_meaningful_words($tokenized);
+    $removed_stop_words = $this->remove_stop_words($tokenized);
     
+    $counted = $this->count_occurences(
+            $removed_stop_words, 
+            implode(' ', $removed_stop_words));
+    
+    return $counted;
   }
   
 } // End class StringHandler

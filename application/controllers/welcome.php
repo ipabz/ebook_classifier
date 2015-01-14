@@ -20,25 +20,8 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->model('stringhandler');
-        $string = 'analog computers auxiliary storage broadband equipment computer programming analog computers this is ares';
-        $array = $this->stringhandler->tokenize($string);
-        $array = $this->stringhandler->remove_less_meaningful_words($array);
-        
         print '<pre>';
-        print_r($array);
-        
-        
-        
-        $this->load->library('stemmer');
-        $word = "computers";
-        print_r( $this->stemmer->stem_list($word) ); 
-        
-        $str = 'happy beautiful happy lines pear gin happy lines rock happy lines pear ';
-        $words = $this->stringhandler->count_occurences($array, implode(' ', $array));
-        print_r($words);
-        
-        $text = 'happy beautiful happy lines pear gin happy lines rock happy lines pear ';
-        echo substr_count($text, 'happy beautiful');
+        print_r($this->stringhandler->process('assets/temp/sample.pdf'));
 	}
 }
 
