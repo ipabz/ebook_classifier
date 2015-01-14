@@ -19,9 +19,9 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->model('StringHandler');
-        $string = 'This is an ....... . . .example string';
-        $array = $this->StringHandler->tokenize($string);
+		$this->load->model('stringhandler');
+        $string = 'analog computers auxiliary storage broadband equipment computer programming analog computers this is';
+        $array = $this->stringhandler->tokenize($string);
         
         print '<pre>';
         print_r($array);
@@ -29,8 +29,15 @@ class Welcome extends CI_Controller {
         
         
         $this->load->library('stemmer');
-        $word = "singing";
-        echo $this->stemmer->stem($word); 
+        $word = "computers";
+        print_r( $this->stemmer->stem_list($word) ); 
+        
+        $str = 'happy beautiful happy lines pear gin happy lines rock happy lines pear ';
+        $words = $this->stringhandler->count_occurences($array, implode(' ', $array));
+        print_r($words);
+        
+        $text = 'happy beautiful happy lines pear gin happy lines rock happy lines pear ';
+        echo substr_count($text, 'happy beautiful');
 	}
 }
 

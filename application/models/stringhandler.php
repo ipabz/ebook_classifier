@@ -25,6 +25,13 @@ class StringHandler extends CI_Model {
    */
   private $stop_words = '';
   
+  /**
+   * Path/to/dictionary
+   * 
+   * @var string
+   */
+  public $dictionary_file = 'assets/dictionaries/class004.txt';
+  
   
   /**
    * Constructor
@@ -34,7 +41,9 @@ class StringHandler extends CI_Model {
   public function __construct() {
     parent::__construct();
 	
+    // Load the needed libraries
 	$this->load->library('pdf2text');
+    $this->load->library('stemmer');
     
     $this->stop_words = array(
         'so',
@@ -69,13 +78,46 @@ class StringHandler extends CI_Model {
    */
   public function tokenize($sentence)
   {
+    
+    // Dictionary
+    $file_lines = $this->read_file($this->dictionary_file);
+    $stemmed_file = $this->stem_array($file_lines);
+    
+    $temp_dictionary = array();
+    $temp_dictionary2 = array();
+    
+    for($x=0; $x < count($file_lines); $x++) {
+      $temp_dictionary[trim($stemmed_file[$x])] = trim($file_lines[$x]);
+      $temp_dictionary2[trim($file_lines[$x])] = trim($stemmed_file[$x]);
+    }
+    // ------------------------------------------------------------------
+    
+    // Sentence
+    $stemmed_words = $this->stem($sentence);
+    // ------------------------------------------------------------------
+    
+    // Count occurences of dictionary words
+    $dictionary_words = $this->count_occurences($stemmed_file, $stemmed_words);
+    $dw = array();
+    
+    foreach($dictionary_words as $word => $count) {
+      for($x=0; $x < $count; $x++) {
+        $dw[] = $temp_dictionary[ $word ];
+      }
+    }
+    // ------------------------------------------------------------------
+    
+    // Sentence tokenize
     $tok = strtok($sentence, $this->tokens);
-    $words = array();
+    $words1 = array();
     
     while ($tok !== false) {
-        $words[] = $tok;
+        $words1[] = $tok;
         $tok = strtok($this->tokens);
     }
+    
+    $words = array_merge($words1, $dw);
+    // ------------------------------------------------------------------
     
     return $words;
   } // End function tokenize
@@ -128,6 +170,102 @@ class StringHandler extends CI_Model {
   // --------------------------------------------------------------------
   
   
+  /**
+   * Get the contents of a file
+   * 
+   * @param type $file_name     - Path/to/filename
+   * @return array              - File contents line by line
+   */
+  public function read_file($file_name)
+  {
+    $file = new SplFileObject($file_name);
+    $dictionary = array();
+    
+    while (!$file->eof()) {
+        $dictionary[] = trim($file->fgets());
+    }
+    
+    return $dictionary;
+  } // End function read_file
+  // --------------------------------------------------------------------
+  
+  
+  /**
+   * Stemming using Porter's algorithm
+   * 
+   * @param mixed $words String or Array of word(s)
+   * @return type
+   */
+  public function stem($words)
+  {
+    $w = $this->stemmer->stem_list($words);
+    
+    if ( is_array($w) ) {
+      $w = implode(' ', $w);
+    }
+    
+    return $w;
+    //return implode(' ', $this->stemmer->stem_list($words));
+  } // End function stem
+  // --------------------------------------------------------------------
+  
+  
+  /**
+   * Stemming using Porter's algorithm
+   * 
+   * @param array $array_of_words
+   * @return array
+   */
+  public function stem_array($array_of_words)
+  {
+    $file = array();
+    
+    foreach($array_of_words as $words) {
+      $file[] = $this->stem($words);
+    }
+    
+    return $file;
+  } // End function stem_array
+  // --------------------------------------------------------------------
+  
+  
+  /**
+   * 
+   * @param mixed $words String or Array of word(s)
+   * @param type $text
+   * @return array
+   */
+  public function count_occurences($words, $text)
+  {
+    if ( ! is_array($words) ) {
+      $words = explode(' ', $words);
+    }
+    
+    $data = array();
+    $text = ' '.trim($text).' ';
+    
+    foreach($words as $word) {
+      if (trim($word) != '') {
+        $count = substr_count($text, ' '.trim($word).' ');
+
+        if ($count > 0) {
+          $data[trim($word)] = $count;
+        }
+      }
+    }
+    
+    return $data;
+  } // End function count_occurences
+  // --------------------------------------------------------------------
+  
+  public function process($pdf_file)
+  {
+    $text = $this->pdf_to_text($pdf_file);
+    $text = strtolower($text);
+    $text = $this->replace_some_chars_with_space($text);
+    
+    
+  }
 } // End class StringHandler
 
 
