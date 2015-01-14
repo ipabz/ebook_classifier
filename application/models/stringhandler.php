@@ -258,14 +258,31 @@ class StringHandler extends CI_Model {
   } // End function count_occurences
   // --------------------------------------------------------------------
   
-  public function process($pdf_file)
+  
+  public function remove_less_meaningful_words($words)
   {
+    $final_words = array();
+    
+    foreach($words as $word) {
+      if (strlen($word) > 3) {
+        $final_words[] = $word;
+      }
+    }
+    
+    return $final_words;
+  }
+  
+  public function process($pdf_file, $dictionary='class004.txt')
+  {
+    $this->dictionary_file = 'assets/dictionaries/'.$dictionary;
     $text = $this->pdf_to_text($pdf_file);
     $text = strtolower($text);
     $text = $this->replace_some_chars_with_space($text);
-    
+    $tokenized = $this->tokenize($text);
+    $tokenized = $this->remove_less_meaningful_words($tokenized);
     
   }
+  
 } // End class StringHandler
 
 

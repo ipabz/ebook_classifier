@@ -20,8 +20,9 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->model('stringhandler');
-        $string = 'analog computers auxiliary storage broadband equipment computer programming analog computers this is';
+        $string = 'analog computers auxiliary storage broadband equipment computer programming analog computers this is ares';
         $array = $this->stringhandler->tokenize($string);
+        $array = $this->stringhandler->remove_less_meaningful_words($array);
         
         print '<pre>';
         print_r($array);
