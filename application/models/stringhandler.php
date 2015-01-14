@@ -16,7 +16,7 @@ class StringHandler extends CI_Model {
    * 
    * @var string $tokens
    */
-  private $tokens = ",?!.:;_@#$%^()[]{}/\"<>+*1234567890 ";
+  private $tokens = ",?!.:;_@#$%^()[]{}/\"<>+*1234567890\n\r\t ";
   
   /**
    *  Contains an array of words which carry less meaning
@@ -45,11 +45,7 @@ class StringHandler extends CI_Model {
 	$this->load->library('pdf2text');
     $this->load->library('stemmer');
     
-    $this->stop_words = array(
-        'so',
-        'and',
-        'the'
-    );
+    $this->stop_words = $this->read_file('assets/stop_words.txt');
   }
   // --------------------------------------------------------------------
   
