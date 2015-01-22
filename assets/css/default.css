@@ -1,0 +1,49 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #FBFBFC
+}
+
+#main-header {
+  background-color: #6f5499;
+  height: 50px;
+}
+
+#main-header .title {
+  color: #fff;
+  display: inline-block;
+  line-height: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+#main-header .nav-container {
+  height: 50px;
+  padding-top: 8px;
+}
+
+#main-header .nav-container .btn {
+  margin-left: 7px;
+}
+
+#main-header-shadow {
+  background: #FFFFFF url(../images/background.png) 0px 1px repeat-x;
+  height: 20px;
+}
+
+#footer {
+  background: #FFFFFF url(../images/footer.png) repeat-x;
+  height: 90px;
+  padding-top: 38px;
+  text-align: center;
+  font-size: 12px;
+  color: #333;
+  position: relative;
+  clear: both;
+}
+
+.main-content {
+  background-color: #fff;
+  min-height: 100px;
+}
