@@ -1,5 +1,5 @@
     <footer id="footer">
-      Ebook Classifier. Copyright @copy; 2015. All Rights Reserved.
+      Ebook Classifier. Copyright &copy; 2015. All Rights Reserved.
     </footer>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="assets/js/jquery-1.11.2.min.js"></script>
