@@ -3,7 +3,7 @@ $(function() {
   
   $('#fileupload').fileupload({
       url: upload_url,
-      dataType: 'text',
+      dataType: 'json',
       done: function (e, data) { 
         
            setTimeout(function() {
@@ -15,7 +15,7 @@ $(function() {
        console.log(data);
       },
       progressall: function (e, data) {
-        /*
+        
         $('.progress-holder').removeClass('hide');
         $('.progress-holder').show();
         var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -23,7 +23,7 @@ $(function() {
             'width',
             progress + '%'
         );
-        */
+        
       }
   }).prop('disabled', !$.support.fileInput)
       .parent().addClass($.support.fileInput ? undefined : 'disabled');

@@ -39,11 +39,9 @@ class Training extends CI_Controller {
           foreach($d as $file) {
            
             $data = $this->stringhandler->process(
-                    'assets/pdf/'.$class.'/'.$file['file_name'],
+                    'assets/uploads/pdf/'.$class.'/'.$file['file_name'],
                     'class'.$class.'.txt'
                     );
-            
-            
             
              
             $this->training_model->save_entry(

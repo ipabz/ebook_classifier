@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->model('stringhandler');
         print '<pre>';
-        print_r($this->stringhandler->process('assets/temp/sample.pdf'));
+        print_r($this->stringhandler->process('assets/uploads/pdf/004/sample.pdf'));
 	}
 }
 
