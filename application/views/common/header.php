@@ -10,6 +10,15 @@
     <!-- Bootstrap -->
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     
+    <?php
+    if (defined('TRAINING')) :
+      // The below CSS file(s) is loaded only for pages that requires uploading of files.
+      // This is to maintain fast loading of pages.
+    ?>
+    <link rel="stylesheet" href="assets/css/jquery.fileupload.css">
+    <?php
+    endif;
+    ?>
     <!-- Custom Style -->
     <link href="assets/css/default.css" rel="stylesheet">
 
@@ -28,7 +37,7 @@
       
       <div class="pull-right nav-container">
         
-        <a class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a>
+        <a href="train" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a>
         <a class="btn btn-info"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a>
         <div class="btn-group">
           <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

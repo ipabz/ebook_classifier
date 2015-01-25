@@ -47,3 +47,13 @@ body {
   background-color: #fff;
   min-height: 100px;
 }
+
+.hide {
+  display: none;
+}
+
+.train-dialog {
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+}

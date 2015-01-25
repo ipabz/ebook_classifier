@@ -290,7 +290,11 @@ class StringHandler extends CI_Model {
             $removed_stop_words, 
             implode(' ', $removed_stop_words));
     
-    return $counted;
+    
+    $data['tokens'] = $removed_stop_words;
+    $data['counted'] = $counted;
+    
+    return $data;
   }
   
 } // End class StringHandler

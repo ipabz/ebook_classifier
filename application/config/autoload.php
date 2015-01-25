@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('stringhandler', 'classifications');
+$autoload['model'] = array('stringhandler', 'classifications', 'training_model');
 
 
 /* End of file autoload.php */

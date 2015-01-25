@@ -41,6 +41,8 @@
 $route['default_controller'] = "training";
 $route['404_override'] = '';
 
+//Custom
+$route['train'] = 'training/train';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
