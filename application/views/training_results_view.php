@@ -2,6 +2,7 @@
   <div class="container-fluid">
     
     <h2 class="text-center">Word Frequency</h2>
+    <?php print (($this->input->get('corpus')) ? "<div class='text-center'><strong>Corpus ".$this->input->get('corpus')."</strong></div>" : ""); ?>
     <hr />
     <?php
     $counter = 1;
