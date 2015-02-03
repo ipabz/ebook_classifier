@@ -19,9 +19,10 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->model('stringhandler');
-        print '<pre>';
-        print_r($this->stringhandler->process('assets/uploads/pdf/004/sample.pdf'));
+      $pdf_file = "assets/temp/test3.pdf";
+      $words = $this->string->train($pdf_file);
+      print '<pre>';
+      print_r($words);
 	}
 }
 

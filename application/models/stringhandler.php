@@ -266,8 +266,9 @@ class StringHandler extends CI_Model {
     $final_words = array();
     
     foreach($words as $word) {
-      if (strlen($word) > 3) {
-        $final_words[] = trim($word);
+      $word = utf8_encode( trim($word) );
+      if ( strlen($word) > 3 && (!preg_match('/[^A-Za-z0-9]/', $word)) ) {
+        $final_words[] = $word;
       }
     }
     
