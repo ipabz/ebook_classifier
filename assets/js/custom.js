@@ -5,14 +5,15 @@ $(function() {
       url: upload_url,
       dataType: 'json',
       done: function (e, data) { 
-        
-           setTimeout(function() {
-             $('.progress-holder .text').html('<span class="glyphicon glyphicon-ok"></span> Training is done.');
-           }, 1000);
+
+           $('.progress-holder .text').html('<span class="glyphicon glyphicon-ok"></span> Training is done.');
+             
            
       },
       success: function(data) { 
-       console.log(data);
+        var tempurl = site_url + 'training/show_results?ids='+data.inserted_ids;
+        var html = '<br /><div class="text-center"><a class="btn btn-primary" href="'+tempurl+'">Show Results</a></div>';
+        $('.linkholder').html(html);
       },
       progressall: function (e, data) {
         
@@ -31,10 +32,9 @@ $(function() {
   $('.form-class-select').change(function(e) {
     
     var cl = $(this).val();
-    class_name = cl;
-    
-    upload_url = __upload_url + class_name;
-    
+
+    var url = site_url + 'training/set_category/'+cl;
+    $.get(url, function(data) {console.log(data);});
   });
   
 });

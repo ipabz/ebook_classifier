@@ -14,6 +14,8 @@ class training_model extends CI_Model {
     
     $this->db->insert(TABLE_TRAINING, $data);
     
+    return $this->db->insert_id();
+    
   }
   
   public function get_entries($ids=array())

@@ -47,6 +47,7 @@
               <div id="progress" class="progress">
                   <div class="progress-bar progress-bar-success"></div>
               </div>
+              <div class="linkholder"></div>
             </div>
 
             <!-- The container for the uploaded files -->

@@ -22,9 +22,20 @@ class Training extends CI_Controller {
       $this->load->view('common/footer');
     }
     
-    public function upload_files($class="004")
+    public function set_category($class)
+    {
+      $this->session->set_userdata('class', $class);
+    }
+    
+    public function upload_files()
 	{
-		
+		$class = trim( $this->session->userdata('class') );
+        $this->session->unset_userdata('class');
+        
+        if ($class === '') {
+          $class = '004';
+        }
+        
 		$config['upload_path'] = './assets/uploads/pdf/'.$class.'/';
 		$config['allowed_types'] = 'pdf';
 		$config['overwrite'] = TRUE;
@@ -36,6 +47,8 @@ class Training extends CI_Controller {
 			$d['message'] = $this->upload->display_errors();
 		} else {
           
+          $ids = array();
+          
           foreach($d as $file) {
            
             $data = $this->string->train(
@@ -44,13 +57,15 @@ class Training extends CI_Controller {
                     );
             
              
-            $this->training_model->save_entry(
+            $ids[] = $this->training_model->save_entry(
                     $file['file_name'],
                     $class,
                     $data['tokens'],
                     $data['counted']
                     ); 
           }
+          
+          $d['inserted_ids'] = $ids;
           
         }
 
