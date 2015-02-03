@@ -79,8 +79,13 @@ class Training extends CI_Controller {
       $ids = $this->input->get('ids');
       $exploded = explode(',', $ids);
       
-      $data['query'] = $this->training_model->get_entries($exploded);
+      if (trim($ids) === '') {
+        $exploded = array();
+      }
       
+      $corpus = trim( $this->input->get('corpus') );
+      
+      $data['query'] = $this->training_model->get_entries($exploded, $corpus);
       $data['classifications'] = $this->classifications->get_all();
       
       $this->load->view('common/header', $data);

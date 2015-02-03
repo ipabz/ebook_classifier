@@ -18,7 +18,7 @@ class training_model extends CI_Model {
     
   }
   
-  public function get_entries($ids=array())
+  public function get_entries($ids=array(),$class="")
   {
     $custom_where = '';
     
@@ -38,6 +38,16 @@ class training_model extends CI_Model {
       
     }
     
+    if ($class !== '') {
+      $temp = 'classification = "'.$class.'"';
+      
+      if ($custom_where !== '') {
+        $custom_where .= ' AND ('.$temp.')';
+      } else {
+        $custom_where = '('.$temp.')';
+      }
+    }
+    
     $sql = "SELECT * FROM ".TABLE_TRAINING;
     
     if ($custom_where !== '') {
@@ -49,5 +59,7 @@ class training_model extends CI_Model {
     return $query;
     
   }
+  
+  
   
 } // End class training_model

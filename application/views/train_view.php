@@ -12,7 +12,7 @@
 
             <div class="row">
               <div class="col-md-12">
-                <div>Classification</div>
+                <div>Corpus</div>
                 <select class="form-control form-class-select">
                   <?php
                   foreach($classifications->result() as $row) {
