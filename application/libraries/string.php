@@ -56,7 +56,7 @@ class String {
     return $lines;
   }
   
-  public function train($pdf_file)
+  public function train($pdf_file, $category="004")
   {
     $text = $this->pdf_to_text($pdf_file);    
     $lines = $this->string_by_line($text);
@@ -67,7 +67,10 @@ class String {
     
     $count = $this->ci->stringhandler->count_occurences($stemmed, implode(' ', $stemmed));
     
-    return $count;
+    $data['tokens'] = $stemmed;
+    $data['counted'] = $count;
+    
+    return $data;
   }
   
 } // End class String

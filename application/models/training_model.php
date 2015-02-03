@@ -16,4 +16,36 @@ class training_model extends CI_Model {
     
   }
   
+  public function get_entries($ids=array())
+  {
+    $custom_where = '';
+    
+    if (count($ids) > 0) {
+      
+      foreach ($ids as $id) {
+        if ($custom_where === '') {
+          $custom_where = 'id = "'.$id.'"';
+        } else {
+          $custom_where .= ' OR id = "'.$id.'"';
+        }
+      }
+      
+      if ($custom_where !== '') {
+        $custom_where = '('.$custom_where.')';
+      }
+      
+    }
+    
+    $sql = "SELECT * FROM ".TABLE_TRAINING;
+    
+    if ($custom_where !== '') {
+      $sql .= " WHERE ".$custom_where;
+    }
+    
+    $query = $this->db->query($sql);
+    
+    return $query;
+    
+  }
+  
 } // End class training_model

@@ -38,9 +38,9 @@ class Training extends CI_Controller {
           
           foreach($d as $file) {
            
-            $data = $this->stringhandler->process(
+            $data = $this->string->train(
                     'assets/uploads/pdf/'.$class.'/'.$file['file_name'],
-                    'class'.$class.'.txt'
+                    $class
                     );
             
              
@@ -58,6 +58,21 @@ class Training extends CI_Controller {
 		print json_encode($d);
 		
 	}
+    
+    public function show_results()
+    {
+      $ids = $this->input->get('ids');
+      $exploded = explode(',', $ids);
+      
+      $data['query'] = $this->training_model->get_entries($exploded);
+      
+      $data['classifications'] = $this->classifications->get_all();
+      
+      $this->load->view('common/header', $data);
+      $this->load->view('training_results_view');
+      $this->load->view('common/footer');
+      
+    }
 	
 }
 

@@ -19,7 +19,7 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-      $pdf_file = "assets/temp/test3.pdf";
+      $pdf_file = "assets/temp/sample.pdf";
       $words = $this->string->train($pdf_file);
       print '<pre>';
       print_r($words);
