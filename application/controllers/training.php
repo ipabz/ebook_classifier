@@ -45,7 +45,7 @@ class Training extends CI_Controller {
         $this->db->insert('logs', $data);
 
         
-        $class = @$_POST['corpus'];
+        $class = @$_POST['class'];
         
         $data2 = $this->string->train(
                     'server/php/files/'.$data['contents'],
