@@ -30,6 +30,7 @@ class Training extends CI_Controller {
     public function set_category($class)
     {
       $this->session->set_userdata('class', $class);
+      print trim( $this->session->userdata('class') );
     }
     
     public function handle_file_training()
@@ -44,28 +45,22 @@ class Training extends CI_Controller {
         $this->db->insert('logs', $data);
 
         
-        if (trim( $this->session->userdata('class') ) == '') {
-          $class = '004';
-        } else {
-          $class = trim( $this->session->userdata('class') );
-        }
+        $class = @$_POST['corpus'];
+        
+        $data2 = $this->string->train(
+                    'server/php/files/'.$data['contents'],
+                    $class
+                    );
         
         
         $id = $this->training_model->save_entry(
                     $data['contents'],
                     $class,
-                    "",
-                    ""
+                    $data2['tokens'],
+                    $data2['counted']
                     );
         
-        $ids = trim($this->session->userdata('training_ids'));
         
-        if ($ids == '') {
-          $this->session->set_userdata('training_ids', $id);
-        } else {
-          $ids .= ",".$id;
-          $this->session->set_userdata('training_ids', $ids);
-        }
         
       }
       

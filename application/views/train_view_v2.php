@@ -6,10 +6,16 @@
   <div class="panel-body"> <div class="container-fluid">
 <div>
   
-  <div class="row">
+  
+    
+    <!-- The file upload form used as target for the file upload widget -->
+    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+      
+      
+      <div class="row">
               <div class="col-md-12">
                 <div>Corpus</div>
-                <select class="form-control form-class-select">
+                <select name="corpus" class="form-control form-class-select">
                   <?php
                   foreach($classifications->result() as $row) {
                   ?>
@@ -25,12 +31,8 @@
               </div>
             </div>
             <hr />
-    
-    <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-        <!-- Redirect browsers with JavaScript disabled to the origin page -->
-        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+      
+
         <div class="row fileupload-buttonbar">
             <div class="col-lg-7">
                 <!-- The fileinput-button span is used to style the file input field as button -->
@@ -41,17 +43,9 @@
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
+                    <span>Start training</span>
                 </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <button type="button" class="btn btn-danger delete">
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" class="toggle">
+              
                 <!-- The global file processing state -->
                 <span class="fileupload-process"></span>
             </div>
@@ -76,14 +70,7 @@
       <input type="hidden" name="file-ids" value="" />
     </form>
     
-    <hr />
-    <div class="text-right">
-      <span class="btn btn-success fileinput-button">
-          <i class="glyphicon glyphicon-plus"></i>
-          <span>Do training</span>
-      </span>
-    </div>
-  
+    
     
 </div>
     </div>
@@ -119,7 +106,7 @@
             {% if (!i && !o.options.autoUpload) { %}
                 <button class="btn btn-primary start" disabled>
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start</span>
+                    <span>Start training</span>
                 </button>
             {% } %}
             {% if (!i) { %}
@@ -160,11 +147,8 @@
         </td>
         <td>
             {% if (file.deleteUrl) { %}
-                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
+                
+                
             {% } else { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>

@@ -37,4 +37,12 @@ $(function() {
     $.get(url, function(data) {console.log(data);});
   });
   
+  $(document).delegate('.do-training-now', 'click', function(e) {
+    
+    $('.delete-here').remove();
+    
+    
+    
+  });
+  
 });

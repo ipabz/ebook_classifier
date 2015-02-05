@@ -4,6 +4,7 @@ error_reporting(0);
 $post_back = array();
 
 $post_back['filename'] = @trim($_FILES['files']['name'][0]);
+$post_back['class'] = @$_POST['corpus'];
 
 require('UploadHandler.php');
 $upload_handler = new UploadHandler();
