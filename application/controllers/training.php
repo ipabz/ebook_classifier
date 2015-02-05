@@ -4,6 +4,7 @@ class Training extends CI_Controller {
 
 	public function index()
 	{
+      define('TRAINING', true);
       $data['classifications'] = $this->classifications->get_all();
       
       $this->load->view('common/header', $data);
@@ -13,18 +14,110 @@ class Training extends CI_Controller {
     
     public function train()
     {
+      
+      $this->session->unset_userdata('training_ids');
+      
       define('TRAINING', true);
+      $this->session->unset_userdata('class');
       
       $data['classifications'] = $this->classifications->get_all();
       
       $this->load->view('common/header', $data);
-      $this->load->view('train_view');
+      $this->load->view('train_view_v2');
       $this->load->view('common/footer');
     }
     
     public function set_category($class)
     {
       $this->session->set_userdata('class', $class);
+    }
+    
+    public function handle_file_training()
+    {
+      
+      $data['contents'] = @$_POST['filename'];
+      $data['date'] = @time();
+      $data['type'] = 'File Upload';
+      
+      if ( trim($data['contents']) !== '[]' && trim($data['contents']) !== ''  && trim($data['contents']) !== 'null'  && trim($data['contents']) !== NULL) {
+        
+        $this->db->insert('logs', $data);
+
+        
+        if (trim( $this->session->userdata('class') ) == '') {
+          $class = '004';
+        } else {
+          $class = trim( $this->session->userdata('class') );
+        }
+        
+        
+        $id = $this->training_model->save_entry(
+                    $data['contents'],
+                    $class,
+                    "",
+                    ""
+                    );
+        
+        $ids = trim($this->session->userdata('training_ids'));
+        
+        if ($ids == '') {
+          $this->session->set_userdata('training_ids', $id);
+        } else {
+          $ids .= ",".$id;
+          $this->session->set_userdata('training_ids', $ids);
+        }
+        
+      }
+      
+      
+      
+    }
+    
+    public function do_training()
+    {
+      
+      $ids = trim($this->session->userdata('training_ids'));
+      $data = array();
+      
+      if ($ids !== '') {
+        $exp = explode(',', $ids);
+        $query = $this->training_model->get_entries($exp);
+        
+        foreach($query->result() as $row) {
+          $data = $this->string->train(
+                    'server/php/files/'.$row->filename,
+                    $row->classification
+                    );
+          
+          $data[] = $this->training_model->save_entry(
+                    $row->filename,
+                    $row->classification,
+                    $data['tokens'],
+                    $data['counted']
+                    );
+          
+          $this->db->where('id', $row->id);
+          $this->db->delete(TABLE_TRAINING);
+          
+        }
+        
+        $this->session->unset_userdata('training_ids');
+      }
+      
+      print implode(',', $data);
+      
+      
+    }
+    
+    public function upload_files_v2()
+    {
+      require('server/php/UploadHandler.php');
+      $upload_handler = new UploadHandler();
+    }
+    
+    public function the_category()
+    {
+      print trim( $this->session->userdata('class') );
     }
     
     public function upload_files()
@@ -38,7 +131,7 @@ class Training extends CI_Controller {
         
 		$config['upload_path'] = './assets/uploads/pdf/'.$class.'/';
 		$config['allowed_types'] = 'pdf';
-		$config['overwrite'] = TRUE;
+		$config['overwrite'] = FALSE;
 		$this->load->library('upload', $config);
 		$d = array();
 		
@@ -65,7 +158,7 @@ class Training extends CI_Controller {
                     ); 
           }
           
-          $d['inserted_ids'] = $ids;
+          $d['inserted_ids'] = implode(',', $ids);
           
         }
 
@@ -74,8 +167,11 @@ class Training extends CI_Controller {
 		
 	}
     
+    
+    
     public function show_results()
     {
+      define('TRAINING', true);
       $ids = $this->input->get('ids');
       $exploded = explode(',', $ids);
       

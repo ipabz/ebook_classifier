@@ -1,6 +1,6 @@
 $(function() {
   $('.progress-holder').hide();
-  
+  /*
   $('#fileupload').fileupload({
       url: upload_url,
       dataType: 'json',
@@ -27,7 +27,7 @@ $(function() {
         
       }
   }).prop('disabled', !$.support.fileInput)
-      .parent().addClass($.support.fileInput ? undefined : 'disabled');
+      .parent().addClass($.support.fileInput ? undefined : 'disabled'); */
       
   $('.form-class-select').change(function(e) {
     

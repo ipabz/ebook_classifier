@@ -53,7 +53,9 @@ body {
 }
 
 .train-dialog {
-  max-width: 600px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  max-width: 80%;
   width: 100%;
   margin: auto;
 }

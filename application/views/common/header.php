@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Force latest IE rendering engine or ChromeFrame if installed -->
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <![endif]-->
     <base href="<?=base_url();?>" id="base_url">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +19,14 @@
       // The below CSS file(s) is loaded only for pages that requires uploading of files.
       // This is to maintain fast loading of pages.
     ?>
+    <!-- blueimp Gallery styles -->
+    <link rel="stylesheet" href="assets/css/blueimp-gallery.min.css">
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
     <link rel="stylesheet" href="assets/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="assets/css/jquery.fileupload-ui.css">
+    <!-- CSS adjustments for browsers with JavaScript disabled -->
+    <noscript><link rel="stylesheet" href="assets/css/jquery.fileupload-noscript.css"></noscript>
+    <noscript><link rel="stylesheet" href="assets/css/jquery.fileupload-ui-noscript.css"></noscript>
     <?php
     endif;
     ?>

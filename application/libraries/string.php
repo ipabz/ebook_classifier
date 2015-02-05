@@ -18,9 +18,18 @@ class String {
 
     $pages  = $pdf->getPages();
     $text = '';
-    
+    $counter = 20;
+
     foreach ($pages as $page) {
-      $text .= $page->getText() . "\n";
+      
+      if ($counter <= 0) {
+        break;
+      }
+      
+      $temp_text = $page->getText();   
+      $text .= $temp_text . "\n";
+      $counter--;   
+      
     }
     
     return $text;

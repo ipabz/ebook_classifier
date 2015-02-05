@@ -18,7 +18,10 @@ $(function () {
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: 'server/php/'
+        url: 'server/php/',
+        success: function(data) {
+          console.log(data);
+        }
     });
 
     // Enable iframe cross-domain access via redirect option:
@@ -55,7 +58,7 @@ $(function () {
                     .appendTo('#fileupload');
             });
         }
-    } else {
+    } else { 
         // Load existing files:
         $('#fileupload').addClass('fileupload-processing');
         $.ajax({
@@ -64,11 +67,11 @@ $(function () {
             url: $('#fileupload').fileupload('option', 'url'),
             dataType: 'json',
             context: $('#fileupload')[0]
-        }).always(function () {
+        }).always(function () { 
             $(this).removeClass('fileupload-processing');
-        }).done(function (result) {
+        }).done(function (result) {/*
             $(this).fileupload('option', 'done')
-                .call(this, $.Event('done'), {result: result});
+                .call(this, $.Event('done'), {result: result});*/
         });
     }
 
