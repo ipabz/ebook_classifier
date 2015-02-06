@@ -36,14 +36,13 @@ class Training extends CI_Controller {
     public function handle_file_training()
     {
       
-      $data['contents'] = @$_POST['filename'];
+      $data['contents'] = @$_POST['uploadedfile_name'];
       $data['date'] = @time();
       $data['type'] = 'File Upload';
       
       if ( trim($data['contents']) !== '[]' && trim($data['contents']) !== ''  && trim($data['contents']) !== 'null'  && trim($data['contents']) !== NULL) {
         
         $this->db->insert('logs', $data);
-
         
         $class = @$_POST['class'];
         
@@ -52,7 +51,6 @@ class Training extends CI_Controller {
                     $class
                     );
         
-        
         $id = $this->training_model->save_entry(
                     $data['contents'],
                     $class,
@@ -60,11 +58,7 @@ class Training extends CI_Controller {
                     $data2['counted']
                     );
         
-        
-        
       }
-      
-      
       
     }
     
