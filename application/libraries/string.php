@@ -30,6 +30,8 @@ class String {
       $text .= $temp_text . "\n";
       $counter--;   
       
+      usleep(60000);
+      
     }
     
     return $text;
