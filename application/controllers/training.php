@@ -55,7 +55,9 @@ class Training extends CI_Controller {
                     $data['contents'],
                     $class,
                     $data2['tokens'],
-                    $data2['counted']
+                    $data2['counted'],
+                    $data2['removed_stop_words'],
+                    $data2['corpus_count']
                     );
         
       }
@@ -82,7 +84,8 @@ class Training extends CI_Controller {
                     $row->filename,
                     $row->classification,
                     $data['tokens'],
-                    $data['counted']
+                    $data['counted'],
+                    $data['removed_stop_words']
                     );
           
           $this->db->where('id', $row->id);

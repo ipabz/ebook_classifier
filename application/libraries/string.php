@@ -65,6 +65,30 @@ class String {
     return $lines;
   }
   
+  private function intersection($a1,$a2,$a3)
+  {
+    $stemmed_file = $this->ci->stringhandler->stem_array($a1);
+    $data = array();
+    $counter = 0;
+    
+    foreach($stemmed_file as $word) {
+      
+      $count = 0;
+      
+      if (in_array($word, $a2) ) {
+        $count = $a3[$word];
+      }
+      
+      $data[$a1[$counter]] = $count;
+              
+      $counter++;
+      
+    }
+    
+    return $data;
+    
+  }
+  
   public function train($pdf_file, $category="004")
   {
     $text = $this->pdf_to_text($pdf_file);    
@@ -76,8 +100,16 @@ class String {
     
     $count = $this->ci->stringhandler->count_occurences($stemmed, implode(' ', $stemmed));
     
+    $dictionary_file = "assets/dictionaries/class".$category.".txt";
+    $file_lines = $this->ci->stringhandler->read_file($dictionary_file);
+    
+    
+    $diction_with_count = $this->intersection($file_lines, $stemmed, $count);
+    
     $data['tokens'] = $stemmed;
     $data['counted'] = $count;
+    $data['removed_stop_words'] = $removed_stop_words;
+    $data['corpus_count'] = $diction_with_count;
     
     return $data;
   }

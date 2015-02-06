@@ -8,6 +8,7 @@
     $counter = 1;
     foreach($query->result() as $row_file) {
       $counted = (array)json_decode($row_file->tokens_count); 
+      $raw = (array)json_decode($row_file->removed_stop_words); 
       $class_file = 'class'.trim($row_file->classification).'.txt';
       
     ?>
@@ -39,13 +40,16 @@
                 </thead>
                 <tbody>
                    <?php
+                   $raw_count = 0;
                    foreach($counted as $word => $count) {
+                     $raw_word = @$raw[$raw_count];
                    ?>
                   <tr>
-                    <td class="text-left"><?php print $word; ?></td>
+                    <td class="text-left"><?php print ucwords($raw_word); ?></td>
                     <td class="text-center"><?php print $count; ?></td>
                   </tr>
                    <?php
+                    $raw_count++;
                    }
                    ?>
                 </tbody>

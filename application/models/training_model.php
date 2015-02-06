@@ -2,7 +2,7 @@
 
 class training_model extends CI_Model {
   
-  public function save_entry($filename, $class, $tokens="", $counted="")
+  public function save_entry($filename, $class, $tokens="", $counted="", $removed_stop_words="", $corpus_counted="")
   {
     $data = array(
         'filename' => $filename,
@@ -16,6 +16,14 @@ class training_model extends CI_Model {
     
     if (trim($counted) !== '') {
       $data['tokens_count'] = json_encode($counted);
+    }
+    
+    if (trim($removed_stop_words) !== '') {
+      $data['removed_stop_words'] = json_encode($removed_stop_words);
+    }
+    
+    if (trim($corpus_counted) !== '') {
+      $data['corpus_count'] = json_encode($corpus_counted);
     }
     
     $this->db->insert(TABLE_TRAINING, $data);
