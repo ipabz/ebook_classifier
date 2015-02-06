@@ -18,7 +18,7 @@ class String {
 
     $pages  = $pdf->getPages();
     $text = '';
-    $counter = 15;
+    $counter = 30;
 
     foreach ($pages as $page) {
       
