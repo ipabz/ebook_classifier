@@ -50,18 +50,43 @@
         
         <a href="train" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a>
         <a class="btn btn-info"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a>
+        
+        
         <div class="btn-group">
           <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpus <span class="caret"></span>
+            <span class="glyphicon glyphicon-list-alt"></span> &nbsp;View <span class="caret"></span>
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
+            
             <?php
+            
             foreach($classifications->result() as $row) {
             ?>
             <li><a href="<?php print site_url('training/show_results?corpus='.$row->class_name); ?>"><?php print $row->class_name; ?></a></li>
             <?php
             }
-            ?>            
+            ?> 
+          </ul>
+        </div>
+        
+        
+        <div class="btn-group">
+          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpora <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right" role="menu">
+            <li><a href="">Raw</a></li>
+            <li><a href="">+1</a></li>
+            <!--
+            <?php
+            
+            foreach($classifications->result() as $row) {
+            ?>
+            <li><a href="<?php print site_url('training/show_results?corpus='.$row->class_name); ?>"><?php print $row->class_name; ?></a></li>
+            <?php
+            }
+            ?>   
+            -->
           </ul>
         </div>
       </div>
