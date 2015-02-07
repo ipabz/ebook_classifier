@@ -10,6 +10,30 @@ class String {
     include 'assets/vendor/autoload.php';
   }
   
+  public function get_pdf_metadata($pdf_file)
+  {
+    
+    // Parse pdf file and build necessary objects.
+    $parser = new \Smalot\PdfParser\Parser();
+    $pdf    = $parser->parseFile($pdf_file);
+
+    // Retrieve all details from the pdf file.
+    $details  = $pdf->getDetails();
+
+    $data = array();
+    
+    // Loop over each property to extract values (string or array).
+    foreach ($details as $property => $value) {
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
+        $data[$property] = $value;
+    }
+    
+    return $data;
+    
+  }
+  
   public function pdf_to_text($pdf_file)
   {   
 
