@@ -3,18 +3,17 @@
  <br />
 <div class="panel panel-info">
           <div class="panel-heading">
-            <h3 class="panel-title"><strong>Ebooks</strong><sub>( <?php print $corpus; ?> )</sub></h3>
+            <h3 class="panel-title"><strong>Ebooks</strong> <sub>( <?php print $corpus; ?> )</sub></h3>
           </div>
   <div class="panel-body">
     
     <table class="table table-bordered table-hover">
       <thead>
-        <tr>
+        <tr class="warning">
           <th>#</th>
           <th>File Name</th>
           <th>Title</th>
           <th>Author</th>
-          <th>Pages</th>
           <th>Publisher</th>
           <th>Published Date</th>
         </tr>
@@ -42,11 +41,7 @@
           print @$meta_data['author'];
           ?>
           </td>
-          <td>
-          <?php
-          print @$meta_data['pages'];
-          ?>
-          </td>
+
           <td>
           <?php
           print @$meta_data['creator'];

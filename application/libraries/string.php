@@ -125,6 +125,11 @@ class String {
     
   }
   
+  public function build_tokens($text)
+  {
+    
+  }
+  
   public function train($pdf_file, $category="004")
   {
     $temp_d = $this->pdf_to_text($pdf_file);
