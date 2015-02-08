@@ -19,8 +19,13 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-      $pdf_file = "assets/temp/Computer_Security_Art_and_Science.pdf";
-      $words = $this->string->get_pdf_metadata($pdf_file);
+      $pdf_file = "assets/temp/sample.pdf";
+      $words = $this->string->train($pdf_file);
+      unset($words['tokens']);
+      unset($words['counted']);
+      unset($words['removed_stop_words']);
+      unset($words['corpus_count']);
+      
       print '<pre>';
       print_r($words);
 	}

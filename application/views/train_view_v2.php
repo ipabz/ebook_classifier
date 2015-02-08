@@ -1,3 +1,5 @@
+<div class="main-content">
+  <div class="container-fluid">
 <div class="train-dialog">
 <div class="panel panel-info">
           <div class="panel-heading">
@@ -76,6 +78,9 @@
     </div>
           </div>
 </div>
+</div>
+    
+    </div>
 </div>
 <!-- The blueimp Gallery widget -->
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">

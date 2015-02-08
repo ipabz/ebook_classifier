@@ -57,7 +57,8 @@ class Training extends CI_Controller {
                     $data2['tokens'],
                     $data2['counted'],
                     $data2['removed_stop_words'],
-                    $data2['corpus_count']
+                    $data2['corpus_count'],
+                    $data2['meta_data']
                     );
         
       }
@@ -178,6 +179,19 @@ class Training extends CI_Controller {
       
       $this->load->view('common/header', $data);
       $this->load->view('training_results_view');
+      $this->load->view('common/footer');
+      
+    }
+    
+    public function view_ebooks($corpus="004")
+    {
+      
+      $data['ebooks'] = $this->training_model->get_entries(array(), trim($corpus));
+      $data['classifications'] = $this->classifications->get_all();
+      $data['corpus'] =  $corpus;
+      
+      $this->load->view('common/header', $data);
+      $this->load->view('ebooks_view');
       $this->load->view('common/footer');
       
     }

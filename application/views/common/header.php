@@ -62,7 +62,7 @@
             
             foreach($classifications->result() as $row) {
             ?>
-            <li><a href="<?php print site_url('training/show_results?corpus='.$row->class_name); ?>"><?php print $row->class_name; ?></a></li>
+            <li><a href="<?php print site_url('training/view_ebooks/'.$row->class_name); ?>"><?php print $row->class_name; ?></a></li>
             <?php
             }
             ?> 
@@ -77,16 +77,7 @@
           <ul class="dropdown-menu pull-right" role="menu">
             <li><a href="">Raw</a></li>
             <li><a href="">+1</a></li>
-            <!--
-            <?php
             
-            foreach($classifications->result() as $row) {
-            ?>
-            <li><a href="<?php print site_url('training/show_results?corpus='.$row->class_name); ?>"><?php print $row->class_name; ?></a></li>
-            <?php
-            }
-            ?>   
-            -->
           </ul>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 class training_model extends CI_Model {
   
-  public function save_entry($filename, $class, $tokens="", $counted="", $removed_stop_words="", $corpus_counted="")
+  public function save_entry($filename, $class, $tokens="", $counted="", $removed_stop_words="", $corpus_counted="", $meta_data=array())
   {
     $data = array(
         'filename' => $filename,
@@ -26,7 +26,13 @@ class training_model extends CI_Model {
       $data['corpus_count'] = json_encode($corpus_counted);
     }
     
-    $this->db->insert(TABLE_TRAINING, $data);
+    if ( count($meta_data) > 0 ) {
+      
+      $data['meta_data'] = serialize($meta_data);
+      
+    }
+    
+    $this->db->insert(TABLE_EBOOK, $data);
     
     return $this->db->insert_id();
     
@@ -62,7 +68,7 @@ class training_model extends CI_Model {
       }
     }
     
-    $sql = "SELECT * FROM ".TABLE_TRAINING;
+    $sql = "SELECT * FROM ".TABLE_EBOOK;
     
     if ($custom_where !== '') {
       $sql .= " WHERE ".$custom_where;

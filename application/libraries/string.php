@@ -13,21 +13,18 @@ class String {
   public function get_pdf_metadata($pdf_file)
   {
     
-    // Parse pdf file and build necessary objects.
     $parser = new \Smalot\PdfParser\Parser();
     $pdf    = $parser->parseFile($pdf_file);
 
-    // Retrieve all details from the pdf file.
     $details  = $pdf->getDetails();
 
     $data = array();
     
-    // Loop over each property to extract values (string or array).
     foreach ($details as $property => $value) {
         if (is_array($value)) {
             $value = implode(', ', $value);
         }
-        $data[$property] = $value;
+        $data[strtolower($property)] = $value;
     }
     
     return $data;
@@ -41,8 +38,11 @@ class String {
     $pdf    = $parser->parseFile($pdf_file);
 
     $pages  = $pdf->getPages();
+    $details  = $pdf->getDetails();
+    
     $text = '';
     $counter = 30;
+    $meta = array();
 
     foreach ($pages as $page) {
       
@@ -58,7 +58,17 @@ class String {
       
     }
     
-    return $text;
+    foreach ($details as $property => $value) {
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
+        $meta[strtolower(trim($property))] = $value;
+    }
+    
+    $data['text'] = $text;
+    $data['meta_data'] = $meta;
+    
+    return $data;
   }
   
   public function tokenize_by_word($text)
@@ -117,7 +127,8 @@ class String {
   
   public function train($pdf_file, $category="004")
   {
-    $text = $this->pdf_to_text($pdf_file);    
+    $temp_d = $this->pdf_to_text($pdf_file);
+    $text = $temp_d['text'];
     $lines = $this->string_by_line($text);
     $words = $this->tokenize_by_word($text);
     $removed_stop_words = $this->ci->stringhandler->remove_stop_words($words);
@@ -136,6 +147,7 @@ class String {
     $data['counted'] = $count;
     $data['removed_stop_words'] = $removed_stop_words;
     $data['corpus_count'] = $diction_with_count;
+    $data['meta_data'] = $temp_d['meta_data'];
     
     return $data;
   }
