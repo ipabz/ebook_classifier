@@ -79,7 +79,7 @@ class String {
     $words = array();
     
     while ($tok !== false) {
-        $words[] = strtolower($tok);
+        $words[] = addslashes(strtolower($tok));
         $tok = strtok($chars);
     }
     
@@ -153,6 +153,12 @@ class String {
     $bigram_stemmed = $bigram_temp['bigram_stemmed'];
     $bigram_counted = $this->count_bigram($bigram_stemmed);
     
+    $raws_temp = array_merge($removed_stop_words, $bigram_raw);
+    
+    $final_tokens = array_merge($count, $bigram_counted);
+    
+    ksort($final_tokens);
+    
     $data['tokens'] = $stemmed;
     $data['counted'] = $count;
     $data['removed_stop_words'] = $removed_stop_words;
@@ -161,7 +167,7 @@ class String {
     $data['bigram_raw'] = $bigram_raw;
     $data['bigram_stemmed'] = $bigram_stemmed;
     $data['bigram_counted'] = $bigram_counted;
-    $data['final_tokens'] = array_merge($count, $bigram_counted);
+    $data['final_tokens'] = $final_tokens;
     
     return $data;
   }

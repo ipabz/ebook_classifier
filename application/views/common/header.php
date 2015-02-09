@@ -75,8 +75,8 @@
             <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpora <span class="caret"></span>
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="">Raw</a></li>
-            <li><a href="">+1</a></li>
+            <li><a href="<?php print site_url('corpora/raw'); ?>">Raw</a></li>
+            <li><a href="<?php print site_url('corpora/plus1'); ?>">+1</a></li>
             
           </ul>
         </div>

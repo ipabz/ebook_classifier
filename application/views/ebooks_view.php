@@ -7,7 +7,7 @@
           </div>
   <div class="panel-body">
     
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover table-striped">
       <thead>
         <tr class="warning">
           <th>#</th>

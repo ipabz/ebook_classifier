@@ -1,6 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Training extends CI_Controller {
+  
+    public function __construct() {
+      parent::__construct();   
+      //$this->training_model->train();
+    }
 
 	public function index()
 	{
@@ -63,6 +68,10 @@ class Training extends CI_Controller {
                     $data2['bigram_counted'],
                     $data2['final_tokens']
                     );
+        
+        $dd[] = $id;
+        
+        $this->training_model->train($dd);
         
       }
       
@@ -197,6 +206,37 @@ class Training extends CI_Controller {
       $this->load->view('ebooks_view');
       $this->load->view('common/footer');
       
+    }
+    
+    public function corpora_raw($type='raw')
+    {
+      $data['classifications'] = $this->classifications->get_all();
+      $data['class004'] = $this->training_model->get_training_set('004');
+      $data['class005'] = $this->training_model->get_training_set('005');
+      $data['class006'] = $this->training_model->get_training_set('006');
+      
+      if ($type === 'plus1') {
+        $type = '+1';
+      }
+      
+      $data['type'] = $type;
+      
+      $max = $data['class004']->num_rows();
+      
+      if ($max < $data['class005']->num_rows()) {
+        $max = $data['class005']->num_rows();
+      }
+      
+      if ($max < $data['class006']->num_rows()) {
+        $max = $data['class006']->num_rows();
+      }
+      
+      $data['row_count'] = $max;
+      
+      
+      $this->load->view('common/header', $data);
+      $this->load->view('corpora_view');
+      $this->load->view('common/footer');
     }
 	
 }

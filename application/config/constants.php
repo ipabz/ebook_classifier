@@ -44,6 +44,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('TABLE_CLASSIFICATIONS', 'classifications');
 define('TABLE_EBOOK', 'ebook');
+define('TABLE_TRAINING', 'training');
 
 
 @ini_set('max_execution_time', 0);

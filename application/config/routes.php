@@ -43,6 +43,8 @@ $route['404_override'] = '';
 
 //Custom
 $route['train'] = 'training/train';
+$route['corpora/raw'] = 'training/corpora_raw';
+$route['corpora/plus1'] = 'training/corpora_raw/plus1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
