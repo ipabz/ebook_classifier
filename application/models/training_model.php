@@ -2,7 +2,7 @@
 
 class training_model extends CI_Model {
   
-  public function save_entry($filename, $class, $tokens="", $counted="", $removed_stop_words="", $corpus_counted="", $meta_data=array())
+  public function save_entry($filename, $class, $tokens="", $counted="", $removed_stop_words="", $corpus_counted="", $meta_data=array(), $bigram_raw=array(), $bigram_counted=array(), $final_tokens=array())
   {
     $data = array(
         'filename' => $filename,
@@ -26,10 +26,20 @@ class training_model extends CI_Model {
       $data['corpus_count'] = json_encode($corpus_counted);
     }
     
-    if ( count($meta_data) > 0 ) {
-      
-      $data['meta_data'] = serialize($meta_data);
-      
+    if ( count($meta_data) > 0 ) {      
+      $data['meta_data'] = serialize($meta_data);      
+    }
+    
+    if ( count($bigram_raw) > 0 ) {      
+      $data['bigram_raw'] = serialize($bigram_raw);      
+    }
+    
+    if ( count($bigram_counted) > 0 ) {      
+      $data['bigram_counted'] = serialize($bigram_counted);      
+    }
+    
+    if ( count($final_tokens) > 0 ) {      
+      $data['final_tokens'] = serialize($final_tokens);      
     }
     
     $this->db->insert(TABLE_EBOOK, $data);
@@ -79,6 +89,9 @@ class training_model extends CI_Model {
     return $query;
     
   }
+  
+  
+  
   
   
   

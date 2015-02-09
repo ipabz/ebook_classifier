@@ -46,7 +46,7 @@ class Training extends CI_Controller {
         
         $class = @$_POST['class'];
         
-        $data2 = $this->string->train(
+        $data2 = $this->string->process(
                     'server/php/files/'.$data['contents'],
                     $class
                     );
@@ -58,7 +58,10 @@ class Training extends CI_Controller {
                     $data2['counted'],
                     $data2['removed_stop_words'],
                     $data2['corpus_count'],
-                    $data2['meta_data']
+                    $data2['meta_data'],
+                    $data2['bigram_raw'],
+                    $data2['bigram_counted'],
+                    $data2['final_tokens']
                     );
         
       }
@@ -76,7 +79,7 @@ class Training extends CI_Controller {
         $query = $this->training_model->get_entries($exp);
         
         foreach($query->result() as $row) {
-          $data = $this->string->train(
+          $data = $this->string->process(
                     'server/php/files/'.$row->filename,
                     $row->classification
                     );

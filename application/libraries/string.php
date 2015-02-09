@@ -130,7 +130,7 @@ class String {
     
   }
   
-  public function train($pdf_file, $category="004")
+  public function process($pdf_file, $category="004")
   {
     $temp_d = $this->pdf_to_text($pdf_file);
     $text = $temp_d['text'];
@@ -148,13 +148,49 @@ class String {
     
     $diction_with_count = $this->intersection($file_lines, $stemmed, $count);
     
+    $bigram_temp = $this->build_bigram($removed_stop_words);
+    $bigram_raw = $bigram_temp['bigram_raw'];
+    $bigram_stemmed = $bigram_temp['bigram_stemmed'];
+    $bigram_counted = $this->count_bigram($bigram_stemmed);
+    
     $data['tokens'] = $stemmed;
     $data['counted'] = $count;
     $data['removed_stop_words'] = $removed_stop_words;
     $data['corpus_count'] = $diction_with_count;
     $data['meta_data'] = $temp_d['meta_data'];
+    $data['bigram_raw'] = $bigram_raw;
+    $data['bigram_stemmed'] = $bigram_stemmed;
+    $data['bigram_counted'] = $bigram_counted;
+    $data['final_tokens'] = array_merge($count, $bigram_counted);
     
     return $data;
+  }
+  
+  public function build_bigram($words)
+  {
+    $bigrams = array();
+    $stemmed = array();
+    
+    $this->ci->load->library('stemmer');
+    
+    for($x=1; $x < count($words); $x++) {
+      $bigrams[] = $words[$x-1] . ' ' . $words[$x];
+      $stemmed[] = $this->ci->stemmer->stem($words[$x-1]) . ' ' . $this->ci->stemmer->stem($words[$x]);
+    }
+    
+    $data['bigram_raw'] = $bigrams;
+    $data['bigram_stemmed'] = $stemmed;
+    
+    return $data;
+  }
+  
+  public function count_bigram($bigram)
+  {
+    
+    $counts = array_count_values($bigram);
+    
+    return $counts;
+    
   }
   
 } // End class String
