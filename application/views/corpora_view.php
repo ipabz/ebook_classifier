@@ -17,14 +17,14 @@
         </tr>
         <tr>
           <td class="text-center"><strong>Word</strong></td>
-          <td class="text-center"><strong>Frequency (F)</strong></td>
-          <td class="text-center"><strong>Probability (P)</strong></td>
+          <td class="text-center"><strong>F</strong></td>
+          <td class="text-center"><strong>P</strong></td>
           <td class="text-center"><strong>Word</strong></td>
-          <td class="text-center"><strong>Frequency (F)</strong></td>
-          <td class="text-center"><strong>Probability (P)</strong></td>
+          <td class="text-center"><strong>F</strong></td>
+          <td class="text-center"><strong>P</strong></td>
           <td class="text-center"><strong>Word</strong></td>
-          <td class="text-center"><strong>Frequency (F)</strong></td>
-          <td class="text-center"><strong>Probability (P)</strong></td>
+          <td class="text-center"><strong>F</strong></td>
+          <td class="text-center"><strong>P</strong></td>
         </tr>
       </thead>
       <tbody>
