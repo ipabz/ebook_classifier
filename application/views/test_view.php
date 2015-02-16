@@ -113,7 +113,7 @@
                         $temp_004 = @$class_004[$key_004]['count'];
                         
                         if (@$temp_004 !== '') {
-                          $tmp = $temp_004 / 100;
+                          $tmp = ($temp_004 + 1) / 100;
                           $total__004 += $tmp;
                           print number_format($tmp, 3);
                         }
@@ -124,7 +124,7 @@
                         $temp_005 = @$class_005[$key_005]['count'];
                         
                         if (@$temp_005 !== '') {
-                          $tmp = $temp_005 / 100;
+                          $tmp = ($temp_005 + 1) / 100;
                           $total__005 += $tmp;
                           print number_format($tmp, 3);
                         }
@@ -135,7 +135,7 @@
                         $temp_006 = @$class_006[$key_006]['count'];
                         
                         if (@$temp_006 !== '') {
-                          $tmp = $temp_006 / 100;
+                          $tmp = ($temp_006 + 1) / 100;
                           $total__006 += $tmp;
                           print number_format($tmp, 3);
                         }
