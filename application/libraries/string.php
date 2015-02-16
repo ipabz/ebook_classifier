@@ -41,7 +41,7 @@ class String {
     $details  = $pdf->getDetails();
     
     $text = '';
-    $counter = 30;
+    $counter = 50;
     $meta = array();
 
     foreach ($pages as $page) {
