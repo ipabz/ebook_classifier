@@ -58,6 +58,6 @@
     <?php
     endif;
     ?>
-    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/custom.js?r=<?php print time(); ?>"></script>
   </body>
 </html>

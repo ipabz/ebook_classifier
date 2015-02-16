@@ -45,6 +45,7 @@ $route['404_override'] = '';
 $route['train'] = 'training/train';
 $route['corpora/raw'] = 'training/corpora_raw';
 $route['corpora/plus1'] = 'training/corpora_raw/plus1';
+$route['test'] = 'testing/test';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

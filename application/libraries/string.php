@@ -157,7 +157,10 @@ class String {
     
     $final_tokens = array_merge($count, $bigram_counted);
     
+    $final_tokens_raw = array_merge($removed_stop_words, $bigram_raw);
+    
     ksort($final_tokens);
+    ksort($final_tokens_raw);
     
     $data['tokens'] = $stemmed;
     $data['counted'] = $count;
@@ -168,6 +171,7 @@ class String {
     $data['bigram_stemmed'] = $bigram_stemmed;
     $data['bigram_counted'] = $bigram_counted;
     $data['final_tokens'] = $final_tokens;
+    $data['final_tokens_raw'] = $final_tokens_raw;
     
     return $data;
   }
@@ -196,6 +200,22 @@ class String {
     $counts = array_count_values($bigram);
     
     return $counts;
+    
+  }
+  
+  public function search($needle, $haystack) {
+    
+    $index = 0;
+    
+    foreach ($haystack as $key => $val) {
+      if (strtolower($needle) === strtolower($val['item_stemmed'])) {
+        break;
+      }
+      
+      $index++;
+    }
+    
+    return $index;
     
   }
   

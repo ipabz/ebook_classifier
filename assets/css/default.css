@@ -83,3 +83,7 @@ body {
   margin-top: 15px;
   word-wrap: break-word;
 }
+
+.result-table {
+  display: none;
+}
