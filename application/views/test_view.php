@@ -114,7 +114,7 @@
                         
                         if (@$temp_004 !== '') {
                           $tmp = ($temp_004 + 1) / 100;
-                          $total__004 += $tmp;
+                          $total__004 *= $tmp;
                           print number_format($tmp, 3);
                         }
                         ?>
@@ -125,7 +125,7 @@
                         
                         if (@$temp_005 !== '') {
                           $tmp = ($temp_005 + 1) / 100;
-                          $total__005 += $tmp;
+                          $total__005 *= $tmp;
                           print number_format($tmp, 3);
                         }
                         ?>
@@ -136,7 +136,7 @@
                         
                         if (@$temp_006 !== '') {
                           $tmp = ($temp_006 + 1) / 100;
-                          $total__006 += $tmp;
+                          $total__006 *= $tmp;
                           print number_format($tmp, 3);
                         }
                         ?>
@@ -146,6 +146,13 @@
                     }
                     ?>
                     </tbody>
+                    <?php
+                    
+                    $total__004 = $total__004 * 100;
+                    $total__005 = $total__005 * 100;
+                    $total__006 = $total__006 * 100;
+                    
+                    ?>
                     <tfoot>
                       <tr>
                         <td colspan="4">&nbsp;</td>
