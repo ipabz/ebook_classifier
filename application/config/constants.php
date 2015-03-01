@@ -43,7 +43,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
  */
 
 define('TABLE_CLASSIFICATIONS', 'classifications');
-define('TABLE_EBOOK', 'ebook');
+define('TABLE_EBOOK', 'ebooks');
 define('TABLE_TRAINING', 'training');
 
 

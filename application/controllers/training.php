@@ -47,7 +47,7 @@ class Training extends CI_Controller {
       
       if ( trim($data['contents']) !== '[]' && trim($data['contents']) !== ''  && trim($data['contents']) !== 'null'  && trim($data['contents']) !== NULL) {
         
-        $this->db->insert('logs', $data);
+        //$this->db->insert('logs', $data);
         
         $class = @$_POST['class'];
         
