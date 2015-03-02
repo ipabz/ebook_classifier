@@ -27,7 +27,7 @@ So, on your browser open
     http://localhost/<extracted file>/install
     
 That will do the installation for your database creating the tables and fields needed. After that, you need to disable
-to prevent anyone else to mess with your database.
+migration to prevent anyone else to mess with your database.
 
 You can do that on the file /<extracted files>/application/config/migration.php, setting $config['migration_enabled'] to false
 as below:
