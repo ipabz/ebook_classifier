@@ -9,6 +9,7 @@
 <div>
   
       <?php
+      $dc_digits = 5;
       if (@$error !== '') {
       ?>
       <div class="alert alert-danger" role="alert">
@@ -79,8 +80,8 @@
                       <tr>
                         <td class="text-center"><strong>Word</strong></td>
                         <td class="text-center"><strong>004</strong></td>
+                        <td class="text-center"><strong>005</strong></td>
                         <td class="text-center"><strong>006</strong></td>
-                        <td class="text-center"><strong>007</strong></td>
                       </tr>
                     </thead>
                     <tbody>
@@ -113,9 +114,14 @@
                         $temp_004 = @$class_004[$key_004]['count'];
                         
                         if (@$temp_004 !== '') {
-                          $tmp = ($temp_004 + 1) / 100;
-                          $total__004 *= $tmp;
-                          print number_format($tmp, 3);
+                          $tmp = (($temp_004 + 1) / $ftotal004) / 100;
+                          //$total__004 = $total__004 + $tmp;
+                          if ($total__004 == 0) {
+                            $total__004 = $tmp;
+                          } else {
+                            $total__004 = bcmul($total__004, $tmp, $dc_digits);
+                          }
+                          print number_format($tmp, $dc_digits);
                         }
                         ?>
                         </td>
@@ -124,9 +130,14 @@
                         $temp_005 = @$class_005[$key_005]['count'];
                         
                         if (@$temp_005 !== '') {
-                          $tmp = ($temp_005 + 1) / 100;
-                          $total__005 *= $tmp;
-                          print number_format($tmp, 3);
+                          $tmp = (($temp_005 + 1) / $ftotal005) / 100;
+                          //$total__005 = $total__005 + $tmp;
+                          if ($total__005 == 0) {
+                            $total__005 = $tmp;
+                          } else {
+                            $total__005 = bcmul($total__005, $tmp, $dc_digits);
+                          }
+                          print number_format($tmp, $dc_digits);
                         }
                         ?>
                         </td>
@@ -135,9 +146,14 @@
                         $temp_006 = @$class_006[$key_006]['count'];
                         
                         if (@$temp_006 !== '') {
-                          $tmp = ($temp_006 + 1) / 100;
-                          $total__006 *= $tmp;
-                          print number_format($tmp, 3);
+                          $tmp = (($temp_006 + 1) / $ftotal006) / 100;
+                          //$total__006 = $total__006 + $tmp;
+                          if ($total__006 == 0) {
+                            $total__006 = $tmp;
+                          } else {
+                            $total__006 = bcmul($total__006, $tmp, $dc_digits);
+                          }
+                          print number_format($tmp, $dc_digits);
                         }
                         ?>
                         </td>
@@ -161,17 +177,17 @@
                         <td>&nbsp;</td>
                         <td class="text-center">
                         <?php
-                          print number_format($total__004, 3);
+                          print number_format($total__004, $dc_digits);
                         ?>
                         </td>
                         <td class="text-center">
                         <?php
-                          print number_format($total__005, 3);
+                          print number_format($total__005, $dc_digits);
                         ?>
                         </td>
                         <td class="text-center">
                         <?php
-                          print number_format($total__006, 3);
+                          print number_format($total__006, $dc_digits);
                         ?>
                         </td>
                       </tr>
