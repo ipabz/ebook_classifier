@@ -4,6 +4,10 @@ class String {
   
   private $ci = NULL;
   
+  //PDF Vars
+  private $get_pdf_meta_data_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
+  private $path_to_xpdf_pdftotext_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe';
+  
   public function __construct() {
     $this->ci =& get_instance();
     $this->ci->load->model('stringhandler');
@@ -41,7 +45,7 @@ class String {
     $meta = array();    
     
     // Get meta data
-    $content = shell_exec('C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 '.$pdf_file.' ');
+    $content = shell_exec($this->get_pdf_meta_data_cmd.$pdf_file.' ');
 
     $temp = explode("\n", $content);
 
@@ -58,7 +62,7 @@ class String {
     // Get text
     try {
       $pdfToText = XPDF\PdfToText::create(array(
-          'pdftotext.binaries' => 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe',
+          'pdftotext.binaries' => $this->path_to_xpdf_pdftotext_cmd,
           'pdftotext.timeout' => 60,
       ), NULL);
 
