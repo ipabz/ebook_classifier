@@ -8,6 +8,7 @@ class String {
     $this->ci =& get_instance();
     $this->ci->load->model('stringhandler');
     include 'assets/vendor/autoload.php';
+    include 'assets/pdftotext/autoload.php';
   }
   
   public function get_pdf_metadata($pdf_file)
@@ -32,38 +33,42 @@ class String {
   }
   
   public function pdf_to_text($pdf_file)
-  {   
-
-    $parser = new \Smalot\PdfParser\Parser();
-    $pdf    = $parser->parseFile($pdf_file);
-
-    $pages  = $pdf->getPages();
-    $details  = $pdf->getDetails();
+  {       
+    $pdf_file = realpath($pdf_file);
     
     $text = '';
     $counter = 50;
-    $meta = array();
-
-    foreach ($pages as $page) {
-      
-      if ($counter <= 0) {
-        break;
-      }
-      
-      $temp_text = $page->getText();   
-      $text .= $temp_text . "\n";
-      $counter--;   
-      
-      usleep(60000);
-      
-    }
+    $meta = array();    
     
-    foreach ($details as $property => $value) {
-        if (is_array($value)) {
-            $value = implode(', ', $value);
-        }
-        $meta[strtolower(trim($property))] = $value;
+    // Get meta data
+    $content = shell_exec('C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 '.$pdf_file.' ');
+
+    $temp = explode("\n", $content);
+
+    foreach($temp as $row) {
+        $t = str_replace(' ', '', $row);
+        $exp = explode(":", $t);
+
+        $meta[ strtolower( mb_convert_encoding( trim(@$exp[0]), 'UTF-8')) ] = mb_convert_encoding( trim(@$exp[1]), 'UTF-8' );
     }
+    unset($meta['']);
+    //-----------------------------------------------------------------
+    
+    
+    // Get text
+    try {
+      $pdfToText = XPDF\PdfToText::create(array(
+          'pdftotext.binaries' => 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe',
+          'pdftotext.timeout' => 60,
+      ), NULL);
+
+      $text = $pdfToText->getText($pdf_file, 1, $counter);
+    } catch(Exception $e) {
+      $text = $e->getMessage();
+    }
+    //-----------------------------------------------------------------
+    
+    
     
     $data['text'] = $text;
     $data['meta_data'] = $meta;

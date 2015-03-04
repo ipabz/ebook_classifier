@@ -48,7 +48,7 @@
     <!-- The File Upload user interface plugin -->
     <script src="assets/js/jquery.fileupload-ui.js"></script>
     <!-- The main application script -->
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js?r=<?php print time(); ?>"></script>
     <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
     <!--[if (gte IE 8)&(lt IE 10)]>
     <script src="assets/js/cors/jquery.xdr-transport.js"></script>

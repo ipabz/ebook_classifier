@@ -27,7 +27,7 @@ class training_model extends CI_Model {
     }
     
     if ( count($meta_data) > 0 ) {      
-      $data['meta_data'] = serialize($meta_data);      
+      $data['meta_data'] = json_encode($meta_data);      
     }
     
     if ( count($bigram_raw) > 0 ) {      
@@ -115,7 +115,7 @@ class training_model extends CI_Model {
     $this->load->library('stemmer');
     
     $data = array();
-    print '<pre>';
+    
     foreach($query->result() as $row) {
       
       $raw = (array)json_decode($row->removed_stop_words);
@@ -130,7 +130,7 @@ class training_model extends CI_Model {
         $stemmed = $this->stemmer->stem_list($item);
         $stemmed = implode(" ", $stemmed);
         $f = 0;
-        print $stemmed."<br>";
+
         if (@$final_tokens[$stemmed]) {
           $f = @$final_tokens[$stemmed];
         }

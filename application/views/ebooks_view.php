@@ -23,7 +23,7 @@
         $counter = 1;
         foreach($ebooks->result() as $row) {
           if ($row->meta_data !== '') {
-            $meta_data = unserialize($row->meta_data);
+            $meta_data = (array)json_decode($row->meta_data);
           } else {
             $meta_data = array();
           }

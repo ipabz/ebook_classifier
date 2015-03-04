@@ -44,7 +44,7 @@ class UploadHandler
         $this->response = array();
         $this->options = array(
             'script_url' => $this->get_full_url().'/',
-            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/files/',
+            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/server/php/files/',
             'upload_url' => $this->get_full_url().'/files/',
             'user_dirs' => false,
             'mkdir_mode' => 0755,
@@ -516,7 +516,8 @@ class UploadHandler
         }
         return $name;
     }
-
+    
+    /*
     protected function get_file_name($file_path, $name, $size, $type, $error,
             $index, $content_range) {
         $name = $this->trim_file_name($file_path, $name, $size, $type, $error,
@@ -531,6 +532,16 @@ class UploadHandler
             $index,
             $content_range
         );
+    }
+     * 
+     */
+    
+    
+    protected function get_file_name($file_path, $name, $size, $type, $error,
+            $index, $content_range) {
+        $name = $this->trim_file_name($file_path, $name, $size, $type, $error,
+            $index, $content_range);
+        return $name;
     }
 
     protected function get_scaled_image_file_paths($file_name, $version) {

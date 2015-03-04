@@ -38,6 +38,50 @@ class Training extends CI_Controller {
       print trim( $this->session->userdata('class') );
     }
     
+    public function handle_file_training_v2()
+    {
+      
+      $GLOBALS['uploadedfile'] = '';
+      
+      include 'server/php/UploadHandler.php';
+      $upload_handler = new UploadHandler();
+      $temp = (Object)($GLOBALS['uploadedfile'][0]);
+
+      $data['contents'] = $temp->name;
+      $data['date'] = '';
+      $data['type'] = 'File Upload';
+      
+      if ( trim($data['contents']) !== '[]' && trim($data['contents']) !== ''  && trim($data['contents']) !== 'null'  && trim($data['contents']) !== NULL) {
+        
+        $class = @$_POST['corpus'];
+        
+        $data2 = $this->string->process(
+                    'server/php/files/'.$data['contents'],
+                    $class
+                    );
+        
+        $id = $this->training_model->save_entry(
+                    $data['contents'],
+                    $class,
+                    $data2['tokens'],
+                    $data2['counted'],
+                    $data2['removed_stop_words'],
+                    $data2['corpus_count'],
+                    $data2['meta_data'],
+                    $data2['bigram_raw'],
+                    $data2['bigram_counted'],
+                    $data2['final_tokens']
+                    );
+        
+        $dd[] = $id;
+
+        $this->training_model->train($dd);
+
+        
+      }
+      
+    }
+    
     public function handle_file_training()
     {
       
