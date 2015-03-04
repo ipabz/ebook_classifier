@@ -3,6 +3,12 @@
 A system in its name determines a books correct classification. This system can be trained to produced accurate results. It uses
 Naive Bayes algorithm in determining the classification of a book.
 
+
+# Dependencies
+
+This is application is using XPDF to extract text and meta data. So you need to have XPDF installed on your server or on your development environment. Please follow the instructions on the <a href="http://www.foolabs.com/xpdf/download.html">XPDF Website</a>.
+
+
 # Installation
 
 1) Download the app <a href="https://github.com/ipabz/ebook_classifier/archive/master.zip">Ebook Classifier</a> and extract it
@@ -34,6 +40,17 @@ as below:
 
     $config['migration_enabled'] = FALSE;
 
+4) You need to set the config needed to use XPDF. To do that, open file
+
+        appplication/libraries/string.php
+
+and find the following variables
+
+        //PDF Vars
+        private $get_pdf_meta_data_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
+        private $path_to_xpdf_pdftotext_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe';
+        
+Set it according to where your XPDF binaries are located.
 
 ... and that's it. The system is ready.
 
