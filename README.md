@@ -6,7 +6,10 @@ Naive Bayes algorithm in determining the classification of a book.
 
 # Dependencies
 
-This application is using XPDF to extract text and meta data. So you need to have XPDF installed on your server or on your development environment. Please follow the instructions on the <a href="http://www.foolabs.com/xpdf/download.html">XPDF Website</a>.
+This application is using XPDF to extract text and meta data. So you need to have XPDF installed on your server or on your development environment. Please follow the instructions on the <a href="http://www.foolabs.com/xpdf/download.html">XPDF Website</a>. 
+
+Giving a quick start: On XPDFs website, you can just download the precompiled binaries depending on your platform and extract it to wherever you want or for best practice, put in a location not accessible via web. Instructions on how to use in the
+application is found on the installation instructions below.
 
 
 # Installation
