@@ -12,6 +12,7 @@ class Migration_Initial_schema extends CI_Migration {
     $this->dbforge->drop_table('ebooks');
     $this->dbforge->drop_table('logs');
     $this->dbforge->drop_table('training');
+	$this->dbforge->drop_table('testing');
     
     /**
      * Create 'classifications' table
@@ -138,11 +139,41 @@ class Migration_Initial_schema extends CI_Migration {
     $this->dbforge->add_field($training_table);
     $this->dbforge->create_table('training');
     
+	/**
+     * Create 'testing' table
+     */
+    $this->dbforge->add_key('testing_id', TRUE);
+    
+    $testing_table = array(
+      'testing_id' => array(
+          'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE 
+      ),
+      'filename' => array(
+          'type' => 'VARCHAR', 'constraint' => 255, 'null' => FALSE
+      ),
+      'classification' => array(
+          'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
+      ),
+      'is_accurate' => array(
+          'type' => 'INT', 'constraint' => 1, 'null' => FALSE, 'default' => '1'
+      ),
+      'date_tested' => array(
+          'type' => 'TEXT', 'null' => FALSE
+      )
+    );
+    
+    $this->dbforge->add_field($testing_table);
+    $this->dbforge->create_table('testing');
     
   }
   
   public function down() {
-    
+    $this->dbforge->drop_table('classifications');
+    $this->dbforge->drop_table('ebook');
+    $this->dbforge->drop_table('ebooks');
+    $this->dbforge->drop_table('logs');
+    $this->dbforge->drop_table('training');
+	$this->dbforge->drop_table('testing');
   }
   
 }
