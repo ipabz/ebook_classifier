@@ -213,6 +213,13 @@
         <div class="text-center alert alert-success">
           This document ( <?php print $file_data['file_name'];  ?> ) is classified as <strong><?php print $result_category; ?></strong>.
         </div>
+        
+        <?php print form_open('testing/accuracy'); ?>
+        <div class="text-center">
+        	Is the result accurate? &nbsp;&nbsp; <a href="" class="btn btn-success">Yes</a> <a href="" class="btn btn-danger">No</a>
+        </div>
+        <?php print form_close(); ?>
+        
         <?php
           }
           ?>

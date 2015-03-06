@@ -30,10 +30,10 @@
         ?>
         <tr>
           <td class="text-center"><?php print $counter; ?></td>
-          <td class="text-left"><?php print $row->filename; ?></td>
+          <td class="text-left"><?php print ellipsize($row->filename, 50, .5); ?></td>
           <td>
           <?php
-          print @$meta_data['title'];
+          print ellipsize(@$meta_data['title'], 40, .5);
           ?>
           </td>
           <td>
