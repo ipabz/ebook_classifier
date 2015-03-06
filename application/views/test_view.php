@@ -26,7 +26,7 @@
         ?>
         <br>
         <div class="row fileupload-buttonbar text-center">
-            <?php print form_open_multipart('testing/do_upload');?>
+            <?php print form_open_multipart('testing/do_upload', 'class="testuploadform"');?>
             
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
@@ -34,7 +34,7 @@
                 <input type="file" name="userfile" size="20" />
             </span>
           
-            <button type="submit" class="btn btn-primary start">
+            <button type="submit" class="btn btn-primary start starttesting">
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>Start testing</span>
             </button>
@@ -62,6 +62,7 @@
           ?>
           <br />
         <!-- The table listing the files available for upload/download -->
+        <!--
           <table role="presentation" class="table table-striped"><tbody class="files">
           
               <tr>
@@ -115,12 +116,14 @@
                         
                         if (@$temp_004 !== '') {
                           $tmp = (($temp_004 + 1) / $ftotal004) / 100;
-                          //$total__004 = $total__004 + $tmp;
+                          $total__004 = $total__004 + $tmp;
+						  /*
                           if ($total__004 == 0) {
                             $total__004 = $tmp;
                           } else {
                             $total__004 = bcmul($total__004, $tmp, $dc_digits);
                           }
+						  */
                           print number_format($tmp, $dc_digits);
                         }
                         ?>
@@ -131,12 +134,14 @@
                         
                         if (@$temp_005 !== '') {
                           $tmp = (($temp_005 + 1) / $ftotal005) / 100;
-                          //$total__005 = $total__005 + $tmp;
+                          $total__005 = $total__005 + $tmp;
+						  /*
                           if ($total__005 == 0) {
                             $total__005 = $tmp;
                           } else {
                             $total__005 = bcmul($total__005, $tmp, $dc_digits);
                           }
+						  */
                           print number_format($tmp, $dc_digits);
                         }
                         ?>
@@ -147,12 +152,14 @@
                         
                         if (@$temp_006 !== '') {
                           $tmp = (($temp_006 + 1) / $ftotal006) / 100;
-                          //$total__006 = $total__006 + $tmp;
+                          $total__006 = $total__006 + $tmp;
+						  /*
                           if ($total__006 == 0) {
                             $total__006 = $tmp;
                           } else {
                             $total__006 = bcmul($total__006, $tmp, $dc_digits);
                           }
+						  */
                           print number_format($tmp, $dc_digits);
                         }
                         ?>
@@ -197,7 +204,7 @@
               </tr>
           
           </tbody></table> 
-        
+		-->
         <?php
         $result_category = '004';
         
@@ -213,12 +220,10 @@
         <div class="text-center alert alert-success">
           This document ( <?php print $file_data['file_name'];  ?> ) is classified as <strong><?php print $result_category; ?></strong>.
         </div>
-        
-        <?php print form_open('testing/accuracy'); ?>
-        <div class="text-center">
-        	Is the result accurate? &nbsp;&nbsp; <a href="" class="btn btn-success">Yes</a> <a href="" class="btn btn-danger">No</a>
+		<br />
+        <div class="text-center feedback">
+        	Is the result accurate? &nbsp;&nbsp; <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$result_category.'/1'); ?>" class="btn btn-success do_ajax">Yes</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$result_category.'/0'); ?>" class="btn btn-danger do_ajax">No</a>
         </div>
-        <?php print form_close(); ?>
         
         <?php
           }

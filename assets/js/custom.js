@@ -15,4 +15,17 @@ $(function() {
     
   });
   
+  $(document).delegate('.do_ajax', 'click', function(e) {
+	e.preventDefault();
+	$('.feedback').html('<strong>Thank you! Your feedback would be a great help.</strong>');
+	$.get($(this).attr('href'), function(data) { console.log(data); });
+	
+	return false;  
+  });
+  
+  $('.starttesting').click(function(e) {
+	$('.testuploadform').attr('style', 'visibility: hidden');
+	$('.fileupload-buttonbar').prepend('<div class="text-center"><h2>Please wait while we process the file...</h2><br /><img src="assets/images/ajax-loading.gif" /></div>');  
+  });
+  
 });
