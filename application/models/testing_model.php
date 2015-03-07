@@ -2,13 +2,14 @@
 
 class Testing_model extends CI_Model {
 
-	public function accuracy($filename, $class, $accuracy) 
+	public function accuracy($filename, $class, $accuracy, $tokens) 
 	{
 	  
 	  $data = array(
 		'filename' => base64_decode(urldecode($filename)),
 		'classification' => $class,
 		'is_accurate' => $accuracy,
+		'tokens' => $tokens,
 		'date_tested' => @time()
 	  );
 	  

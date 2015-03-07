@@ -69,7 +69,7 @@ class testing extends CI_Controller {
   public function accuracy($filename, $class, $accuracy) 
   {
 	  
-	  $this->testing_model->accuracy($filename, $class, $accuracy);
+	  $this->testing_model->accuracy($filename, $class, $accuracy, $this->input->post('tokens'));
 	  
   }
   

@@ -18,7 +18,10 @@ $(function() {
   $(document).delegate('.do_ajax', 'click', function(e) {
 	e.preventDefault();
 	$('.feedback').html('<strong>Thank you! Your feedback would be a great help.</strong>');
-	$.get($(this).attr('href'), function(data) { console.log(data); });
+	var token = $('#finaltokens_encoded').html();
+	var d = { tokens: token };
+	
+	$.post($(this).attr('href'), d, function(data) { console.log(data); });
 	
 	return false;  
   });

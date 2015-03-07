@@ -221,6 +221,7 @@
           This document ( <?php print $file_data['file_name'];  ?> ) is classified as <strong><?php print $result_category; ?></strong>.
         </div>
 		<br />
+        <div id="finaltokens_encoded" style="display: none;"><?php print json_encode($datas['final_tokens_raw']); ?></div>
         <div class="text-center feedback">
         	Is the result accurate? &nbsp;&nbsp; <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$result_category.'/1'); ?>" class="btn btn-success do_ajax">Yes</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$result_category.'/0'); ?>" class="btn btn-danger do_ajax">No</a>
         </div>

@@ -157,6 +157,9 @@ class Migration_Initial_schema extends CI_Migration {
       'is_accurate' => array(
           'type' => 'INT', 'constraint' => 1, 'null' => FALSE, 'default' => '1'
       ),
+      'tokens' => array(
+          'type' => 'TEXT', 'null' => TRUE
+      ),
       'date_tested' => array(
           'type' => 'TEXT', 'null' => FALSE
       )
