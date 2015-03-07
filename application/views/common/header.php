@@ -54,7 +54,7 @@
         
         <div class="btn-group">
           <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <span class="glyphicon glyphicon-list-alt"></span> &nbsp;View <span class="caret"></span>
+            <span class="glyphicon glyphicon-file"></span> &nbsp;View <span class="caret"></span>
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
             
@@ -80,6 +80,10 @@
             
           </ul>
         </div>
+        
+        <a href="test/accuracy" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> &nbsp;Accuracy</a>
+        
+        
       </div>
       
     </div>    

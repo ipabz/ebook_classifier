@@ -5,6 +5,7 @@ class testing extends CI_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->helper(array('form', 'url'));
+	$this->load->model('testing_model');
   }
   
   public function index()
@@ -68,16 +69,21 @@ class testing extends CI_Controller {
   public function accuracy($filename, $class, $accuracy) 
   {
 	  
-	  $data = array(
-	  	'filename' => base64_decode(urldecode($filename)),
-		'classification' => $class,
-		'is_accurate' => $accuracy,
-		'date_tested' => @time()
-	  );
-	  
-	  $this->db->insert(TABLE_TESTING, $data);
+	  $this->testing_model->accuracy($filename, $class, $accuracy);
 	  
   }
+  
+  public function testing_accuracy()
+  {
+	  define('TRAINING', true);
+      $data['classifications'] = $this->classifications->get_all();
+      $data['query'] = $this->testing_model->get();
+	  
+      $this->load->view('common/header', $data);
+      $this->load->view('test_accuracy_view');
+      $this->load->view('common/footer');
+  }
+  
     
 }
 
