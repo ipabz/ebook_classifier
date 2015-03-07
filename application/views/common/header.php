@@ -81,7 +81,7 @@
           </ul>
         </div>
         
-        <a href="test/accuracy" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> &nbsp;Accuracy</a>
+        <a href="test/accuracy" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> &nbsp;Evaluation</a>
         
         
       </div>

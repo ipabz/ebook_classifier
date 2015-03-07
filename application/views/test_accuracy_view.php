@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="panel panel-info">
       <div class="panel-heading">
-        <h3 class="panel-title"><strong>Accuracy</strong></h3>
+        <h3 class="panel-title"><strong>Evaluation</strong></h3>
       </div>
       <div class="panel-body">
         <div class="container-fluid">
