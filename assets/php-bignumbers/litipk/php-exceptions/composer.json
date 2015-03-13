@@ -1,0 +1,28 @@
+{
+	"name": "litipk/php-exceptions",
+	"description": "An extended set of basic exceptions definitions.",
+	"keywords": ["exception", "exceptions"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Andrés Correa Casablanca",
+			"email": "castarco@litipk.com"
+		}
+	],
+	"support": {
+		"email": "castarco@litipk.com",
+		"issues": "http://github.com/Litipk/php-exceptions/issues",
+		"source": "http://github.com/Litipk/php-exceptions"
+	},
+	"require": {},
+	"require-dev": {
+		"phpunit/phpunit": "3.7.*",
+		"ext-xdebug": "*"
+	},
+	"minimum-stability": "stable",
+	"autoload": {
+		"psr-0": {
+			"Litipk\\Exceptions": "src/"
+		}
+	}
+}
