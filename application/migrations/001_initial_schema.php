@@ -98,12 +98,15 @@ class Migration_Initial_schema extends CI_Migration {
           'type' => 'TEXT', 'null' => TRUE
       ),
       'bigram_raw' => array(
-          'type' => 'TEXT', 'null' => TRUE
+          'type' => 'LONGTEXT', 'null' => TRUE
       ),
       'bigram_counted' => array(
-          'type' => 'TEXT', 'null' => TRUE
+          'type' => 'LONGTEXT', 'null' => TRUE
       ),
       'final_tokens' => array(
+          'type' => 'TEXT', 'null' => TRUE
+      ),
+      'all_text' => array(
           'type' => 'TEXT', 'null' => TRUE
       ),
       'date_created' => array(

@@ -66,7 +66,7 @@ class String {
           'pdftotext.timeout' => 60,
       ), NULL);
 
-      $text = $pdfToText->getText($pdf_file, 1, $counter);
+      $text = mb_convert_encoding( $pdfToText->getText($pdf_file, 1, $counter), 'UTF-8' );
     } catch(Exception $e) {
       $text = $e->getMessage();
     }
@@ -88,7 +88,7 @@ class String {
     $words = array();
     
     while ($tok !== false) {
-        $words[] = addslashes(strtolower($tok));
+        $words[] = addslashes(utf8_encode(strtolower($tok)));
         $tok = strtok($chars);
     }
     
@@ -181,6 +181,7 @@ class String {
     $data['bigram_counted'] = $bigram_counted;
     $data['final_tokens'] = $final_tokens;
     $data['final_tokens_raw'] = $final_tokens_raw;
+    $data['all_text'] = $text;
     
     return $data;
   }
@@ -193,8 +194,8 @@ class String {
     $this->ci->load->library('stemmer');
     
     for($x=1; $x < count($words); $x++) {
-      $bigrams[] = $words[$x-1] . ' ' . $words[$x];
-      $stemmed[] = $this->ci->stemmer->stem($words[$x-1]) . ' ' . $this->ci->stemmer->stem($words[$x]);
+      $bigrams[] = utf8_encode($words[$x-1]) . ' ' . utf8_encode($words[$x]);
+      $stemmed[] = $this->ci->stemmer->stem(utf8_encode($words[$x-1])) . ' ' . $this->ci->stemmer->stem(utf8_encode($words[$x]));
     }
     
     $data['bigram_raw'] = $bigrams;

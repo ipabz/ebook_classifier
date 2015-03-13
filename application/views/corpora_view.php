@@ -187,7 +187,7 @@
         <tr class="info">
           <td class="text-center">
           <?php
-          print $class004->num_rows();
+          print number_format($class004->num_rows());
           ?>
           </td>
           <td class="text-center">
@@ -202,7 +202,7 @@
           </td>
           <td class="text-center">
           <?php
-          print $class005->num_rows();
+          print number_format($class005->num_rows());
           ?>
           </td>
           <td class="text-center">
@@ -217,7 +217,7 @@
           </td>
           <td class="text-center">
           <?php
-          print $class006->num_rows();
+          print number_format($class006->num_rows());
           ?>
           </td>
           <td class="text-center">

@@ -87,3 +87,7 @@ body {
 .result-table {
   display: none;
 }
+
+.book_table_row td {
+  cursor: pointer;
+}

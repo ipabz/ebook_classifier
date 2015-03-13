@@ -70,7 +70,8 @@ class Training extends CI_Controller {
                     $data2['meta_data'],
                     $data2['bigram_raw'],
                     $data2['bigram_counted'],
-                    $data2['final_tokens']
+                    $data2['final_tokens'],
+                    $data2['all_text']
                     );
         
         $dd[] = $id;
@@ -281,6 +282,40 @@ class Training extends CI_Controller {
       $this->load->view('common/header', $data);
       $this->load->view('corpora_view');
       $this->load->view('common/footer');
+    }
+    
+    public function view_tokens($id)
+    {      error_reporting(1);
+      $this->db->where('id', $id);
+      $query = $this->db->get(TABLE_EBOOK);
+      
+      if ($query->num_rows() > 0) {
+        
+        $row = $query->row();
+        $temp_tokens = ( $row->final_tokens );
+        $tokens = array();
+        $html = '';
+        
+        $json = preg_replace('/[^(\x20-\x7F)]*/','', $temp_tokens);   
+        
+        preg_match('/rhs:\s*"([^"]+)"/', $json, $m);
+        $json = $m[1];
+        
+        $temp_tokens = json_decode($json);
+        
+        foreach($temp_tokens as $key => $val) {
+          $tokens[] = $key;
+          $html .= '<div style="float: left; margin: 10px;">'.$key.'</div>';
+        }
+        
+        $html .= '<div style="clear: both;"></div>';
+        
+        print $html;
+        
+      } else {
+        print 'empty';
+      }
+      
     }
 	
 }

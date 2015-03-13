@@ -47,12 +47,12 @@ define('TABLE_EBOOK', 'ebooks');
 define('TABLE_TRAINING', 'training');
 define('TABLE_TESTING', 'testing');
 
-
-@ini_set('max_execution_time', 10000);
-@set_time_limit(10000);
-@ini_set('memory_limit', '1024M');
-@ini_set('post_max_size', '200M');
-@ini_set('upload_max_filesize', '200M');
+define('EBOOKS_DIR', 'assets/ebooks/');
+//@ini_set('max_execution_time', 10000);
+//@set_time_limit(10000);
+//@ini_set('memory_limit', '1024M');
+//@ini_set('post_max_size', '200M');
+//@ini_set('upload_max_filesize', '200M');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

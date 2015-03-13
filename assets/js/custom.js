@@ -31,4 +31,19 @@ $(function() {
 	$('.fileupload-buttonbar').prepend('<div class="text-center"><h2>Please wait while we process the file...</h2><br /><img src="assets/images/ajax-loading.gif" /></div>');  
   });
   
+  $('.ebook_view_tokens').click(function(e) {
+    e.preventDefault();
+    
+    $('.modal-body').html('<img src="assets/images/ajax-loading.gif" />');
+    var url = $(this).attr('data-url');
+    var filename = $(this).attr('data-filename');
+    
+    $('.modal-title').html(filename);
+    
+    $.get(url, function(data) {
+      $('.modal-body').html(data);
+    });
+    
+  });
+  
 });
