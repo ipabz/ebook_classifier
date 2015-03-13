@@ -85,30 +85,6 @@ class Migration_Initial_schema extends CI_Migration {
       'meta_data' => array(
           'type' => 'TEXT', 'null' => TRUE
       ),
-      'tokens' => array(
-          'type' => 'TEXT', 'null' => TRUE
-      ),
-      'corpus_count' => array(
-          'type' => 'TEXT', 'null' => TRUE
-      ),
-      'removed_stop_words' => array(
-          'type' => 'TEXT', 'null' => TRUE
-      ),
-      'tokens_count' => array(
-          'type' => 'TEXT', 'null' => TRUE
-      ),
-      'bigram_raw' => array(
-          'type' => 'LONGTEXT', 'null' => TRUE
-      ),
-      'bigram_counted' => array(
-          'type' => 'LONGTEXT', 'null' => TRUE
-      ),
-      'final_tokens' => array(
-          'type' => 'TEXT', 'null' => TRUE
-      ),
-      'all_text' => array(
-          'type' => 'TEXT', 'null' => TRUE
-      ),
       'date_created' => array(
           'type' => 'TEXT', 'null' => FALSE
       )

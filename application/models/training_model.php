@@ -58,8 +58,6 @@ class training_model extends CI_Model {
      * 
      */
     
-    $data['all_text'] = $all_text;
-    
     $this->db->insert(TABLE_EBOOK, $data);
     $ebook_id = $this->db->insert_id();
     
