@@ -65,7 +65,7 @@
           <td>
           <?php
           if ($x < count($class_004)) {
-            print $class_004[$x]['item_raw'];
+            print ucwords($class_004[$x]['item_raw']);
           }
           ?>
           </td>
@@ -87,7 +87,7 @@
           <td>
           <?php
           if ($x < count($class_005)) {
-            print $class_005[$x]['item_raw'];
+            print ucwords($class_005[$x]['item_raw']);
           }
           ?>
           </td>
@@ -109,7 +109,7 @@
           <td>
           <?php
           if ($x < count($class_006)) {
-            print $class_006[$x]['item_raw'];
+            print ucwords($class_006[$x]['item_raw']);
           }
           ?>
           </td>
@@ -185,7 +185,11 @@
           <td></td>
         </tr>
         <tr class="info">
-          <td></td>
+          <td class="text-center">
+          <?php
+          print $class004->num_rows();
+          ?>
+          </td>
           <td class="text-center">
           <?php
           print number_format($ftotal004);
@@ -196,7 +200,11 @@
           //print @number_format((($ftotal004/($ftotal004+$ftotal005+$ftotal006)) * 100), 3). '%';
           ?>
           </td>
-          <td></td>
+          <td class="text-center">
+          <?php
+          print $class005->num_rows();
+          ?>
+          </td>
           <td class="text-center">
           <?php
           print number_format($ftotal005);
@@ -207,7 +215,11 @@
           //print @number_format((($ftotal005/($ftotal004+$ftotal005+$ftotal006)) * 100), 3). '%';
           ?>
           </td>
-          <td></td>
+          <td class="text-center">
+          <?php
+          print $class006->num_rows();
+          ?>
+          </td>
           <td class="text-center">
           <?php
           print number_format($ftotal006);
