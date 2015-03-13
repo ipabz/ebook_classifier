@@ -285,35 +285,28 @@ class Training extends CI_Controller {
     }
     
     public function view_tokens($id)
-    {      error_reporting(1);
+    {     
       $this->db->where('id', $id);
       $query = $this->db->get(TABLE_EBOOK);
+      
+      $preprocess = $this->training_model->get_preprocess_data($id);
       
       if ($query->num_rows() > 0) {
         
         $row = $query->row();
-        $temp_tokens = ( $row->final_tokens );
+        $temp_tokens = json_decode( $preprocess['final_tokens'] );
         $tokens = array();
         $html = '';
         
-        $json = preg_replace('/[^(\x20-\x7F)]*/','', $temp_tokens);   
-        
-        preg_match('/rhs:\s*"([^"]+)"/', $json, $m);
-        $json = $m[1];
-        
-        $temp_tokens = json_decode($json);
-        
         foreach($temp_tokens as $key => $val) {
           $tokens[] = $key;
-          $html .= '<div style="float: left; margin: 10px;">'.$key.'</div>';
+          $html .= '<div class="label label-info" style="float: left; margin: 5px;">'.$key.'</div>';
         }
         
         $html .= '<div style="clear: both;"></div>';
         
-        print $html;
+        print '<div style="height: 400px; overflow: auto;">'.$html.'</div>';
         
-      } else {
-        print 'empty';
       }
       
     }

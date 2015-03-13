@@ -28,20 +28,21 @@ $(function() {
   
   $('.starttesting').click(function(e) {
 	$('.testuploadform').attr('style', 'visibility: hidden');
-	$('.fileupload-buttonbar').prepend('<div class="text-center"><h2>Please wait while we process the file...</h2><br /><img src="assets/images/ajax-loading.gif" /></div>');  
+	$('.fileupload-buttonbar').html('<div class="text-center"><h2>Please wait while we process the file...</h2><br /><img src="assets/images/ajax-loading.gif" /></div>');  
   });
   
   $('.ebook_view_tokens').click(function(e) {
     e.preventDefault();
     
-    $('.modal-body').html('<img src="assets/images/ajax-loading.gif" />');
+    $('.modal-body').html('<div class="text-center"><br /><img src="assets/images/ajax-loading.gif" /><br />&nbsp;</div>');
     var url = $(this).attr('data-url');
     var filename = $(this).attr('data-filename');
     
     $('.modal-title').html(filename);
     
     $.get(url, function(data) {
-      $('.modal-body').html(data);
+      //$('.modal-body').html(data);
+      setTimeout(function() {$('.modal-body').html(data);}, 1000);
     });
     
   });
