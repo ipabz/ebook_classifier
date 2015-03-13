@@ -322,6 +322,7 @@ class training_model extends CI_Model {
   public function get_training_set($class="004")
   {
     $this->db->where('class', $class);
+    $this->db->order_by('item_stemmed');
     $query = $this->db->get(TABLE_TRAINING);
     
     return $query;

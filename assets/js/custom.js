@@ -27,8 +27,9 @@ $(function() {
   });
   
   $('.starttesting').click(function(e) {
+    
 	$('.testuploadform').attr('style', 'visibility: hidden');
-	$('.fileupload-buttonbar').html('<div class="text-center"><h2>Please wait while we process the file...</h2><br /><img src="assets/images/ajax-loading.gif" /></div>');  
+	$('.fileupload-buttonbar').append('<div class="text-center"><h2>Please wait while we process the file...</h2><br /><img src="assets/images/ajax-loading.gif" /><br /><br /><br />&nbsp;</div>');  
   });
   
   $('.ebook_view_tokens').click(function(e) {
