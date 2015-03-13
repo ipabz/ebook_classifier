@@ -81,25 +81,74 @@ class Testing_model extends CI_Model {
 			$t_count = 1;
 			
 			if (@$final_tokens[ $stemmed ]) {
-				$t_count = $final_tokens[ $stemmed ] + 1;
+				//$t_count = $final_tokens[ $stemmed ] + 1;
 			}
             
+            $t_count = (int)@$final_tokens[ $stemmed ] + 1;
+            
+            /*
 			$product['004'] = $product['004']->mul( Decimal::create(($t_count / ($corpora_doc_count_004 + $corpora_num_unique_words)), 5) );
             $product['005'] = $product['005']->mul( Decimal::create(($t_count / ($corpora_doc_count_005 + $corpora_num_unique_words)), 5) );
             $product['006'] = $product['006']->mul( Decimal::create(($t_count / ($corpora_doc_count_006 + $corpora_num_unique_words)), 5) );
+             * 
+             */
+            
+            $product['004'] = $product['004'] * ($t_count / ($corpora_doc_count_004 + $corpora_num_unique_words));
+            $product['005'] = $product['005'] * ($t_count / ($corpora_doc_count_005 + $corpora_num_unique_words));
+            $product['006'] = $product['006'] * ($t_count / ($corpora_doc_count_006 + $corpora_num_unique_words));
+            
+            $_tmp = explode('E', $product['004']);
+            $product['004'] = $_tmp[0];
+            
+            $_tmp = explode('E', $product['005']);
+            $product['005'] = $_tmp[0];
+            
+            $_tmp = explode('E', $product['006']);
+            $product['006'] = $_tmp[0];
 			
 			
 		}
-		
+        
+        /*
 		$product['004'] = $product['004']->mul( Decimal::create($prior['004'], 5) );
         $product['005'] = $product['005']->mul( Decimal::create($prior['004'], 5) );
         $product['006'] = $product['006']->mul( Decimal::create($prior['004'], 5) );
+         * 
+         */
+        
+        $product['004'] = $product['004'] * $prior['004'];
+        $product['005'] = $product['005'] * $prior['005'];
+        $product['006'] = $product['006'] * $prior['006'];
+        
+        $_tmp = explode('E', $product['004']);
+        $product['004'] = $_tmp[0];
+
+        $_tmp = explode('E', $product['005']);
+        $product['005'] = $_tmp[0];
+
+        $_tmp = explode('E', $product['006']);
+        $product['006'] = $_tmp[0];
 		
 		$_class = '004';
         
+        /*
         if ($product['004']->asFloat() < $product['005']->asFloat() && $product['006']->asFloat() < $product['005']->asFloat()) {
           $_class = '005';
         } else if ($product['005']->asFloat() < $product['006']->asFloat() && $product['004']->asFloat() < $product['006']->asFloat()) {
+          $_class = '006';
+        }
+         * 
+         */
+        
+        if ($product['004'] > $product['005'] && $product['004'] > $product['006']) {
+          $_class = '004';
+        }
+        
+        if ($product['005'] > $product['004'] && $product['005'] > $product['006']) {
+          $_class = '005';
+        }
+        
+        if ($product['006'] > $product['005'] && $product['006'] > $product['004']) {
           $_class = '006';
         }
 		

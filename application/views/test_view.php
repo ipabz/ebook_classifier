@@ -43,6 +43,13 @@
         </div>
         <?php
         } else {
+          /*
+          print '<pre>';
+          print_r($_data);
+          print '</pre>';
+          
+           * 
+           */
 		?>
         <div class="text-center alert alert-success">
           This document ( <?php print $file_data['file_name'];  ?> ) is classified as <strong><?php print $_data['result']; ?></strong>.
