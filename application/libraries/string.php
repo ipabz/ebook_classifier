@@ -15,27 +15,6 @@ class String {
     include 'assets/pdftotext/autoload.php';
   }
   
-  public function get_pdf_metadata($pdf_file)
-  {
-    
-    $parser = new \Smalot\PdfParser\Parser();
-    $pdf    = $parser->parseFile($pdf_file);
-
-    $details  = $pdf->getDetails();
-
-    $data = array();
-    
-    foreach ($details as $property => $value) {
-        if (is_array($value)) {
-            $value = implode(', ', $value);
-        }
-        $data[strtolower($property)] = $value;
-    }
-    
-    return $data;
-    
-  }
-  
   public function pdf_to_text($pdf_file)
   {       
     $pdf_file = realpath($pdf_file);
@@ -96,21 +75,6 @@ class String {
     return $words;
   }
   
-  public function string_by_line($text)
-  {
-    $lines = array();
-    
-    foreach(preg_split("/((\r?\n)|(\r\n?))/", $text) as $line) {
-      $line = trim($line);
-      
-      if ( $line !== '' ) {
-        $lines[] = $line;
-      }
-    } 
-    
-    return $lines;
-  }
-  
   private function intersection($a1,$a2,$a3)
   {
     $stemmed_file = $this->ci->stringhandler->stem_array($a1);
@@ -135,16 +99,10 @@ class String {
     
   }
   
-  public function build_tokens($text)
-  {
-    
-  }
-  
   public function process($pdf_file, $category="004")
   {
     $temp_d = $this->pdf_to_text($pdf_file);
     $text = $temp_d['text'];
-    $lines = $this->string_by_line($text);
     $words = $this->tokenize_by_word($text);
     $removed_stop_words = $this->ci->stringhandler->remove_stop_words($words);
     $removed_stop_words = $this->ci->stringhandler->remove_less_meaningful_words($removed_stop_words);

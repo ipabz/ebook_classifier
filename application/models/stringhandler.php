@@ -51,76 +51,6 @@ class StringHandler extends CI_Model {
   
   
   /**
-   * Gets all the text in a pdf file
-   * 
-   * @param string $pdf_file       - Path to the pdf file
-   * @return string                - All the text from the pdf
-   */
-  public function pdf_to_text($pdf_file)
-  {
-    $this->pdf2text->setFilename($pdf_file);
-    $this->pdf2text->decodePDF();
-    
-    return $this->pdf2text->output();
-  } // End function pdf_to_text
-  // --------------------------------------------------------------------
-  
-  
-  /**
-   * Splits a sentence into individual words
-   * 
-   * @param string $sentence
-   * @return array returns an array of words
-   */
-  public function tokenize($sentence)
-  {
-    
-    // Dictionary
-    $file_lines = $this->read_file($this->dictionary_file);
-    $stemmed_file = $this->stem_array($file_lines);
-    
-    $temp_dictionary = array();
-    $temp_dictionary2 = array();
-    
-    for($x=0; $x < count($file_lines); $x++) {
-      $temp_dictionary[trim($stemmed_file[$x])] = trim($file_lines[$x]);
-      $temp_dictionary2[trim($file_lines[$x])] = trim($stemmed_file[$x]);
-    }
-    // ------------------------------------------------------------------
-    
-    // Sentence
-    $stemmed_words = $this->stem($sentence);
-    // ------------------------------------------------------------------
-    
-    // Count occurences of dictionary words
-    $dictionary_words = $this->count_occurences($stemmed_file, $stemmed_words);
-    $dw = array();
-    
-    foreach($dictionary_words as $word => $count) {
-      for($x=0; $x < $count; $x++) {
-        $dw[] = $temp_dictionary[ $word ];
-      }
-    }
-    // ------------------------------------------------------------------
-    
-    // Sentence tokenize
-    $tok = strtok($sentence, $this->tokens);
-    $words1 = array();
-    
-    while ($tok !== false) {
-        $words1[] = $tok;
-        $tok = strtok($this->tokens);
-    }
-    
-    $words = array_merge($words1, $dw);
-    // ------------------------------------------------------------------
-    
-    return $words;
-  } // End function tokenize
-  // --------------------------------------------------------------------
-  
-  
-  /**
    * Stopping: remove common words which are less informative
    * 
    * @param array $words
@@ -142,28 +72,7 @@ class StringHandler extends CI_Model {
   } // End function remove_stop_words
   // --------------------------------------------------------------------
   
-  
-  /**
-   * Replace some characters with a space
-   * 
-   * @param string $text
-   * @return string
-   */
-  public function replace_some_chars_with_space($text)
-  {
-    $tok = strtok($text, $this->tokens);
-    $words = '';
-    
-    while ($tok !== false) {
-        $words .= $tok . ' ';
-        $tok = strtok($this->tokens);
-    }
-    
-    $words = trim($words);
-    
-    return $words;
-  } // End function replace_some_chars_with_space
-  // --------------------------------------------------------------------
+
   
   
   /**
@@ -275,28 +184,7 @@ class StringHandler extends CI_Model {
     return $final_words;
   } // End function remove_less_meaningful_words
   // --------------------------------------------------------------------
-  
-  
-  public function process($pdf_file, $dictionary='class004.txt')
-  {
-    $this->dictionary_file = 'assets/dictionaries/'.$dictionary;
-    $text = $this->pdf_to_text($pdf_file);
-    $text = strtolower($text);
-    $text = $this->replace_some_chars_with_space($text);
-    $tokenized = $this->tokenize($text);
-    $tokenized = $this->remove_less_meaningful_words($tokenized);
-    $removed_stop_words = $this->remove_stop_words($tokenized);
-    
-    $counted = $this->count_occurences(
-            $removed_stop_words, 
-            implode(' ', $removed_stop_words));
-    
-    
-    $data['tokens'] = $removed_stop_words;
-    $data['counted'] = $counted;
-    
-    return $data;
-  }
+
   
 } // End class StringHandler
 
