@@ -184,9 +184,6 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
         <tr class="info">
           <td class="text-center">
@@ -199,11 +196,13 @@
           print number_format($ftotal004);
           ?>
           </td>
+          <!--
           <td class="text-center">
           <?php
           //print @number_format((($ftotal004/($ftotal004+$ftotal005+$ftotal006)) * 100), 3). '%';
           ?>
           </td>
+          -->
           <td class="text-center">
           <?php
           print number_format($class005->num_rows());
@@ -214,11 +213,13 @@
           print number_format($ftotal005);
           ?>
           </td>
+          <!--
           <td class="text-center">
           <?php
           //print @number_format((($ftotal005/($ftotal004+$ftotal005+$ftotal006)) * 100), 3). '%';
           ?>
           </td>
+          -->
           <td class="text-center">
           <?php
           print number_format($class006->num_rows());
@@ -229,11 +230,13 @@
           print number_format($ftotal006);
           ?>
           </td>
+          <!--
           <td class="text-center">
           <?php
           //print @number_format((($ftotal006/($ftotal004+$ftotal005+$ftotal006)) * 100), 3). '%';
           ?>
           </td>
+          -->
         </tr>
       </tfoot>
     </table>
