@@ -91,3 +91,7 @@ body {
 .book_table_row td {
   cursor: pointer;
 }
+
+.pointer {
+  cursor: pointer;
+}

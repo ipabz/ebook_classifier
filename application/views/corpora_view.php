@@ -10,21 +10,21 @@
     <table class="table table-bordered table-hover table-striped">
       <thead>
         <tr class="warning">
-          <th colspan="3" class="text-center"><h3>004</h3></th>
-          <th colspan="3" class="text-center"><h3>005</h3></th>
-          <th colspan="3" class="text-center"><h3>006</h3></th>
+          <th colspan="2" class="text-center"><h3>004</h3></th>
+          <th colspan="2" class="text-center"><h3>005</h3></th>
+          <th colspan="2" class="text-center"><h3>006</h3></th>
           
         </tr>
         <tr>
           <td class="text-center"><strong>Word</strong></td>
           <td class="text-center"><strong>F</strong></td>
-          <td class="text-center"><strong>P</strong></td>
+          <!--<td class="text-center"><strong>P</strong></td>-->
           <td class="text-center"><strong>Word</strong></td>
           <td class="text-center"><strong>F</strong></td>
-          <td class="text-center"><strong>P</strong></td>
+          <!--<td class="text-center"><strong>P</strong></td>-->
           <td class="text-center"><strong>Word</strong></td>
           <td class="text-center"><strong>F</strong></td>
-          <td class="text-center"><strong>P</strong></td>
+          <!--<td class="text-center"><strong>P</strong></td>-->
         </tr>
       </thead>
       <tbody>
@@ -76,6 +76,7 @@
           }
           ?>
           </td>
+          <!--
           <td class="text-center">
           <?php
           if ($x < count($class_004)) {
@@ -83,7 +84,7 @@
           }
           ?>
           </td>
-          
+          -->
           <td>
           <?php
           if ($x < count($class_005)) {
@@ -98,6 +99,7 @@
           }
           ?>
           </td>
+          <!--
           <td class="text-center">
           <?php
           if ($x < count($class_005)) {
@@ -105,7 +107,7 @@
           }
           ?>
           </td>
-          
+          -->
           <td>
           <?php
           if ($x < count($class_006)) {
@@ -120,6 +122,7 @@
           }
           ?>
           </td>
+          <!--
           <td class="text-center">
           <?php
           if ($x < count($class_006)) {
@@ -127,6 +130,7 @@
           }
           ?>
           </td>
+          -->
         </tr>
       <?php
       }

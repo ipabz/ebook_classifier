@@ -58,6 +58,9 @@
     <?php
     endif;
     ?>
+    
+    <script type="text/javascript" src="assets/js/tablesorter.js"></script> 
+    
     <script src="assets/js/custom.js?r=<?php print time(); ?>"></script>
   </body>
 </html>

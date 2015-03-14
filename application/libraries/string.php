@@ -68,7 +68,8 @@ class String {
 
       $text = mb_convert_encoding( $pdfToText->getText($pdf_file, 1, $counter), 'UTF-8' );
     } catch(Exception $e) {
-      $text = $e->getMessage();
+      //$text = $e->getMessage();
+      print 'error';
     }
     //-----------------------------------------------------------------
     

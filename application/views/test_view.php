@@ -57,7 +57,7 @@
         <br />
         <div id="finaltokens_encoded" style="display: none;"><?php print json_encode($_data['pre_process']['final_tokens_raw']); ?></div>
         <div class="text-center feedback">
-        	Is the result accurate? &nbsp;&nbsp; <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/1'); ?>" class="btn btn-success do_ajax">Yes</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/0'); ?>" class="btn btn-danger do_ajax">No</a>
+        	Is the result accurate? &nbsp;&nbsp; <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/1'); ?>" class="btn btn-success do_ajax">TP</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/2'); ?>" class="btn btn-primary do_ajax">FP</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/3'); ?>" class="btn btn-danger do_ajax">FN</a>
         </div>
         <?php
 		}

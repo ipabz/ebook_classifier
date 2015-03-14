@@ -1,5 +1,7 @@
 $(function() {
   
+  $(".table-evaluation").tablesorter(); 
+  
   $('.showmoreresults').click(function(e) {
     e.preventDefault();
     
