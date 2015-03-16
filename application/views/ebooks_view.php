@@ -7,15 +7,15 @@
           </div>
   <div class="panel-body">
     
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped table-evaluation">
       <thead>
         <tr class="warning">
-          <th>#</th>
-          <th>File Name</th>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Publisher</th>
-          <th>Published Date</th>
+          <th class="pointer">#</th>
+          <th class="pointer">File Name</th>
+          <th class="pointer">Title</th>
+          <th class="pointer">Author</th>
+          <th class="pointer">Publisher</th>
+          <th class="pointer">Published Date</th>
         </tr>
       </thead>
       <tbody>
@@ -73,6 +73,8 @@
           <li <?php print (($per_page == 25) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/25'); ?>">25</a></li>
           <li <?php print (($per_page == 50) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/50'); ?>">50</a></li>
           <li <?php print (($per_page == 100) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/100'); ?>">100</a></li>
+          <li <?php print (($per_page == 200) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/200'); ?>">200</a></li>
+          <li <?php print (($per_page == 400) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/400'); ?>">400</a></li>
         </ul>
       </nav>
       
