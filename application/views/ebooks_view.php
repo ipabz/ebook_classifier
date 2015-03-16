@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         <?php
-        $counter = 1;
+        $counter = $offset;
         foreach($ebooks->result() as $row) {
           if ($row->meta_data !== '') {
             $meta_data = (array)json_decode($row->meta_data);
@@ -60,6 +60,23 @@
         ?>
       </tbody>
     </table>
+    
+    <div>
+    <?php
+    print $this->pagination->create_links();
+    ?>
+      
+      <nav class="pull-right">
+         
+        <ul class="pagination">
+          <li class="disabled"><a><b>Item's per page:</b> </a></li>
+          <li <?php print (($per_page == 25) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/25'); ?>">25</a></li>
+          <li <?php print (($per_page == 50) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/50'); ?>">50</a></li>
+          <li <?php print (($per_page == 100) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/100'); ?>">100</a></li>
+        </ul>
+      </nav>
+      
+    </div>
    
   </div>
 </div>

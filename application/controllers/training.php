@@ -98,12 +98,40 @@ class Training extends CI_Controller {
       
     }
     
-    public function view_ebooks($corpus="004")
+    public function view_ebooks($corpus="004", $per_page=25, $offset=0)
     {
+      $this->load->library('pagination');
+
+      $config['base_url'] = site_url('training/view_ebooks/'.trim($corpus)).'/'.$per_page.'/';
+      $config['total_rows'] = $this->training_model->get_entries(array(), trim($corpus))->num_rows();
+      $config['per_page'] = $per_page; 
+      $config['uri_segment'] = 5;
+      $config['full_tag_open'] = '<nav class="pull-left"><ul class="pagination">';
+      $config['full_tag_close'] = '</ul></nav>';
+      $config['first_link'] = '';
+      $config['first_tag_open'] = '';
+      $config['first_tag_close'] = '';
+      $config['last_link'] = '';
+      $config['last_tag_open'] = '';
+      $config['last_tag_close'] = '';
+      $config['next_link'] = '&raquo;';
+      $config['next_tag_open'] = '<li>';
+      $config['next_tag_close'] = '</a></li>';
+      $config['prev_link'] = '&laquo;';
+      $config['prev_tag_open'] = '<li>';
+      $config['prev_tag_close'] = '</a></li>';
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+      $config['cur_tag_open'] = '<li class="active"><a href="">';
+      $config['cur_tag_close'] = '</a></li>';
       
-      $data['ebooks'] = $this->training_model->get_entries(array(), trim($corpus));
+      $data['ebooks'] = $this->training_model->get_entries(array(), trim($corpus), $config['per_page'], $offset);
       $data['classifications'] = $this->classifications->get_all();
       $data['corpus'] =  $corpus;
+      $data['per_page'] = $per_page;
+      $data['offset'] = $offset + 1;
+      
+      $this->pagination->initialize($config); 
       
       $this->load->view('common/header', $data);
       $this->load->view('ebooks_view');

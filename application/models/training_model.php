@@ -173,7 +173,7 @@ class training_model extends CI_Model {
     
   }
   
-  public function get_entries($ids=array(),$class="")
+  public function get_entries($ids=array(),$class="", $limit=25, $offset=0)
   {
     $custom_where = '';
     
@@ -208,6 +208,8 @@ class training_model extends CI_Model {
     if ($custom_where !== '') {
       $sql .= " WHERE ".$custom_where;
     }
+    
+    $sql .= " LIMIT $offset, $limit";
     
     $query = $this->db->query($sql);
     
