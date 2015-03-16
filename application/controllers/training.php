@@ -106,7 +106,7 @@ class Training extends CI_Controller {
       $config['total_rows'] = $this->training_model->get_entries(array(), trim($corpus))->num_rows();
       $config['per_page'] = $per_page; 
       $config['uri_segment'] = 5;
-      $config['full_tag_open'] = '<nav class="pull-left"><ul class="pagination">';
+      $config['full_tag_open'] = '<nav class="pull-left"><ul class="pagination pagination-sm">';
       $config['full_tag_close'] = '</ul></nav>';
       $config['first_link'] = '';
       $config['first_tag_open'] = '';

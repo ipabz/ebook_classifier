@@ -68,7 +68,7 @@
       
       <nav class="pull-right">
          
-        <ul class="pagination">
+        <ul class="pagination pagination-sm">
           <li class="disabled"><a><b>Item's per page:</b> </a></li>
           <li <?php print (($per_page == 25) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/25'); ?>">25</a></li>
           <li <?php print (($per_page == 50) ? 'class="active"' : ''); ?>><a href="<?php print site_url('training/view_ebooks/'.trim($corpus).'/50'); ?>">50</a></li>
