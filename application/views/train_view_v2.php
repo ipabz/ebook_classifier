@@ -144,7 +144,7 @@
                 {% } %}
             </p>
             {% if (file.error) { %}
-                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                <div><span class="label label-danger">Error</span> PDFParser: Unable to extract text from file.</div>
             {% } %}
         </td>
         <td>
@@ -155,10 +155,7 @@
                 
                 
             {% } else { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
-                </button>
+                
             {% } %}
         </td>
     </tr>

@@ -4,104 +4,111 @@ class training_model extends CI_Model {
   
   public function save_entry($filename, $class, $tokens="", $counted="", $removed_stop_words="", $corpus_counted="", $meta_data=array(), $bigram_raw=array(), $bigram_counted=array(), $final_tokens=array(), $all_text='')
   {
-    $data = array(
-        'filename' => $filename,
-        'classification' => $class,
-        'date_created' => @time()
-    );
-    
-    /*
-    if (trim($tokens) !== '') {
-      $data['tokens'] = json_encode($tokens);
-    }
-     * 
-     */
-    /*
-    if (trim($counted) !== '') {
-      $data['tokens_count'] = json_encode($counted);
-    }
-     * 
-     */
-    /*
-    if (trim($removed_stop_words) !== '') {
-      $data['removed_stop_words'] = json_encode($removed_stop_words);
-    }
-     * 
-     */
-    
-    /*
-    if (trim($corpus_counted) !== '') {
-      $data['corpus_count'] = json_encode($corpus_counted);
-    }
-     * 
-     */
-    
-    if ( count($meta_data) > 0 ) {      
-      $data['meta_data'] = json_encode($meta_data);      
-    }
-    /*
-    if ( count($bigram_raw) > 0 ) {      
-      $data['bigram_raw'] = json_encode(($bigram_raw));      
-    }
-     * 
-     */
-    /*
-    if ( count($bigram_counted) > 0 ) {      
-      $data['bigram_counted'] = json_encode(($bigram_counted));      
-    }
-     * 
-     */
-    /*
-    if ( count($final_tokens) > 0 ) {      
-      $data['final_tokens'] = json_encode($final_tokens);
-    }
-     * 
-     */
-    
-    $this->db->insert(TABLE_EBOOK, $data);
-    $ebook_id = $this->db->insert_id();
-    
-    if ( count($final_tokens) > 0 ) {
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_final_tokens.txt";  
-      $this->create_file($_filename, json_encode($final_tokens));
-    }
-    
-    if ( count($bigram_counted) > 0 ) {    
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_bigram_counted.txt";  
-      $this->create_file($_filename, json_encode($bigram_counted)); 
-    }
-    
-    if ( count($bigram_raw) > 0 ) {      
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_bigram_raw.txt";  
-      $this->create_file($_filename, json_encode($bigram_raw)); 
-    }
-    
-    if (trim($corpus_counted) !== '') {
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_corpus_count.txt";  
-      $this->create_file($_filename, json_encode($corpus_counted));
-    }
-    
-    if (trim($removed_stop_words) !== '') {
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_removed_stop_words.txt";  
-      $this->create_file($_filename, json_encode($removed_stop_words));
-    }
-    
-    if (trim($counted) !== '') {
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_tokens_count.txt";  
-      $this->create_file($_filename, json_encode($counted));
-    }
-    
-    if (trim($tokens) !== '') {
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_tokens.txt";  
-      $this->create_file($_filename, json_encode($tokens));
-    }
     
     if (trim($all_text) !== '') {
-      $_filename = EBOOKS_DIR."ebook".$ebook_id."_all_text.txt";  
-      $this->create_file($_filename, $all_text);
+    
+      $data = array(
+          'filename' => $filename,
+          'classification' => $class,
+          'date_created' => @time()
+      );
+
+      /*
+      if (trim($tokens) !== '') {
+        $data['tokens'] = json_encode($tokens);
+      }
+       * 
+       */
+      /*
+      if (trim($counted) !== '') {
+        $data['tokens_count'] = json_encode($counted);
+      }
+       * 
+       */
+      /*
+      if (trim($removed_stop_words) !== '') {
+        $data['removed_stop_words'] = json_encode($removed_stop_words);
+      }
+       * 
+       */
+
+      /*
+      if (trim($corpus_counted) !== '') {
+        $data['corpus_count'] = json_encode($corpus_counted);
+      }
+       * 
+       */
+
+      if ( count($meta_data) > 0 ) {      
+        $data['meta_data'] = json_encode($meta_data);      
+      }
+      /*
+      if ( count($bigram_raw) > 0 ) {      
+        $data['bigram_raw'] = json_encode(($bigram_raw));      
+      }
+       * 
+       */
+      /*
+      if ( count($bigram_counted) > 0 ) {      
+        $data['bigram_counted'] = json_encode(($bigram_counted));      
+      }
+       * 
+       */
+      /*
+      if ( count($final_tokens) > 0 ) {      
+        $data['final_tokens'] = json_encode($final_tokens);
+      }
+       * 
+       */
+
+      $this->db->insert(TABLE_EBOOK, $data);
+      $ebook_id = $this->db->insert_id();
+
+      if ( count($final_tokens) > 0 ) {
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_final_tokens.txt";  
+        $this->create_file($_filename, json_encode($final_tokens));
+      }
+
+      if ( count($bigram_counted) > 0 ) {    
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_bigram_counted.txt";  
+        $this->create_file($_filename, json_encode($bigram_counted)); 
+      }
+
+      if ( count($bigram_raw) > 0 ) {      
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_bigram_raw.txt";  
+        $this->create_file($_filename, json_encode($bigram_raw)); 
+      }
+
+      if (trim($corpus_counted) !== '') {
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_corpus_count.txt";  
+        $this->create_file($_filename, json_encode($corpus_counted));
+      }
+
+      if (trim($removed_stop_words) !== '') {
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_removed_stop_words.txt";  
+        $this->create_file($_filename, json_encode($removed_stop_words));
+      }
+
+      if (trim($counted) !== '') {
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_tokens_count.txt";  
+        $this->create_file($_filename, json_encode($counted));
+      }
+
+      if (trim($tokens) !== '') {
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_tokens.txt";  
+        $this->create_file($_filename, json_encode($tokens));
+      }
+
+      if (trim($all_text) !== '') {
+        $_filename = EBOOKS_DIR."ebook".$ebook_id."_all_text.txt";  
+        $this->create_file($_filename, $all_text);
+      }
+
+      return $ebook_id;
+    
     }
     
-    return $ebook_id;
+    return NULL;
     
   }
   
