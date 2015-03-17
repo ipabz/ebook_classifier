@@ -8,6 +8,8 @@ class String {
   private $get_pdf_meta_data_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
   private $path_to_xpdf_pdftotext_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe';
   
+  private $num_pages_to_read = 50;
+  
   public function __construct() {
     $this->ci =& get_instance();
     $this->ci->load->model('stringhandler');
@@ -39,17 +41,7 @@ class String {
     
     
     // Get text
-    try {
-      $pdfToText = XPDF\PdfToText::create(array(
-          'pdftotext.binaries' => $this->path_to_xpdf_pdftotext_cmd,
-          'pdftotext.timeout' => 60,
-      ), NULL);
-
-      $text = mb_convert_encoding( $pdfToText->getText($pdf_file, 1, $counter), 'UTF-8' );
-    } catch(Exception $e) {
-      //$text = $e->getMessage();
-      print 'error';
-    }
+    $text = $this->get_toc($pdf_file);
     //-----------------------------------------------------------------
     
     
@@ -58,6 +50,108 @@ class String {
     $data['meta_data'] = $meta;
     
     return $data;
+  }
+  
+  public function get_toc($pdf_file)
+  {
+    $text = '';
+    $tmp = '';
+    $toc_begin = array(
+        'table of contents',
+        'table of content',
+        'contents',
+        'content'
+    );
+	
+	$toc_end = array(
+		'index',
+		'appendixes',
+		'bibliography',
+		'author index',
+		'glossary',
+		'references'
+	);
+	
+	$sub = array(
+		'foreword',
+		'about the authors',
+		'acknowledgment',
+		'acknowledgments',
+		'copyright',
+		'preface',
+		'chapter',
+		'chapters',
+		'introduction',
+		'1',
+		'I',
+		'chapter 1',
+		'chapter 2',
+		'chapter 3',
+		'chapter 4',
+		'chapter 5',
+		'chapter 6',
+		'chapter 7',
+		'chapter 8',
+		'chapter 9'
+	);
+    
+    try {
+      $pdfToText = XPDF\PdfToText::create(array(
+          'pdftotext.binaries' => $this->path_to_xpdf_pdftotext_cmd,
+          'pdftotext.timeout' => 120,
+      ), NULL);
+
+      $tmp = mb_convert_encoding( $pdfToText->getText($pdf_file), 'UTF-8' );
+    } catch(Exception $e) {
+      print 'error';
+    }
+    
+    $exp = explode(' ', $tmp);
+    $_words = array();
+    $start = false;
+	$repeat = 0;
+    
+    foreach($exp as $key => $val) {
+      
+      $__tmp = strtolower($val);
+      
+      if (in_array($__tmp, $toc_begin)) {
+        $start = true;
+      }
+	  
+	  if (in_array($__tmp, $sub)) {
+		$repeat = $repeat + 1;
+	  }
+	  
+	  if ( (in_array($__tmp, $toc_end) && $start && count($_words) > 0) OR ($repeat > 1 && $start && count($_words) > 0)) {
+		$start = false;
+		break;
+	  }
+      
+      if ( $start ) {
+        $_words[] = $__tmp;
+      }
+      
+    }
+	
+	$text = trim( implode(' ', $_words) );
+	
+	if ( $text === '') {
+		
+		try {
+		  $pdfToText = XPDF\PdfToText::create(array(
+			  'pdftotext.binaries' => $this->path_to_xpdf_pdftotext_cmd,
+			  'pdftotext.timeout' => 120,
+		  ), NULL);
+	
+		  $text = mb_convert_encoding( $pdfToText->getText($pdf_file, 1, $this->num_pages_to_read), 'UTF-8' );
+		} catch(Exception $e) {
+		  print 'error';
+		}
+		
+	}    
+    
+    return $text;
   }
   
   public function tokenize_by_word($text)
