@@ -5,16 +5,61 @@ class String {
   private $ci = NULL;
   
   //PDF Vars
-  private $get_pdf_meta_data_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
-  private $path_to_xpdf_pdftotext_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe';
+  private $get_pdf_meta_data_cmd = 'D:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
+  private $path_to_xpdf_pdftotext_cmd = 'D:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdftotext.exe';
   
   private $num_pages_to_read = 50;
+
+  private $pdfAidAPIKey = "rwx31blhdxnbcb";
   
   public function __construct() {
     $this->ci =& get_instance();
     $this->ci->load->model('stringhandler');
     include 'assets/vendor/autoload.php';
     include 'assets/pdftotext/autoload.php';
+  }
+
+  protected function getPDFAidText($pdf_file)
+  {
+    set_time_limit(0);
+
+    include 'assets/PdfaidServices.php';
+    include 'assets/MyDocXHandler.php';
+
+    $temp = explode('\\', $pdf_file);
+    $temp = @$temp[count($temp) - 1];
+    $temp = explode('.', $temp);
+
+    
+    if (trim(@$temp[0]) === '') {
+      $temp[0] = time();
+    }
+
+    $theFileName = $temp[0] . '.docx';
+
+
+    $myPdf2Doc = new Pdf2Doc();
+    $myPdf2Doc->apiKey = $this->pdfAidAPIKey;
+    $myPdf2Doc->inputPdfLocation = $pdf_file;
+
+    $myPdf2Doc->outputDocLocation = "assets/temp/".$theFileName;
+    $result = $myPdf2Doc->Pdf2Doc();
+
+
+    $text = '';
+
+    if (strtolower($result) === 'ok') {
+
+      $docxHandler = new MyDocXHandler;
+
+      $file = "assets/temp/".$theFileName;
+      $text = $docxHandler->readDocx($file);
+
+    } else {
+      die( 'error: '.$result );
+    }
+
+    return $text;
   }
   
   public function pdf_to_text($pdf_file)
@@ -41,7 +86,7 @@ class String {
     
     
     // Get text
-    $text = $this->get_toc($pdf_file);
+    $text = $this->getPDFAidText($pdf_file);
     //-----------------------------------------------------------------
     
     

@@ -20,12 +20,9 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
       error_reporting(1);
-      $pdf_file = realpath("server/php/files/sample.pdf");
-      $words = $this->string->process($pdf_file);
-      unset($words['tokens']);
-      unset($words['counted']);
-      unset($words['removed_stop_words']);
-      unset($words['corpus_count']);
+      $pdf_file = realpath("assets/temp/sample.pdf");
+      $words = $this->string->process($pdf_file, '004');
+      
       
       print '<pre>';
       print_r($words);
