@@ -55,6 +55,11 @@ and find the following variables
 
 Set it according to where your XPDF binaries are located.
 
+5) The app is using <a href="https://getcomposer.org/">Composer</a>. So you're computer needs have composer installed to download the other depencies the app needs. After you have composer installed execute the following
+
+        composer install
+
+
 ... and that's it. The system is ready.
 
 Simple :-D
