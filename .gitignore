@@ -1,6 +1,8 @@
 user_guide/
-assets/uploads/
+assets/uploads/*
+!assets/uploads/.gitignore
 server/php/files/
 assets/temp/
 assets/ebooks/*
 !assets/ebooks/.gitignore
+vendor/

@@ -1,6 +1,5 @@
 <?php
 
-include "assets/php-bignumbers/autoload.php";
 use \Litipk\BigNumbers\Decimal as Decimal;
 
 class Testing_model extends CI_Model {

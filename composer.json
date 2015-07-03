@@ -1,0 +1,5 @@
+{
+    "require": {
+        "litipk/php-bignumbers": "^0.7.2"
+    }
+}
