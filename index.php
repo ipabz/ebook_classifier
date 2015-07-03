@@ -1,5 +1,12 @@
 <?php
-
+/*
+ *
+ *---------------------------------------------------------------
+ * Current App Version
+ *---------------------------------------------------------------
+ */
+	define('EC_APP_VERSION', '1.0');
+	
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -35,7 +42,7 @@ if (defined('ENVIRONMENT'))
 		case 'development':
 			error_reporting(E_ALL);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);
