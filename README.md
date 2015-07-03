@@ -18,13 +18,18 @@ You need to register to to PDFAid to get an API key to be used by the app. Pleas
 1) Download the app <a href="https://github.com/ipabz/ebook_classifier/archive/master.zip">Ebook Classifier</a> and extract it
 to your web accessible directory.
 
-2) On the extracted file, open
+2) The app is using <a href="https://getcomposer.org/">Composer</a>. So you're computer needs have composer installed to download the other depencies the app needs. After you have composer installed execute the following
+
+        composer install
+
+
+3) On the extracted file, open
 
     /<extracted files>/application/config/database.php
 
 and put the necessary settings username, password etc. to be able to connect to your database.
 
-3) By the default on the file
+4) By the default on the file
 
     /<extracted files>/application/config/migration.php
 
@@ -44,7 +49,7 @@ as below:
 
     $config['migration_enabled'] = FALSE;
 
-4) You need to set the config needed to use XPDF. To do that, open file
+5) You need to set the config needed to use XPDF. To do that, open file
 
         appplication/libraries/string.php
 
@@ -55,9 +60,6 @@ and find the following variables
 
 Set it according to where your XPDF binaries are located.
 
-5) The app is using <a href="https://getcomposer.org/">Composer</a>. So you're computer needs have composer installed to download the other depencies the app needs. After you have composer installed execute the following
-
-        composer install
 
 
 ... and that's it. The system is ready.
