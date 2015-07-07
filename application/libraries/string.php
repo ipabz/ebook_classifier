@@ -6,7 +6,7 @@ class String {
 
   //PDF Vars
   private $get_pdf_meta_data_cmd = 'D:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
-  
+
   private $num_pages_to_read = 50;
 
   private $pdfAidAPIKey = "rwx31blhdxnbcb";
@@ -84,6 +84,7 @@ class String {
 
     // Get text
     $text = $this->getPDFAidText($pdf_file);
+    $text = $this->getOnlyToc($text);
     //-----------------------------------------------------------------
 
 
@@ -93,6 +94,87 @@ class String {
 
     return $data;
   }
+
+
+  public function getOnlyToc($text)
+  {
+        $toc_begin = array(
+          'table of contents',
+          'table of content',
+          'contents',
+          'content'
+        );
+
+        $toc_end = array(
+        	'index',
+        	'appendixes',
+        	'bibliography',
+        	'author index',
+        	'glossary',
+        	'references'
+        );
+
+        $sub = array(
+        	'foreword',
+        	'about the authors',
+        	'acknowledgment',
+        	'acknowledgments',
+        	'copyright',
+        	'preface',
+        	'chapter',
+        	'chapters',
+        	'introduction',
+        	'1',
+        	'I',
+        	'chapter 1',
+        	'chapter 2',
+        	'chapter 3',
+        	'chapter 4',
+        	'chapter 5',
+        	'chapter 6',
+        	'chapter 7',
+        	'chapter 8',
+        	'chapter 9'
+        );
+
+        $exp = explode(' ', $text);
+        $_words = array();
+        $start = false;
+    	$repeat = 0;
+
+        foreach($exp as $key => $val) {
+
+          $__tmp = strtolower($val);
+
+          if (in_array($__tmp, $toc_begin)) {
+            $start = true;
+          }
+
+    	  if (in_array($__tmp, $sub)) {
+    		$repeat = $repeat + 1;
+    	  }
+
+    	  if ( (in_array($__tmp, $toc_end) && $start && count($_words) > 0) OR ($repeat > 1 && $start && count($_words) > 0)) {
+    		$start = false;
+    		break;
+    	  }
+
+          if ( $start ) {
+            $_words[] = $__tmp;
+          }
+
+        }
+
+        $textTOC = trim( implode(' ', $_words) );
+
+    	if ( $textTOC === '') {
+            return $text;
+        }
+
+        return $textTOC;
+
+  }
+
 
   public function get_toc($pdf_file)
   {
