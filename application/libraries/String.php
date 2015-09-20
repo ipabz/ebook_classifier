@@ -5,59 +5,19 @@ class String {
   private $ci = NULL;
 
   //PDF Vars
-  private $get_pdf_meta_data_cmd = 'D:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
+  private $get_pdf_meta_data_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
 
+  private $javaBin = 'C:\Program Files\Java\jdk1.7.0_21\bin';
+  
+  //Deprecated variable. Will be removed on the next release
   private $num_pages_to_read = 50;
-
-  private $pdfAidAPIKey = "rwx31blhdxnbcb";
 
   public function __construct() {
     $this->ci =& get_instance();
     $this->ci->load->model('stringhandler');
   }
 
-  protected function getPDFAidText($pdf_file)
-  {
-    set_time_limit(0);
-
-    include 'assets/PdfaidServices.php';
-    include 'assets/MyDocXHandler.php';
-
-    $temp = explode('\\', $pdf_file);
-    $temp = @$temp[count($temp) - 1];
-    $temp = explode('.', $temp);
-
-
-    if (trim(@$temp[0]) === '') {
-      $temp[0] = time();
-    }
-
-    $theFileName = $temp[0] . '.docx';
-
-
-    $myPdf2Doc = new Pdf2Doc();
-    $myPdf2Doc->apiKey = $this->pdfAidAPIKey;
-    $myPdf2Doc->inputPdfLocation = $pdf_file;
-
-    $myPdf2Doc->outputDocLocation = "assets/temp/".$theFileName;
-    $result = $myPdf2Doc->Pdf2Doc();
-
-
-    $text = '';
-
-    if (strtolower($result) === 'ok') {
-
-      $docxHandler = new MyDocXHandler;
-
-      $file = "assets/temp/".$theFileName;
-      $text = $docxHandler->readDocx($file);
-
-    } else {
-      die( 'error: '.$result );
-    }
-
-    return $text;
-  }
+  
 
   public function pdf_to_text($pdf_file)
   {
@@ -84,7 +44,7 @@ class String {
 
     // Get text
     //$text = $this->getPDFAidText($pdf_file);
-    chdir('C:\Program Files\Java\jdk1.7.0_21\bin');
+    chdir($this->javaBin);
     $text = shell_exec('java -jar '.FCPATH.'assets\pdftotext\TextToPdf.jar '.$pdf_file);
     $text = mb_convert_encoding($text, 'UTF-8');
     $text = $this->getOnlyToc($text);
@@ -171,13 +131,13 @@ class String {
         $textTOC = trim( implode(' ', $_words) );
 
     	if ( $textTOC === '') {
-            return substr(trim($text), 0, 5000);
+            return substr(trim($text), 0, 8000);
         }
         
         $textTocArray = explode(' ', trim($textTOC));
         
         if ( count($textTocArray) < 100 ) {
-            return substr(trim($text), 0, 5000);
+            return substr(trim($text), 0, 8000);
         }
 
         return $textTOC;
