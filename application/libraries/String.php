@@ -62,7 +62,7 @@ class String {
   public function pdf_to_text($pdf_file)
   {
     $pdf_file = realpath($pdf_file);
-
+    
     $text = '';
     $counter = 50;
     $meta = array();
@@ -171,7 +171,13 @@ class String {
         $textTOC = trim( implode(' ', $_words) );
 
     	if ( $textTOC === '') {
-            return $text;
+            return substr(trim($text), 0, 5000);
+        }
+        
+        $textTocArray = explode(' ', trim($textTOC));
+        
+        if ( count($textTocArray) < 100 ) {
+            return substr(trim($text), 0, 5000);
         }
 
         return $textTOC;
@@ -322,7 +328,7 @@ class String {
 
   public function process($pdf_file, $category="004")
   {
-    $temp_d = $this->pdf_to_text($pdf_file);
+    $temp_d = $this->pdf_to_text($pdf_file); 
     $text = $temp_d['text'];
     $words = $this->tokenize_by_word($text);
     $removed_stop_words = $this->ci->stringhandler->remove_stop_words($words);

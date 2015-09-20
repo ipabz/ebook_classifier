@@ -20,7 +20,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
       error_reporting(1);
-      $pdf_file = realpath("assets/uploads/B593_manual-11821.pdf");
+      $pdf_file = realpath("assets/temp/sample.pdf");
       $words = $this->string->process($pdf_file, '004');
       //$words = $this->string->build_bigram('one two thre four five');
 

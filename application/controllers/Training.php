@@ -52,7 +52,7 @@ class Training extends CI_Controller {
         $data2 = $this->string->process(
                     'server/php/files/'.$data['contents'],
                     $class
-                    );
+                );
         
         $id = $this->training_model->save_entry(
                     $data['contents'],
@@ -66,7 +66,7 @@ class Training extends CI_Controller {
                     $data2['bigram_counted'],
                     $data2['final_tokens'],
                     $data2['all_text']
-                    );
+                );
         
         $dd[] = $id;
 
