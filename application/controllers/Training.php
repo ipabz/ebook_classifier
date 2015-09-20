@@ -38,7 +38,7 @@ class Training extends CI_Controller {
 
         
         while( $this->session->userdata('PDFxStreamInUse') == 'yes' ) {
-            usleep(100000);
+            usleep(500);
         }
 
         $this->session->set_userdata('PDFxStreamInUse', 'yes');
@@ -56,9 +56,17 @@ class Training extends CI_Controller {
         if (trim($data['contents']) !== '[]' && trim($data['contents']) !== '' && trim($data['contents']) !== 'null' && trim($data['contents']) !== NULL) {
 
             $class = @$_POST['corpus'];
+            
+            $theFileName = $data['contents'];
+            $tempFile = @time() . '-' . (rand() * 100) . '.pdf';
+            
+            
+            if ( @copy(FCPATH.'server/php/files/'.$data['contents'], FCPATH.'server/php/files/'.$tempFile) ) {
+                $theFileName = $tempFile;
+            }
 
             $data2 = $this->string->process(
-                    'server/php/files/' . $data['contents'], $class
+                    'server/php/files/' . $theFileName, $class
             );
 
             $id = $this->training_model->save_entry(
