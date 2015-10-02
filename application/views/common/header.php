@@ -42,58 +42,72 @@
     
   </head>
   
+  <?php
+
+  $currentURL = current_url();
+  $urlSegment = explode('/', $currentURL);
+
+  ?>
   
   <header id="main-header">
     <div class="container-fluid">
-      <a href="<?php print site_url(); ?>" class="title">Ebook Classifier</a>
-      
-      <div class="pull-right nav-container">
-        
-        <a href="train" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a>
-        <a href="test" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a>
-        
-        
-        <div class="btn-group">
-          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <span class="glyphicon glyphicon-file"></span> &nbsp;View <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu pull-right" role="menu">
+      <nav class="navbar navbar-fixed-top navbar-default header" id="navbar-example">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">Ebook Classifier</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             
-            <?php
             
-            foreach($classifications->result() as $row) {
-            ?>
-            <li><a href="<?php print site_url('training/view_ebooks/'.$row->class_name); ?>">Class <?php print $row->class_name; ?></a></li>
-            <?php
-            }
-            ?> 
+            <ul class="nav navbar-nav navbar-right main">
+              <li class="<?php print ((in_array('train', $urlSegment)) ? "active" : ""); ?>"><a href="train"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a></li>
+              <li class="<?php print ((in_array('test', $urlSegment)) ? "active" : ""); ?>"><a href="test"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a></li>
 
-            <li><a href="<?php print site_url('training/generate_awp'); ?>">Generate AWP</a></li>
-
-
-          </ul>
-
-        </div>
-        
-        
-        <div class="btn-group">
-          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpora <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="<?php print site_url('corpora/raw'); ?>">All Words (AW)</a></li>
-            <li><a href="<?php print site_url('corpora/awp'); ?>">Training Model (AWP)</a></li>
-            <!-- <li><a href="<?php print site_url('corpora/plus1'); ?>">+1</a></li> -->
+              <li class="dropdown <?php print ((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-file"></span> &nbsp;View <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <?php
             
-          </ul>
-        </div>
-        
-        <a href="test/accuracy" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> &nbsp;Evaluation</a>
-        
-        
-      </div>
-      
-    </div>    
+                  foreach($classifications->result() as $row) {
+                  ?>
+                  <li><a href="<?php print site_url('training/view_ebooks/'.$row->class_name); ?>">Class <?php print $row->class_name; ?></a></li>
+                  <?php
+                  }
+                  ?> 
+
+                  <li role="separator" class="divider"></li>
+                  <li><a href="<?php print site_url('training/generate_awp'); ?>">Generate AWP</a></li>
+                </ul>
+              </li>
+
+
+
+              <li class="dropdown <?php print ((in_array('corpora', $urlSegment)) ? "active" : ""); ?>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpora <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="<?php print site_url('corpora/raw'); ?>">All Words (AW)</a></li>
+                  <li><a href="<?php print site_url('corpora/awp'); ?>">Training Model (AWP)</a></li>
+                </ul>
+              </li>
+
+
+              <li class="<?php print ((in_array('evaluation', $urlSegment)) ? "active" : ""); ?>"><a href="evaluation"><span class="glyphicon glyphicon-list"></span> &nbsp;Evaluation</a></li>
+              
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+
   </header>
   
   <div id="main-header-shadow"></div>
