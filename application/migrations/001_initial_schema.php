@@ -13,6 +13,37 @@ class Migration_Initial_schema extends CI_Migration {
     $this->dbforge->drop_table('logs');
     $this->dbforge->drop_table('training');
 	$this->dbforge->drop_table('testing');*/
+
+
+
+    /**
+     * Create 'training_models' table
+     */
+
+    $this->dbforge->add_key('id', TRUE);
+    
+    $training_model_table = array(
+      'id' => array(
+          'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE 
+      ),
+      'class' => array(
+          'type' => 'VARCHAR', 'constraint' => 20, 'null' => FALSE
+      ),
+      'item_raw' => array(
+          'type' => 'VARCHAR', 'constraint' => 50, 'null' => FALSE
+      ),
+      'item_stemmed' => array(
+          'type' => 'VARCHAR', 'constraint' => 50, 'null' => FALSE
+      ),
+      'count' => array(
+          'type' => 'INT', 'constraint' => 11, 'null' => FALSE
+      )
+    );
+    
+    $this->dbforge->add_field($training_model_table);
+    $this->dbforge->create_table('training_models');
+
+
     
     /**
      * Create 'classifications' table
