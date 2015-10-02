@@ -46,6 +46,7 @@ define('TABLE_CLASSIFICATIONS', 'classifications');
 define('TABLE_EBOOK', 'ebooks');
 define('TABLE_TRAINING', 'training');
 define('TABLE_TESTING', 'testing');
+define('TABLE_TRAINING_MODEL', 'training_models');
 
 define('EBOOKS_DIR', 'assets/ebooks/');
 //@ini_set('max_execution_time', 10000);
@@ -53,6 +54,8 @@ define('EBOOKS_DIR', 'assets/ebooks/');
 //@ini_set('memory_limit', '1024M');
 //@ini_set('post_max_size', '200M');
 //@ini_set('upload_max_filesize', '200M');
+
+define('THRESSHOLD', 13);
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

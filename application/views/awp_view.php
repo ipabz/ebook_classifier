@@ -3,7 +3,7 @@
  <br />
 <div class="panel panel-info">
           <div class="panel-heading">
-            <h3 class="panel-title text-center"><strong>All Words (AW)</strong></h3>
+            <h3 class="panel-title text-center"><strong>All Words with Pruning (AWP)</strong></h3>
           </div>
   <div class="panel-body">
     

@@ -309,12 +309,33 @@ class Training_model extends CI_Model {
         return $sum;
     }
 
-    public function get_training_set($class = "004") {
+    public function get_training_set($class = "004", $table=TABLE_TRAINING) {
         $this->db->where('class', $class);
         $this->db->order_by('item_stemmed');
-        $query = $this->db->get(TABLE_TRAINING);
+        $query = $this->db->get($table);
 
         return $query;
+    }
+
+
+
+    public function generate_awp()
+    {
+
+        $result = $this->db->get(TABLE_TRAINING);
+        $data = [];
+
+        foreach($result->result_array() as $model) {
+            
+            if ( $model['count'] > THRESSHOLD ) {
+                unset($model['id']);
+                $data[] = $model;
+            }
+
+        }
+
+        $this->db->insert_batch(TABLE_TRAINING_MODEL, $data);
+
     }
 
 }

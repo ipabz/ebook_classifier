@@ -63,11 +63,16 @@
             
             foreach($classifications->result() as $row) {
             ?>
-            <li><a href="<?php print site_url('training/view_ebooks/'.$row->class_name); ?>"><?php print $row->class_name; ?></a></li>
+            <li><a href="<?php print site_url('training/view_ebooks/'.$row->class_name); ?>">Class <?php print $row->class_name; ?></a></li>
             <?php
             }
             ?> 
+
+            <li><a href="<?php print site_url('training/generate_awp'); ?>">Generate AWP</a></li>
+
+
           </ul>
+
         </div>
         
         
@@ -76,7 +81,8 @@
             <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpora <span class="caret"></span>
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="<?php print site_url('corpora/raw'); ?>">Raw</a></li>
+            <li><a href="<?php print site_url('corpora/raw'); ?>">All Words (AW)</a></li>
+            <li><a href="<?php print site_url('corpora/awp'); ?>">Training Model (AWP)</a></li>
             <!-- <li><a href="<?php print site_url('corpora/plus1'); ?>">+1</a></li> -->
             
           </ul>

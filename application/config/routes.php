@@ -45,6 +45,7 @@ $route['404_override'] = '';
 $route['train'] = 'training/train';
 $route['corpora/raw'] = 'training/corpora_raw';
 $route['corpora/plus1'] = 'training/corpora_raw/plus1';
+$route['corpora/awp'] = 'training/awp';
 $route['test'] = 'testing/test';
 $route['test/accuracy'] = 'testing/testing_accuracy';
 
