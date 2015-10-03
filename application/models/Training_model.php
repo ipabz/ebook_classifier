@@ -322,6 +322,8 @@ class Training_model extends CI_Model {
     public function generate_awp()
     {
 
+        $this->db->truncate(TABLE_TRAINING_MODEL);
+
         $result = $this->db->get(TABLE_TRAINING);
         $data = [];
 
