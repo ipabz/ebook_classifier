@@ -169,6 +169,36 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
+    public function awp($type = 'raw') {
+        $data['classifications'] = $this->classifications->get_all();
+        $data['class004'] = $this->training_model->get_training_set('004', TABLE_TRAINING_MODEL);
+        $data['class005'] = $this->training_model->get_training_set('005', TABLE_TRAINING_MODEL);
+        $data['class006'] = $this->training_model->get_training_set('006', TABLE_TRAINING_MODEL);
+
+        if ($type === 'plus1') {
+            $type = '+1';
+        }
+
+        $data['type'] = $type;
+
+        $max = $data['class004']->num_rows();
+
+        if ($max < $data['class005']->num_rows()) {
+            $max = $data['class005']->num_rows();
+        }
+
+        if ($max < $data['class006']->num_rows()) {
+            $max = $data['class006']->num_rows();
+        }
+
+        $data['row_count'] = $max;
+
+
+        $this->load->view('common/header', $data);
+        $this->load->view('awp_view');
+        $this->load->view('common/footer');
+    }
+
     public function view_tokens($id) {
         $this->db->where('id', $id);
         $query = $this->db->get(TABLE_EBOOK);
@@ -191,6 +221,23 @@ class Training extends CI_Controller {
 
             print '<div style="height: 400px; overflow: auto;">' . $html . '</div>';
         }
+    }
+
+
+
+    public function generate_awp()
+    {
+        $this->training_model->generate_awp();
+
+        define('JUST_CSS', true);
+
+        $data['classifications'] = $this->classifications->get_all();
+
+        $data['html'] = '<div class="alert alert-success">Training Model successfully generated.</div>';
+
+        $this->load->view('common/header', $data);
+        $this->load->view('main_view');
+        $this->load->view('common/footer');
     }
 
 }

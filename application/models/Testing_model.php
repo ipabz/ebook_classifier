@@ -52,7 +52,7 @@ class Testing_model extends CI_Model {
 		$prior['005'] = $doc_count_005 / $doc_count_all;
 		$prior['006'] = $doc_count_006 / $doc_count_all;
 
-		$corpora_num_unique_words = $this->db->count_all(TABLE_TRAINING);
+		$corpora_num_unique_words = $this->db->count_all(TABLE_TRAINING_MODEL);
 
 		$corpora_doc_count_004 = $this->training_model->frequency_sum('004');
       	$corpora_doc_count_005 = $this->training_model->frequency_sum('005');

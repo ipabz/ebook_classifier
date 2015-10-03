@@ -5,7 +5,7 @@ class String {
   private $ci = NULL;
 
   //PDF Vars
-  private $get_pdf_meta_data_cmd = 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
+  private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
 
   private $javaBin = 'C:\Program Files\Java\jdk1.7.0_21\bin';
   

@@ -31,22 +31,28 @@
         ?>
         <tr data-filename="<?php print ellipsize($row->filename, 50, .5); ?>" data-tokens="" data-toggle="modal" data-target="#myModal" data-url="<?php print site_url('training/view_tokens/'.$row->id); ?>" class="book_table_row ebook_view_tokens" title="Click a row to view tokens for that book.">
           <td class="text-center"><?php print $counter; ?></td>
-          <td class="text-left"><?php print ellipsize($row->filename, 50, .5); ?></td>
+          <td class="text-left"><a title="<?php print $row->filename; ?>"><?php print ellipsize($row->filename, 50, .5); ?></a></td>
           <td>
+            <a title="<?php print @$meta_data['title'] ?>">
           <?php
           print ellipsize(@$meta_data['title'], 40, .5);
           ?>
+            </a>
           </td>
           <td>
+            <a title="<?php print @$meta_data['author']; ?>">
           <?php
-          print @$meta_data['author'];
+          print ellipsize(@$meta_data['author'], 40, .5);
           ?>
+            </a>
           </td>
 
           <td>
+            <a title="<?php print @$meta_data['creator']; ?>">
           <?php
-          print @$meta_data['creator'];
+          print ellipsize(@$meta_data['creator'], 40, .5);
           ?>
+            </a>
           </td>
           <td>
           <?php
