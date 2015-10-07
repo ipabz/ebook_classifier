@@ -294,9 +294,9 @@ class Training_model extends CI_Model {
         }
     }
 
-    public function frequency_sum($class = "004") {
+    public function frequency_sum($class = "004", $table=TABLE_TRAINING) {
         $this->db->where('class', $class);
-        $query = $this->db->get(TABLE_TRAINING);
+        $query = $this->db->get($table);
 
         $sum = 0;
 

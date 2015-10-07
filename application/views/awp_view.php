@@ -34,9 +34,9 @@
       $class_005 = $class005->result_array();
       $class_006 = $class006->result_array();
       
-      $ftotal004 = $this->training_model->frequency_sum('004');
-      $ftotal005 = $this->training_model->frequency_sum('005');
-      $ftotal006 = $this->training_model->frequency_sum('006');
+      $ftotal004 = $this->training_model->frequency_sum('004', TABLE_TRAINING_MODEL);
+      $ftotal005 = $this->training_model->frequency_sum('005', TABLE_TRAINING_MODEL);
+      $ftotal006 = $this->training_model->frequency_sum('006', TABLE_TRAINING_MODEL);
       
       if ($type === '+1') {
         $ftotal004 = $ftotal004 + $class004->num_rows() + 1;
