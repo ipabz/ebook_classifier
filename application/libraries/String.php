@@ -131,7 +131,8 @@ class String {
         $textTOC = trim( implode(' ', $_words) );
 
     	if ( $textTOC === '') {
-            return substr(trim($text), 0, 8000);
+            //return substr(trim($text), 0, 8000);
+            print 'Error: TOC not Identified.';
         }
         
         $textTocArray = explode(' ', trim($textTOC));
