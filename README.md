@@ -10,8 +10,6 @@ This application is using XPDF to extract meta data. So you need to have XPDF in
 
 Giving a quick start: On XPDFs website, you can just download the precompiled binaries depending on your platform and extract it to wherever you want or for best practice, put in a location not accessible via web. Instructions on how to use it in the application is found on the installation instructions below.
 
-You need to register to to PDFAid to get an API key to be used by the app. Please visit their website and follow the instructions there.
-
 
 # Installation
 
