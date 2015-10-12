@@ -1,12 +1,12 @@
 # ebook_classifier
 
-A system in its name determines a books correct classification. This system can be trained to produced accurate results. It uses
+A system that determines a books correct classification. This system can be trained to produced accurate results. It uses
 Naive Bayes algorithm in determining the classification of a book.
 
 
 # Dependencies
 
-This application is using XPDF to extract meta data and <a href="http://www.pdfaid.com/">PDFaid</a> to extract text. So you need to have XPDF installed on your server or on your development environment. Please follow the instructions on the <a href="http://www.foolabs.com/xpdf/download.html">XPDF Website</a>.
+This application is using XPDF to extract meta data. So you need to have XPDF installed on your server or on your development environment. Please follow the instructions on the <a href="http://www.foolabs.com/xpdf/download.html">XPDF Website</a>.
 
 Giving a quick start: On XPDFs website, you can just download the precompiled binaries depending on your platform and extract it to wherever you want or for best practice, put in a location not accessible via web. Instructions on how to use it in the application is found on the installation instructions below.
 
@@ -60,8 +60,14 @@ and find the following variables
 
 Set it according to where your XPDF binaries are located.
 
+6) We are using a Java library called PDFxStream, so you need to have java sdk installed and put it on
+
+        appplication/libraries/string.php
+        
+and find  replace the following the the correct Java SDK path.
+
+        private $javaBin = 'C:\Program Files\Java\jdk1.7.0_21\bin';
 
 
-... and that's it. The system is ready.
 
-Simple :-D
+... and that's it. 
