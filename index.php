@@ -43,7 +43,7 @@
  * Current App Version
  *---------------------------------------------------------------
  */
-	define('EC_APP_VERSION', '1.0.2-1');
+	define('EC_APP_VERSION', '1.1');
 
 /*
  *
