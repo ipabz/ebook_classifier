@@ -71,9 +71,12 @@
             <ul class="nav navbar-nav navbar-right main">
               <li class="<?php print ((in_array('train', $urlSegment)) ? "active" : ""); ?>"><a href="train"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a></li>
               <li class="<?php print ((in_array('test', $urlSegment)) ? "active" : ""); ?>"><a href="test"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a></li>
-
+                
+                <li class="<?php print ((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>"><a href="<?php print site_url('training/view_ebooks/all'); ?>"><span class="glyphicon glyphicon-file"></span> &nbsp;Ebooks</a></li>
+                
+                <!--
               <li class="dropdown <?php print ((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-file"></span> &nbsp;View <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-file"></span> &nbsp;Ebooks <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <?php
             
@@ -88,6 +91,7 @@
                   <li><a href="<?php print site_url('training/generate_awp'); ?>">Generate AWP</a></li>
                 </ul>
               </li>
+-->
 
 
 

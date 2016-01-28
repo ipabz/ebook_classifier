@@ -16,8 +16,9 @@
       
       <div class="row">
               <div class="col-md-12">
-                <div>Corpus</div>
+                <div>Class</div>
                 <select name="corpus" class="form-control form-class-select">
+                    <option value="">Select Class</option>
                   <?php
                   foreach($classifications->result() as $row) {
                   ?>

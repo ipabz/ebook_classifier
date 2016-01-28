@@ -1,9 +1,26 @@
 <div class="main-content">
   <div class="container-fluid">
  <br />
+      
+<div class="text-right">
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filter <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu pull-right">
+    <li><a href="<?php print site_url('training/view_ebooks/all'); ?>">All</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="<?php print site_url('training/view_ebooks/004'); ?>">Class 004</a></li>
+    <li><a href="<?php print site_url('training/view_ebooks/005'); ?>">Class 005</a></li>
+    <li><a href="<?php print site_url('training/view_ebooks/006'); ?>">Class 006</a></li>
+    
+  </ul>
+</div>
+</div>
+<br />
 <div class="panel panel-info">
           <div class="panel-heading">
-            <h3 class="panel-title"><strong>Ebooks</strong> <sub>( <?php print $corpus; ?> )</sub></h3>
+            <h3 class="panel-title"><strong>Ebooks</strong> <?php if ($corpus !== 'all'): ?> <sub>( <?php print $corpus; ?> )</sub> <?php endif; ?></h3>
           </div>
   <div class="panel-body">
     
@@ -13,6 +30,7 @@
           <th class="pointer">#</th>
           <th class="pointer">File Name</th>
           <th class="pointer">Title</th>
+          <?php if ($corpus === 'all'): ?><th class="pointer">Class</th><?php endif; ?>
           <th class="pointer">Author</th>
           <th class="pointer">Publisher</th>
           <th class="pointer">Published Date</th>
@@ -39,6 +57,7 @@
           ?>
             </a>
           </td>
+          <?php if ($corpus === 'all'): ?><td><?php print $row->classification; ?></td><?php endif; ?>
           <td>
             <a title="<?php print @$meta_data['author']; ?>">
           <?php

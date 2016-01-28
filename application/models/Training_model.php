@@ -165,7 +165,7 @@ class Training_model extends CI_Model {
         return $array;
     }
 
-    public function get_entries($ids = array(), $class = "", $limit = 25, $offset = 0) {
+    public function get_entries($ids = array(), $class = "all", $limit = 25, $offset = 0) {
         $custom_where = '';
 
         if (count($ids) > 0) {
@@ -183,7 +183,7 @@ class Training_model extends CI_Model {
             }
         }
 
-        if ($class !== '') {
+        if ($class !== 'all') {
             $temp = 'classification = "' . $class . '"';
 
             if ($custom_where !== '') {

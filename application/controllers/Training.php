@@ -100,7 +100,7 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function view_ebooks($corpus = "004", $per_page = 25, $offset = 0) {
+    public function view_ebooks($corpus = "all", $per_page = 25, $offset = 0) {
         $this->load->library('pagination');
 
         $config['base_url'] = site_url('training/view_ebooks/' . trim($corpus)) . '/' . $per_page . '/';
@@ -170,6 +170,9 @@ class Training extends CI_Controller {
     }
 
     public function awp($type = 'raw') {
+        
+        $this->training_model->generate_awp();
+        
         $data['classifications'] = $this->classifications->get_all();
         $data['class004'] = $this->training_model->get_training_set('004', TABLE_TRAINING_MODEL);
         $data['class005'] = $this->training_model->get_training_set('005', TABLE_TRAINING_MODEL);
