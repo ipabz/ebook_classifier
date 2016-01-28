@@ -6,11 +6,19 @@ class Testing_model extends CI_Model {
 
 	public function accuracy($filename, $class, $accuracy, $tokens)
 	{
+        
+        if ($accuracy === '1') {
+            $accuracy = '004';
+        } else if ( $accuracy === '2' ) {
+            $accuracy = '005';   
+        } else if ( $accuracy === '3' ) {
+            $accuracy = '006';   
+        }
 
 	  $data = array(
 		'filename' => base64_decode(urldecode($filename)),
 		'classification' => $class,
-		'is_accurate' => $accuracy,
+		'actual' => $accuracy,
 		'tokens' => $tokens,
 		'date_tested' => @time()
 	  );
@@ -147,5 +155,79 @@ class Testing_model extends CI_Model {
 		return $data;
 
 	} // end function test
+    
+    
+    public function getEvaluation()
+    {
+        $query = $this->get();
+        
+        $pg_004_004 = 0;
+        $pg_004_005 = 0;
+        $pg_004_006 = 0;
+        $pg_005_004 = 0;
+        $pg_005_005 = 0;
+        $pg_005_006 = 0;
+        $pg_006_004 = 0;
+        $pg_006_005 = 0;
+        $pg_006_006 = 0;
+        
+        foreach($query->result() as $row) {
+            if ($row->classification === '004' && $row->actual === '004') {
+                $pg_004_004++;
+            }
+            
+            if ($row->classification === '004' && $row->actual === '005') {
+                $pg_004_005++;
+            }
+            
+            if ($row->classification === '004' && $row->actual === '006') {
+                $pg_004_006++;
+            }
+            
+            
+            if ($row->classification === '005' && $row->actual === '004') {
+                $pg_005_004++;
+            }
+            
+            if ($row->classification === '005' && $row->actual === '005') {
+                $pg_005_005++;
+            }
+            
+            if ($row->classification === '005' && $row->actual === '006') {
+                $pg_005_006++;
+            }
+            
+            
+            if ($row->classification === '006' && $row->actual === '004') {
+                $pg_006_004++;
+            }
+            
+            if ($row->classification === '006' && $row->actual === '005') {
+                $pg_006_005++;
+            }
+            
+            if ($row->classification === '006' && $row->actual === '006') {
+                $pg_006_006++;
+            }
+        }
+        
+        return [
+            '004_004' => $pg_004_004,
+            '004_005' => $pg_004_005,
+            '004_006' => $pg_004_006,
+            '005_004' => $pg_005_004,
+            '005_005' => $pg_005_005,
+            '005_006' => $pg_005_006,
+            '006_004' => $pg_006_004,
+            '006_005' => $pg_006_005,
+            '006_006' => $pg_006_006,
+            'TotalPredicted_004' => $pg_004_004 + $pg_004_005 + $pg_004_006,
+            'TotalPredicted_005' => $pg_005_004 + $pg_005_005 + $pg_005_006,
+            'TotalPredicted_006' => $pg_006_004 + $pg_006_005 + $pg_006_006,
+            'TotalGoldLabel_004' => $pg_004_004 + $pg_005_004 + $pg_006_004,
+            'TotalGoldLabel_005' => $pg_004_005 + $pg_005_005 + $pg_006_005,
+            'TotalGoldLabel_006' => $pg_004_006 + $pg_005_006 + $pg_006_006
+        ];
+    }
 
 }

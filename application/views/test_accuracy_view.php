@@ -9,87 +9,48 @@
           <table class="table table-striped table-evaluation">
           	<thead>
             	<tr>
-                	<th class="text-center pointer">#</th>
-                	<th class="text-left pointer">File Name</th>
-                    <th class="text-center pointer">Class</th>
-                    <th class="text-center pointer">Evaluation</th>
-                    <th class="text-center pointer">Date Tested</th>
+                	<th class="text-center pointer"></th>
+                	<th class="text-center pointer">GoldLabel_004</th>
+                    <th class="text-center pointer">GoldLabel_005</th>
+                    <th class="text-center pointer">GoldLabel_006</th>
+                    <th class="text-center pointer"></th>
                 </tr>
             </thead>
             <tbody>
-            <?php
-			$count = 1;
-			$total = 0;
-			$total_correct = 0;
-			
-            $tp = 0;
-            $fp = 0;
-            $fn = 0;
-            
-			foreach($query->result() as $row) {
-			?>
-            	<tr>
-                	<td class="text-center"><?php print $count; ?></td>
-                    <td><?php print $row->filename; ?></td>
-                    <td class="text-center"><?php print $row->classification; ?></td>
-                    <td class="text-center">
-                    <?php
-					$total = $total + $row->is_accurate;
-					
-					if ($row->is_accurate == 1) {
-						$total_correct++;
-					}
-					
-                    /*
-					print (($row->is_accurate == 1) ? "<label class='label label-success'>Yes</label>" : "<label class='label label-danger'>No</label>");
-                     * 
-                     */
-                    
-                    if ($row->is_accurate == 1) {
-                      print "<label class='label label-success'>TP</label>";
-                      $tp++;
-                    } else if ($row->is_accurate == 2) {
-                      print "<label class='label label-primary'>FP</label>";
-                      $fp++;
-                    } else if ($row->is_accurate == 3) {
-                      print "<label class='label label-danger'>FN</label>";
-                      $fn++;
-                    }
-                    
-					?>
-                    </td>
-                    <td class="text-center"><?php print date('F d, Y h:i a', $row->date_tested); ?></td>
+                <tr>
+                    <td><strong>Predicted_004</strong></td>
+                    <td class="text-center"><?php print $evaluation['004_004']; ?></td>
+                    <td class="text-center"><?php print $evaluation['004_005']; ?></td>
+                    <td class="text-center"><?php print $evaluation['004_006']; ?></td>
+                    <td><strong>TotalPredicted_004 =</strong> <?php print $evaluation['TotalPredicted_004'] ?></td>
                 </tr>
-            <?php
-			$count++;
-			}
-			?>
+                <tr>
+                    <td><strong>Predicted_005</strong></td>
+                    <td class="text-center"><?php print $evaluation['005_004']; ?></td>
+                    <td class="text-center"><?php print $evaluation['005_005']; ?></td>
+                    <td class="text-center"><?php print $evaluation['005_006']; ?></td>
+                    <td><strong>TotalPredicted_005 =</strong> <?php print $evaluation['TotalPredicted_005'] ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Predicted_006</strong></td>
+                    <td class="text-center"><?php print $evaluation['006_004']; ?></td>
+                    <td class="text-center"><?php print $evaluation['006_005']; ?></td>
+                    <td class="text-center"><?php print $evaluation['006_006']; ?></td>
+                    <td><strong>TotalPredicted_006 =</strong> <?php print $evaluation['TotalPredicted_006'] ?></td>
+                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td class="text-center"><strong>TotalGoldLabel_004 =</strong> <?php print $evaluation['TotalGoldLabel_004'] ?></td>
+                    <td class="text-center"><strong>TotalGoldLabel_005 =</strong> <?php print $evaluation['TotalGoldLabel_005'] ?></td>
+                    <td class="text-center"><strong>TotalGoldLabel_006 =</strong> <?php print $evaluation['TotalGoldLabel_006'] ?></td>
+                    <td></td>
+                </tr>  
+            </tfoot>
           </table>
           <br />
-          <hr />
-        <dl class="dl-horizontal">
-            
-            <dt style="text-align: left;">Total TP</dt>
-            <dd>
-            <?php
-			print number_format($tp);
-			?>
-            </dd>
-            <dt style="text-align: left;">Total FP</dt>
-            <dd>
-            <?php
-			print number_format($fp);
-			?>
-            </dd>
-            <dt style="text-align: left;">Total FN</dt>
-            <dd>
-            <?php
-			print number_format($fn);
-			?>
-            </dd>
-            
-        </dl>
+
           
         </div>
       </div>

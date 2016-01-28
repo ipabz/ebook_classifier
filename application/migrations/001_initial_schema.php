@@ -164,8 +164,8 @@ class Migration_Initial_schema extends CI_Migration {
       'classification' => array(
           'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
       ),
-      'is_accurate' => array(
-          'type' => 'INT', 'constraint' => 1, 'null' => FALSE, 'default' => '1'
+      'actual' => array(
+          'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
       ),
       'tokens' => array(
           'type' => 'TEXT', 'null' => TRUE

@@ -74,7 +74,7 @@ class Testing extends CI_Controller {
   {
 	  define('TRAINING', true);
       $data['classifications'] = $this->classifications->get_all();
-      $data['query'] = $this->testing_model->get();
+      $data['evaluation'] = $this->testing_model->getEvaluation();
 	  
       $this->load->view('common/header', $data);
       $this->load->view('test_accuracy_view');
