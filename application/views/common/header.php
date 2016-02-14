@@ -74,24 +74,7 @@
                 
                 <li class="<?php print ((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>"><a href="<?php print site_url('training/view_ebooks/all'); ?>"><span class="glyphicon glyphicon-file"></span> &nbsp;Ebooks</a></li>
                 
-                <!--
-              <li class="dropdown <?php print ((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-file"></span> &nbsp;Ebooks <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <?php
-            
-                  foreach($classifications->result() as $row) {
-                  ?>
-                  <li><a href="<?php print site_url('training/view_ebooks/'.$row->class_name); ?>">Class <?php print $row->class_name; ?></a></li>
-                  <?php
-                  }
-                  ?> 
-
-                  <li role="separator" class="divider"></li>
-                  <li><a href="<?php print site_url('training/generate_awp'); ?>">Generate AWP</a></li>
-                </ul>
-              </li>
--->
+  
 
 
 

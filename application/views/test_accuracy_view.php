@@ -10,9 +10,9 @@
           	<thead>
             	<tr>
                 	<th class="text-center pointer"></th>
-                	<th class="text-center pointer">GoldLabel_004</th>
-                    <th class="text-center pointer">GoldLabel_005</th>
-                    <th class="text-center pointer">GoldLabel_006</th>
+                	<th class="text-center pointer">Actual_004</th>
+                    <th class="text-center pointer">Actual_005</th>
+                    <th class="text-center pointer">Actual_006</th>
                     <th class="text-center pointer"></th>
                 </tr>
             </thead>
@@ -42,9 +42,9 @@
             <tfoot>
                 <tr>
                     <td></td>
-                    <td class="text-center"><strong>TotalGoldLabel_004 =</strong> <?php print $evaluation['TotalGoldLabel_004'] ?></td>
-                    <td class="text-center"><strong>TotalGoldLabel_005 =</strong> <?php print $evaluation['TotalGoldLabel_005'] ?></td>
-                    <td class="text-center"><strong>TotalGoldLabel_006 =</strong> <?php print $evaluation['TotalGoldLabel_006'] ?></td>
+                    <td class="text-center"><strong>TotalActual_004 =</strong> <?php print $evaluation['TotalGoldLabel_004'] ?></td>
+                    <td class="text-center"><strong>TotalActual_005 =</strong> <?php print $evaluation['TotalGoldLabel_005'] ?></td>
+                    <td class="text-center"><strong>TotalActual_006 =</strong> <?php print $evaluation['TotalGoldLabel_006'] ?></td>
                     <td></td>
                 </tr>  
             </tfoot>

@@ -17,14 +17,14 @@
       <div class="row">
               <div class="col-md-12">
                 <div>Class</div>
-                <select name="corpus" class="form-control form-class-select">
+                <select name="corpus" class="form-control form-class-select class-dropdown">
                     <option value="">Select Class</option>
                   <?php
-                  foreach($classifications->result() as $row) {
+                  foreach($classifications as $row) {
                   ?>
-                  <option value="<?php print $row->class_name; ?>">
+                  <option value="<?php print $row; ?>">
                   <?php
-                  print $row->class_name;
+                  print $row;
                   ?>
                   </option>
                   <?php
@@ -36,7 +36,7 @@
             <hr />
       
 
-        <div class="row fileupload-buttonbar">
+        <div class="row fileupload-buttonbar hidden">
             <div class="col-lg-7">
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">

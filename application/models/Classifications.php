@@ -14,9 +14,9 @@ class Classifications extends CI_Model {
    */
   public function get_all()
   {
-    $query = $this->db->get(TABLE_CLASSIFICATIONS);
-    
-    return $query;
+    return [
+		'004', '005', '006'
+	];
   } // End function get_all
   
 } // End class Classifications

@@ -7,7 +7,7 @@ class String {
   //PDF Vars
   private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
 
-  private $javaBin = 'C:\Program Files\Java\jdk1.7.0_21\bin';
+  private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
   
   //Deprecated variable. Will be removed on the next release
   private $num_pages_to_read = 50;
@@ -297,13 +297,6 @@ class String {
     $stemmed = $this->ci->stringhandler->stem_array($removed_stop_words);
 
     $count = $this->ci->stringhandler->count_occurences($stemmed, implode(' ', $stemmed));
-
-    $dictionary_file = FCPATH.'assets/dictionaries/class'.trim($category).'.txt';
-    $dictionary_file = (realpath($dictionary_file) );
-    
-    $file_lines = $this->ci->stringhandler->read_file($dictionary_file);
-    
-    $diction_with_count = $this->intersection($file_lines, $stemmed, $count);
     
     $bigram_temp = $this->build_bigram($removed_stop_words); 
     $bigram_raw = $bigram_temp['bigram_raw'];
@@ -322,7 +315,7 @@ class String {
     $data['tokens'] = $stemmed;
     $data['counted'] = $count;
     $data['removed_stop_words'] = $removed_stop_words;
-    $data['corpus_count'] = $diction_with_count;
+    $data['corpus_count'] = '';
     $data['meta_data'] = $temp_d['meta_data'];
     $data['bigram_raw'] = $bigram_raw;
     $data['bigram_stemmed'] = $bigram_stemmed;

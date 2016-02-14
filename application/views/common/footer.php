@@ -1,5 +1,5 @@
     <footer id="footer">
-      Ebook Classifier. Copyright &copy; 2015. All Rights Reserved.
+      &nbsp;
     </footer>
     <script>
       var site_url = '<?php print site_url(); ?>';
