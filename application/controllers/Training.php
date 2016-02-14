@@ -13,6 +13,7 @@ class Training extends CI_Controller {
 
     public function index() {
         define('TRAINING', true);
+		$this->session->set_userdata('PDFxStreamInUse', 'no');
         $data['classifications'] = $this->classifications->get_all();
 
         $this->load->view('common/header', $data);
