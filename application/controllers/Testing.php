@@ -54,6 +54,11 @@ class Testing extends CI_Controller {
         $data['error'] = '';
         $data['sucess'] = 'yes';
 		$data['_data'] = $this->testing_model->test($data['file_data']);
+          
+        $data2 = $data['_data']['pre_process'];
+        $this->testing_model->save_entry(
+                    $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text']
+            );
 		
 
         $this->load->view('common/header', $data);

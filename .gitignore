@@ -6,3 +6,5 @@ assets/temp/
 assets/ebooks/*
 !assets/ebooks/.gitignore
 vendor/
+assets/testing/*
+!assets/testing/.gitignore

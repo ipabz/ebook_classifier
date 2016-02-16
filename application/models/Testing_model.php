@@ -3,6 +3,77 @@
 use \Litipk\BigNumbers\Decimal as Decimal;
 
 class Testing_model extends CI_Model {
+    
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '') {
+        
+        $ebookDir = FCPATH . TESTING_DIR;
+
+        if (trim($all_text) !== '') {
+
+            $data = array(
+                'filename' => $filename,
+                'classification' => $class,
+                'date_created' => @time()
+            );
+
+            if (count($meta_data) > 0) {
+                $data['meta_data'] = json_encode($meta_data);
+            }
+
+            $ebook_id = $filename .'-'. (@time());
+
+            if (count($final_tokens) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_final_tokens.txt";
+                $this->create_file($_filename, json_encode($final_tokens));
+            }
+
+            if (count($bigram_counted) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_bigram_counted.txt";
+                $this->create_file($_filename, json_encode($bigram_counted));
+            }
+
+            if (count($bigram_raw) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_bigram_raw.txt";
+                $this->create_file($_filename, json_encode($bigram_raw));
+            }
+
+            if (count($corpus_counted) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_corpus_count.txt";
+                $this->create_file($_filename, json_encode($corpus_counted));
+            }
+
+            if (count($removed_stop_words) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_removed_stop_words.txt";
+                $this->create_file($_filename, json_encode($removed_stop_words));
+            }
+
+            if (count($counted) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_tokens_count.txt";
+                $this->create_file($_filename, json_encode($counted));
+            }
+
+            if (count($tokens) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_tokens.txt";
+                $this->create_file($_filename, json_encode($tokens));
+            }
+
+            if (trim($all_text) !== '') {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_all_text.txt";
+                $this->create_file($_filename, $all_text);
+            }
+
+            return $ebook_id;
+        }
+
+        return NULL;
+    }
+    
+    private function create_file($filename, $contents) {
+        $myfile = fopen($filename, "w") or die("Unable to open file!");
+        $txt = $contents;
+        fwrite($myfile, $txt);
+        fclose($myfile);
+    }
 
 	public function accuracy($filename, $class, $accuracy, $tokens)
 	{

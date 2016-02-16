@@ -49,6 +49,7 @@ define('TABLE_TESTING', 'testing');
 define('TABLE_TRAINING_MODEL', 'training_models');
 
 define('EBOOKS_DIR', 'assets/ebooks/');
+define('TESTING_DIR', 'assets/testing/');
 //@ini_set('max_execution_time', 10000);
 //@set_time_limit(10000);
 //@ini_set('memory_limit', '1024M');
