@@ -1,4 +1,9 @@
 $(function() {
+    
+    $('.testing-file-here').change(function() {
+        $('.starttesting').removeClass('hidden');
+        $('.file-select-label').html('File Selected');
+    });
 
 	$('.class-dropdown').change(function() {
 		if ($(this).val() === '') {

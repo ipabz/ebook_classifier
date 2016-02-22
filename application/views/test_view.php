@@ -30,11 +30,11 @@
             
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
-                <span>Select file...</span>
-                <input type="file" name="userfile" size="20" />
+                <span class="file-select-label">Select file...</span>
+                <input type="file" class="testing-file-here" name="userfile" size="20" />
             </span>
           
-            <button type="submit" class="btn btn-primary start starttesting">
+            <button type="submit" class="btn btn-primary start starttesting hidden">
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>Start testing</span>
             </button>

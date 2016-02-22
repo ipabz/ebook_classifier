@@ -79,7 +79,7 @@
 
 
               <li class="dropdown <?php print ((in_array('corpora', $urlSegment)) ? "active" : ""); ?>">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpora <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpus <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="<?php print site_url('corpora/raw'); ?>">All Words (AW)</a></li>
                   <li><a href="<?php print site_url('corpora/awp'); ?>">Training Model (AWP)</a></li>
