@@ -351,8 +351,10 @@ class Training_model extends CI_Model {
             }
 
         }
-
-        $this->db->insert_batch(TABLE_TRAINING_MODEL, $data);
+        
+        if (count($data) > 0) {
+            $this->db->insert_batch(TABLE_TRAINING_MODEL, $data);
+        }
 
     }
 
