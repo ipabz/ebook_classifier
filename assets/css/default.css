@@ -125,4 +125,8 @@ body {
  }
 
  .navbar-default .navbar-nav>li.active a:hover {}
+
+ .fileupload-progress {
+    display: none;
+ }
  

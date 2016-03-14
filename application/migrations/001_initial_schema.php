@@ -41,7 +41,7 @@ class Migration_Initial_schema extends CI_Migration {
     );
     
     $this->dbforge->add_field($training_model_table);
-    $this->dbforge->create_table('training_models');
+    $this->dbforge->create_table('training_model');
 
 
     
@@ -74,7 +74,7 @@ class Migration_Initial_schema extends CI_Migration {
     );
     
     $this->dbforge->add_field($ebooks_table);
-    $this->dbforge->create_table('ebooks');
+    $this->dbforge->create_table('ebook');
     
     
     
@@ -133,12 +133,10 @@ class Migration_Initial_schema extends CI_Migration {
   }
   
   public function down() {
-    $this->dbforge->drop_table('classifications');
     $this->dbforge->drop_table('ebook');
-    $this->dbforge->drop_table('ebooks');
-    $this->dbforge->drop_table('logs');
     $this->dbforge->drop_table('training');
-	$this->dbforge->drop_table('testing');
+    $this->dbforge->drop_table('training_model');
+	  $this->dbforge->drop_table('testing');
   }
   
 }

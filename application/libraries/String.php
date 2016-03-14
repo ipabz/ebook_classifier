@@ -7,7 +7,8 @@ class String {
   //PDF Vars
   private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
 
-  private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
+  //C:\Program Files (x86)\Java\jdk1.7.0_79\bin
+  private $javaBin = 'C:\Program Files\Java\jdk1.8.0_73\bin';
   
   //Deprecated variable. Will be removed on the next release
   private $num_pages_to_read = 50;

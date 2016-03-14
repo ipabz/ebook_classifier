@@ -42,11 +42,11 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
  * Database Tables
  */
 
-define('TABLE_CLASSIFICATIONS', 'classifications');
-define('TABLE_EBOOK', 'ebooks');
+// define('TABLE_CLASSIFICATIONS', 'classifications');
+define('TABLE_EBOOK', 'ebook');
 define('TABLE_TRAINING', 'training');
 define('TABLE_TESTING', 'testing');
-define('TABLE_TRAINING_MODEL', 'training_models');
+define('TABLE_TRAINING_MODEL', 'training_model');
 
 define('EBOOKS_DIR', 'assets/ebooks/');
 define('TESTING_DIR', 'assets/testing/');

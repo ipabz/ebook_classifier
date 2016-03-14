@@ -5,7 +5,7 @@
 <div class="text-right">
 <div class="btn-group">
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Filter <span class="caret"></span>
+    View <span class="caret"></span>
   </button>
   <ul class="dropdown-menu pull-right">
     <li><a href="<?php print site_url('training/view_ebooks/all'); ?>">All</a></li>
