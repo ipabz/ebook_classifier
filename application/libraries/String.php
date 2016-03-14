@@ -8,7 +8,7 @@ class String {
   private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
 
   //C:\Program Files (x86)\Java\jdk1.7.0_79\bin
-  private $javaBin = 'C:\Program Files\Java\jdk1.8.0_73\bin';
+  private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
   
   //Deprecated variable. Will be removed on the next release
   private $num_pages_to_read = 50;
@@ -47,14 +47,15 @@ class String {
     //$text = $this->getPDFAidText($pdf_file);
     chdir($this->javaBin);
     $text = shell_exec('java -jar '.FCPATH.'assets\pdftotext\TextToPdf.jar '.$pdf_file);
-    $text = mb_convert_encoding($text, 'UTF-8');
-    $text = $this->getOnlyToc($text);
+    $allText = mb_convert_encoding($text, 'UTF-8');
+    $toc = $this->getOnlyToc($allText);
     //-----------------------------------------------------------------
 
 
 
-    $data['text'] = $text;
+    $data['text'] = $toc;
     $data['meta_data'] = $meta;
+    $data['allTheText'] = $allText;
 
     return $data;
   }
@@ -70,76 +71,68 @@ class String {
         );
 
         $toc_end = array(
-        	'index',
-        	'appendixes',
-        	'bibliography',
-        	'author index',
-        	'glossary',
-        	'references'
+          'index',
+          'appendixes',
+          'bibliography',
+          'author index',
+          'glossary',
+          'references'
         );
 
         $sub = array(
-        	'foreword',
-        	'about the authors',
-        	'acknowledgment',
-        	'acknowledgments',
-        	'copyright',
-        	'preface',
-        	'chapter',
-        	'chapters',
-        	'introduction',
-        	'1',
-        	'I',
-        	'chapter 1',
-        	'chapter 2',
-        	'chapter 3',
-        	'chapter 4',
-        	'chapter 5',
-        	'chapter 6',
-        	'chapter 7',
-        	'chapter 8',
-        	'chapter 9'
+          'foreword',
+          'about the authors',
+          'acknowledgment',
+          'acknowledgments',
+          'copyright',
+          'preface',
+          'chapter',
+          'chapters',
+          'introduction',
+          '1',
+          'I',
+          'chapter 1',
+          'chapter 2',
+          'chapter 3',
+          'chapter 4',
+          'chapter 5',
+          'chapter 6',
+          'chapter 7',
+          'chapter 8',
+          'chapter 9'
         );
-
+    
+        $startIdentifiers = array_merge($toc_begin, $sub);
+    
         $exp = explode(' ', $text);
         $_words = array();
         $start = false;
-    	$repeat = 0;
+        $repeat = 0;
+        $counter = 0;
 
         foreach($exp as $key => $val) {
 
           $__tmp = strtolower($val);
 
-          if (in_array($__tmp, $toc_begin)) {
+          if ( in_array($__tmp, $startIdentifiers) ) {
             $start = true;
           }
-
-    	  if (in_array($__tmp, $sub)) {
-    		$repeat = $repeat + 1;
-    	  }
-
-    	  if ( (in_array($__tmp, $toc_end) && $start && count($_words) > 0) OR ($repeat > 1 && $start && count($_words) > 0)) {
-    		$start = false;
-    		break;
-    	  }
-
-          if ( $start ) {
+          
+          if ($start) {
             $_words[] = $__tmp;
+          }
+          
+          if ( (in_array($__tmp, $toc_end) && $start && count($_words) > 0) ) {
+                $start = false;
+                break;
           }
 
         }
 
         $textTOC = trim( implode(' ', $_words) );
 
-    	if ( $textTOC === '') {
-            //return substr(trim($text), 0, 8000);
+        if ( $textTOC === '') {
             print 'Error: TOC not Identified.';
-        }
-        
-        $textTocArray = explode(' ', trim($textTOC));
-        
-        if ( count($textTocArray) < 100 ) {
-            return substr(trim($text), 0, 8000);
         }
 
         return $textTOC;
@@ -200,7 +193,7 @@ class String {
     $data['bigram_counted'] = $bigram_counted;
     $data['final_tokens'] = $final_tokens;
     $data['final_tokens_raw'] = $final_tokens_raw;
-    $data['all_text'] = $text;
+    $data['all_text'] = $temp_d['allTheText'];
     
     return $data;
   }

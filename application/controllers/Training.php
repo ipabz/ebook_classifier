@@ -104,6 +104,8 @@ class Training extends CI_Controller {
     public function view_ebooks($corpus = "all", $per_page = 25, $offset = 0) {
         $this->load->library('pagination');
 
+        $this->session->set_userdata('PDFxStreamInUse', 'no');
+
         $config['base_url'] = site_url('training/view_ebooks/' . trim($corpus)) . '/' . $per_page . '/';
         $config['total_rows'] = $this->training_model->get_entries(array(), trim($corpus))->num_rows();
         $config['per_page'] = $per_page;
@@ -141,6 +143,7 @@ class Training extends CI_Controller {
     }
 
     public function corpora_raw($type = 'raw') {
+        $this->session->set_userdata('PDFxStreamInUse', 'no');
         $data['classifications'] = $this->classifications->get_all();
         $data['class004'] = $this->training_model->get_training_set('004');
         $data['class005'] = $this->training_model->get_training_set('005');
@@ -171,6 +174,8 @@ class Training extends CI_Controller {
     }
 
     public function awp($type = 'raw') {
+
+        $this->session->set_userdata('PDFxStreamInUse', 'no');
         
         $this->training_model->generate_awp();
         
@@ -204,6 +209,8 @@ class Training extends CI_Controller {
     }
 
     public function view_tokens($id) {
+
+        $this->session->set_userdata('PDFxStreamInUse', 'no');
         $this->db->where('id', $id);
         $query = $this->db->get(TABLE_EBOOK);
 

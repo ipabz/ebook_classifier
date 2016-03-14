@@ -274,6 +274,9 @@ class Training_model extends CI_Model {
 
     public function insert_training_set($data) {
 
+        $batchItems = array();
+        $batchItemsToUpdate = array();
+
         foreach ($data as $item) {
 
             $this->db->where('item_stemmed', $item['item_stemmed']);
@@ -285,13 +288,26 @@ class Training_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 $row = $query->row();
                 $item['count'] = $item['count'] + $row->count;
+                $item['id'] = $row->id;
 
-                $this->db->where('id', $row->id);
-                $this->db->update(TABLE_TRAINING, $item);
+                $batchItemsToUpdate[] = $item;
+
+                // $this->db->where('id', $row->id);
+                // $this->db->update(TABLE_TRAINING, $item);
             } else {
-                $this->db->insert(TABLE_TRAINING, $item);
+                // $this->db->insert(TABLE_TRAINING, $item);
+                $batchItems[] = $item;
             }
         }
+
+        if (count($batchItems) > 0) {
+            $this->db->insert_batch(TABLE_TRAINING, $batchItems);
+        }
+
+        if (count($batchItemsToUpdate) > 0) {
+            $this->db->update_batch(TABLE_TRAINING, $batchItemsToUpdate, 'id');
+        }
+        
     }
 
     public function frequency_sum($class = "004", $table=TABLE_TRAINING) {

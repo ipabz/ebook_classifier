@@ -6,6 +6,7 @@ class Testing extends CI_Controller {
     parent::__construct();
     $this->load->helper(array('form', 'url'));
 	$this->load->model('testing_model');
+  $this->session->set_userdata('PDFxStreamInUse', 'no');
   }
   
   public function index()

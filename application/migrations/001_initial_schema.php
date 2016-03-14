@@ -7,12 +7,10 @@ class Migration_Initial_schema extends CI_Migration {
     /**
      * Remove tables if exists
      */
-    /*$this->dbforge->drop_table('classifications');
-    $this->dbforge->drop_table('ebook');
-    $this->dbforge->drop_table('ebooks');
-    $this->dbforge->drop_table('logs');
-    $this->dbforge->drop_table('training');
-	$this->dbforge->drop_table('testing');*/
+    $this->dbforge->drop_table('ebook', true);
+    $this->dbforge->drop_table('training', true);
+    $this->dbforge->drop_table('training_model', true);
+    $this->dbforge->drop_table('testing', true);
 
 
 

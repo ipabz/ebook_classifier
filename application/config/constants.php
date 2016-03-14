@@ -50,9 +50,9 @@ define('TABLE_TRAINING_MODEL', 'training_model');
 
 define('EBOOKS_DIR', 'assets/ebooks/');
 define('TESTING_DIR', 'assets/testing/');
-//@ini_set('max_execution_time', 10000);
+@ini_set('max_execution_time', 0);
 //@set_time_limit(10000);
-//@ini_set('memory_limit', '1024M');
+@ini_set('memory_limit', '1024M');
 //@ini_set('post_max_size', '200M');
 //@ini_set('upload_max_filesize', '200M');
 
