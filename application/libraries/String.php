@@ -5,13 +5,11 @@ class String {
   private $ci = NULL;
 
   //PDF Vars
-  private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo -f 1 -l 50 ';
+  private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
 
   //C:\Program Files (x86)\Java\jdk1.7.0_79\bin
-  private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
-  
-  //Deprecated variable. Will be removed on the next release
-  private $num_pages_to_read = 50;
+  private $javaBin = 'C:\Program Files\Java\jdk1.8.0_73\bin';
+
 
   public function __construct() {
     $this->ci =& get_instance();
@@ -25,7 +23,6 @@ class String {
     $pdf_file = realpath($pdf_file);
     
     $text = '';
-    $counter = 50;
     $meta = array();
 
     // Get meta data
@@ -44,7 +41,6 @@ class String {
 
 
     // Get text
-    //$text = $this->getPDFAidText($pdf_file);
     chdir($this->javaBin);
     $text = shell_exec('java -jar '.FCPATH.'assets\pdftotext\TextToPdf.jar '.$pdf_file);
     $allText = mb_convert_encoding($text, 'UTF-8');
@@ -91,18 +87,10 @@ class String {
           'introduction',
           '1',
           'I',
-          'chapter 1',
-          'chapter 2',
-          'chapter 3',
-          'chapter 4',
-          'chapter 5',
-          'chapter 6',
-          'chapter 7',
-          'chapter 8',
-          'chapter 9'
+          'about the author',
+          'part'
         );
     
-        $startIdentifiers = array_merge($toc_begin, $sub);
     
         $exp = explode(' ', $text);
         $_words = array();
@@ -114,8 +102,24 @@ class String {
 
           $__tmp = strtolower($val);
 
-          if ( in_array($__tmp, $startIdentifiers) ) {
-            $start = true;
+          if ($counter > 0) {
+
+            if ($counter === 1 && $__tmp === 'at') {
+              $counter++;
+            } else if ($counter === 2 && $__tmp === 'a') {
+              $counter++;
+            } else if ($counter === 3 && $__tmp === 'glance') {
+              $counter = 0;
+            } else {
+              if ( in_array($__tmp, $sub) ) {
+                $start = true;
+              }
+            }
+            
+          }
+
+          if ( in_array($__tmp, $toc_begin) ) {
+            $counter = 1;
           }
           
           if ($start) {
@@ -126,6 +130,8 @@ class String {
                 $start = false;
                 break;
           }
+
+
 
         }
 
