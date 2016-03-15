@@ -5,7 +5,7 @@ class Testing extends CI_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->helper(array('form', 'url'));
-	$this->load->model('testing_model');
+	$this->load->model('classifier');
   $this->session->set_userdata('PDFxStreamInUse', 'no');
   }
   
@@ -54,10 +54,10 @@ class Testing extends CI_Controller {
         $data['classifications'] = $this->classifications->get_all();
         $data['error'] = '';
         $data['sucess'] = 'yes';
-		$data['_data'] = $this->testing_model->test($data['file_data']);
+		    $data['_data'] = $this->classifier->test($data['file_data']);
           
         $data2 = $data['_data']['pre_process'];
-        $this->testing_model->save_entry(
+        $this->classifier->save_entry(
                     $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text']
             );
 		
@@ -72,7 +72,7 @@ class Testing extends CI_Controller {
   public function accuracy($filename, $class, $accuracy) 
   {
 	  
-	  $this->testing_model->accuracy($filename, $class, $accuracy, $this->input->post('tokens'));
+	  $this->classifier->accuracy($filename, $class, $accuracy, $this->input->post('tokens'));
 	  
   }
   
@@ -80,7 +80,7 @@ class Testing extends CI_Controller {
   {
 	  define('TRAINING', true);
       $data['classifications'] = $this->classifications->get_all();
-      $data['evaluation'] = $this->testing_model->getEvaluation();
+      $data['evaluation'] = $this->classifier->getEvaluation();
 	  
       $this->load->view('common/header', $data);
       $this->load->view('test_accuracy_view');

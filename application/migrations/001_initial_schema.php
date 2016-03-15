@@ -120,7 +120,7 @@ class Migration_Initial_schema extends CI_Migration {
       'tokens' => array(
           'type' => 'TEXT', 'null' => TRUE
       ),
-      'date_tested' => array(
+      'file_num' => array(
           'type' => 'TEXT', 'null' => FALSE
       )
     );

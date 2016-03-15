@@ -2,7 +2,7 @@
 
 use \Litipk\BigNumbers\Decimal as Decimal;
 
-class Testing_model extends CI_Model {
+class Classifier extends CI_Model {
     
     public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '') {
         
@@ -91,7 +91,7 @@ class Testing_model extends CI_Model {
 		'classification' => $class,
 		'actual' => $accuracy,
 		'tokens' => $tokens,
-		'date_tested' => @time()
+		'file_num' => @time()
 	  );
 
 	  $this->db->insert(TABLE_TESTING, $data);
