@@ -66,7 +66,7 @@ class Migration_Initial_schema extends CI_Migration {
       'meta_data' => array(
           'type' => 'TEXT', 'null' => TRUE
       ),
-      'date_created' => array(
+      'file_num' => array(
           'type' => 'TEXT', 'null' => FALSE
       )
     );

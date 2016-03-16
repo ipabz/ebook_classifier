@@ -11,7 +11,7 @@ class Training_model extends CI_Model {
             $data = array(
                 'filename' => $filename,
                 'classification' => $class,
-                'date_created' => @time()
+                'file_num' => @time()
             );
 
             /*
