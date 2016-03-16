@@ -72,7 +72,7 @@ class Testing extends CI_Controller {
   public function accuracy($filename, $class, $accuracy) 
   {
 	  
-	  $this->classifier->accuracy($filename, $class, $accuracy, $this->input->post('tokens'));
+	  $this->classifier->accuracy($filename, $class, $accuracy, $this->input->post('tokens'), $this->input->post('nb_classification'));
 	  
   }
   

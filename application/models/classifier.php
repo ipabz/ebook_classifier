@@ -75,7 +75,7 @@ class Classifier extends CI_Model {
         fclose($myfile);
     }
 
-	public function accuracy($filename, $class, $accuracy, $tokens)
+	public function accuracy($filename, $class, $accuracy, $tokens, $nb_class)
 	{
 
         // Get the latest training model
@@ -97,7 +97,7 @@ class Classifier extends CI_Model {
 		'classifier_result' => $class,
 		'actual_class' => $accuracy,
 		'dataset' => $tokens,
-        'NB_classification' => '',
+        'NB_classification' => $nb_class,
 		'file_num' => @time(),
         'model_id' => $trainingModel->model_id
 	  );
@@ -200,6 +200,12 @@ class Classifier extends CI_Model {
         }
 
 		$data['result'] = @$_class;
+        $data['nb_classification'] = [
+            't_count' => $t_count,
+            'product_004' => $product['004'],
+            'product_005' => $product['005'],
+            'product_006' => $product['006']
+        ];
 		$data['product_004'] = $product['004'];
 		$data['product_005'] = $product['005'];
 		$data['product_006'] = $product['006'];
