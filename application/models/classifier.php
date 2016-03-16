@@ -75,8 +75,14 @@ class Classifier extends CI_Model {
         fclose($myfile);
     }
 
-	public function accuracy($filename, $class, $accuracy, $tokens)
+	public function accuracy($filename, $class, $accuracy, $tokens, $nb_class)
 	{
+
+        // Get the latest training model
+        $this->db->limit(1);
+        $this->db->order_by('model_id', 'DESC');
+        $trainingModelResult = $this->db->get(TABLE_TRAINING_MODEL);
+        $trainingModel = $trainingModelResult->row();
         
         if ($accuracy === '1') {
             $accuracy = '004';
@@ -88,10 +94,12 @@ class Classifier extends CI_Model {
 
 	  $data = array(
 		'filename' => base64_decode(urldecode($filename)),
-		'classification' => $class,
-		'actual' => $accuracy,
-		'tokens' => $tokens,
-		'file_num' => @time()
+		'classifier_result' => $class,
+		'actual_class' => $accuracy,
+		'dataset' => $tokens,
+        'NB_classification' => $nb_class,
+		'file_num' => @time(),
+        'model_id' => $trainingModel->model_id
 	  );
 
 	  $this->db->insert(TABLE_TESTING, $data);
@@ -116,35 +124,21 @@ class Classifier extends CI_Model {
 		$final_tokens_raw = $datas['final_tokens_raw'];
 		$final_tokens = $datas['final_tokens'];
 
-		$this->db->where('classification', '004');
-		$doc_count_004 = $this->db->count_all_results(TABLE_EBOOK);
 
-		$this->db->where('classification', '005');
-		$doc_count_005 = $this->db->count_all_results(TABLE_EBOOK);
+        // Get the latest training model
+        $this->db->limit(1);
+        $this->db->order_by('model_id', 'DESC');
+        $trainingModelResult = $this->db->get(TABLE_TRAINING_MODEL);
+        $trainingModel = $trainingModelResult->row();
 
-		$this->db->where('classification', '006');
-		$doc_count_006 = $this->db->count_all_results(TABLE_EBOOK);
+        $prior_probability = (array)json_decode($trainingModel->prior_probability);
+        extract($prior_probability);
 
-		$doc_count_all = $this->db->count_all(TABLE_EBOOK);
-
-		$prior['004'] = $doc_count_004 / $doc_count_all;
-		$prior['005'] = $doc_count_005 / $doc_count_all;
-		$prior['006'] = $doc_count_006 / $doc_count_all;
-
-		$corpora_num_unique_words = $this->db->count_all(TABLE_TRAINING_MODEL);
-
-		$corpora_doc_count_004 = $this->training_model->frequency_sum('004');
-      	$corpora_doc_count_005 = $this->training_model->frequency_sum('005');
-      	$corpora_doc_count_006 = $this->training_model->frequency_sum('006');
 		$t_count = 0;
 
 		$product['004'] = Decimal::create(1, 5);
 		$product['005'] = Decimal::create(1, 5);
 		$product['006'] = Decimal::create(1, 5);
-
-		$product_004 = 1;
-		$product_005 = 1;
-		$product_006 = 1;
 
 		foreach($final_tokens_raw as $row) {
 
@@ -158,16 +152,12 @@ class Classifier extends CI_Model {
 		 	$stemmed = trim($stemmed);
 			$t_count = 1;
 
-			if (@$final_tokens[ $stemmed ]) {
-				//$t_count = $final_tokens[ $stemmed ] + 1;
-			}
-
             $t_count = (int)@$final_tokens[ $stemmed ] + 1;
 
 
-            $product['004'] = $product['004'] * ($t_count / ($corpora_doc_count_004 + $corpora_num_unique_words));
-            $product['005'] = $product['005'] * ($t_count / ($corpora_doc_count_005 + $corpora_num_unique_words));
-            $product['006'] = $product['006'] * ($t_count / ($corpora_doc_count_006 + $corpora_num_unique_words));
+            $product['004'] = $product['004'] * ($t_count / ($corpus_doc_count_004 + $corpus_num_unique_words));
+            $product['005'] = $product['005'] * ($t_count / ($corpus_doc_count_005 + $corpus_num_unique_words));
+            $product['006'] = $product['006'] * ($t_count / ($corpus_doc_count_006 + $corpus_num_unique_words));
 
             $_tmp = explode('E', $product['004']);
             $product['004'] = $_tmp[0];
@@ -181,9 +171,9 @@ class Classifier extends CI_Model {
 
 		}
 
-        $product['004'] = $product['004'] * $prior['004'];
-        $product['005'] = $product['005'] * $prior['005'];
-        $product['006'] = $product['006'] * $prior['006'];
+        $product['004'] = $product['004'] * $prior_004;
+        $product['005'] = $product['005'] * $prior_005;
+        $product['006'] = $product['006'] * $prior_006;
 
         $_tmp = explode('E', $product['004']);
         $product['004'] = $_tmp[0];
@@ -210,19 +200,24 @@ class Classifier extends CI_Model {
         }
 
 		$data['result'] = @$_class;
+        $data['nb_classification'] = [
+            't_count' => $t_count,
+            'product_004' => $product['004'],
+            'product_005' => $product['005'],
+            'product_006' => $product['006']
+        ];
 		$data['product_004'] = $product['004'];
 		$data['product_005'] = $product['005'];
 		$data['product_006'] = $product['006'];
-		$data['prior_004'] = $prior['004'];
-		$data['prior_005'] = $prior['005'];
-		$data['prior_006'] = $prior['006'];
-		$data['corpora_doc_count_004'] = $corpora_doc_count_004;
-		$data['corpora_doc_count_005'] = $corpora_doc_count_005;
-		$data['corpora_doc_count_006'] = $corpora_doc_count_006;
-		$data['corpora_num_unique_words'] = $corpora_num_unique_words;
+		$data['prior_004'] = $prior_004;
+		$data['prior_005'] = $prior_005;
+		$data['prior_006'] = $prior_006;
+		$data['corpora_doc_count_004'] = $corpus_doc_count_004;
+		$data['corpora_doc_count_005'] = $corpus_doc_count_005;
+		$data['corpora_doc_count_006'] = $corpus_doc_count_006;
+		$data['corpora_num_unique_words'] = $corpus_num_unique_words;
 		$data['doc_count_all'] = $doc_count_all;
         $data['pre_process'] = $datas;
-
 		return $data;
 
 	} // end function test
@@ -243,41 +238,41 @@ class Classifier extends CI_Model {
         $pg_006_006 = 0;
         
         foreach($query->result() as $row) {
-            if ($row->classification === '004' && $row->actual === '004') {
+            if ($row->classifier_result === '004' && $row->actual_class === '004') {
                 $pg_004_004++;
             }
             
-            if ($row->classification === '004' && $row->actual === '005') {
+            if ($row->classifier_result === '004' && $row->actual_class === '005') {
                 $pg_004_005++;
             }
             
-            if ($row->classification === '004' && $row->actual === '006') {
+            if ($row->classifier_result === '004' && $row->actual_class === '006') {
                 $pg_004_006++;
             }
             
             
-            if ($row->classification === '005' && $row->actual === '004') {
+            if ($row->classifier_result === '005' && $row->actual_class === '004') {
                 $pg_005_004++;
             }
             
-            if ($row->classification === '005' && $row->actual === '005') {
+            if ($row->classifier_result === '005' && $row->actual_class === '005') {
                 $pg_005_005++;
             }
             
-            if ($row->classification === '005' && $row->actual === '006') {
+            if ($row->classifier_result === '005' && $row->actual_class === '006') {
                 $pg_005_006++;
             }
             
             
-            if ($row->classification === '006' && $row->actual === '004') {
+            if ($row->classifier_result === '006' && $row->actual_class === '004') {
                 $pg_006_004++;
             }
             
-            if ($row->classification === '006' && $row->actual === '005') {
+            if ($row->classifier_result === '006' && $row->actual_class === '005') {
                 $pg_006_005++;
             }
             
-            if ($row->classification === '006' && $row->actual === '006') {
+            if ($row->classifier_result === '006' && $row->actual_class === '006') {
                 $pg_006_006++;
             }
         }

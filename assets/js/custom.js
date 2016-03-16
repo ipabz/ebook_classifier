@@ -35,11 +35,17 @@ $(function() {
 	e.preventDefault();
 	$('.feedback').html('<strong>Thank you! Your feedback would be a great help.</strong>');
 	var token = $('#finaltokens_encoded').html();
-	var d = { tokens: token };
+  var nb_class = $('#nb_classification').html();
+  
+	var d = { 
+    tokens: token,
+    nb_classification: nb_class
+  };
 	
 	$.post($(this).attr('href'), d, function(data) { console.log(data); });
 	
 	return false;  
+
   });
   
   $('.starttesting').click(function(e) {

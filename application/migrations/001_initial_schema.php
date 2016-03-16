@@ -18,23 +18,23 @@ class Migration_Initial_schema extends CI_Migration {
      * Create 'training_models' table
      */
 
-    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->add_key('model_id', TRUE);
     
     $training_model_table = array(
-      'id' => array(
+      'model_id' => array(
           'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE 
       ),
       'class' => array(
           'type' => 'VARCHAR', 'constraint' => 20, 'null' => FALSE
       ),
-      'item_raw' => array(
+      'raw_dataset' => array(
           'type' => 'VARCHAR', 'constraint' => 50, 'null' => FALSE
       ),
-      'item_stemmed' => array(
+      'stemmed_dataset' => array(
           'type' => 'VARCHAR', 'constraint' => 50, 'null' => FALSE
       ),
-      'count' => array(
-          'type' => 'INT', 'constraint' => 11, 'null' => FALSE
+      'prior_probability' => array(
+          'type' => 'TEXT', 'null' => FALSE
       )
     );
     
@@ -111,17 +111,23 @@ class Migration_Initial_schema extends CI_Migration {
       'filename' => array(
           'type' => 'VARCHAR', 'constraint' => 255, 'null' => FALSE
       ),
-      'classification' => array(
+      'classifier_result' => array(
           'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
       ),
-      'actual' => array(
+      'actual_class' => array(
           'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
       ),
-      'tokens' => array(
+      'dataset' => array(
+          'type' => 'TEXT', 'null' => TRUE
+      ),
+      'NB_classification' => array(
           'type' => 'TEXT', 'null' => TRUE
       ),
       'file_num' => array(
           'type' => 'TEXT', 'null' => FALSE
+      ),
+      'model_id' => array(
+          'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE
       )
     );
     

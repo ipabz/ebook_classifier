@@ -310,8 +310,13 @@ class Training_model extends CI_Model {
         
     }
 
-    public function frequency_sum($class = "004", $table=TABLE_TRAINING) {
+    public function frequency_sum($class = "004", $table=TABLE_TRAINING, $awp=false) {
         $this->db->where('class', $class);
+
+        if ($awp) {
+            $this->db->where('count >', THRESSHOLD);
+        }
+
         $query = $this->db->get($table);
 
         $sum = 0;
@@ -325,8 +330,13 @@ class Training_model extends CI_Model {
         return $sum;
     }
 
-    public function get_training_set($class = "004", $table=TABLE_TRAINING) {
+    public function get_training_set($class = "004", $table=TABLE_TRAINING, $awp=false) {
         $this->db->where('class', $class);
+
+        if ($awp) {
+            $this->db->where('count >', THRESSHOLD);
+        }
+
         $this->db->order_by('item_stemmed');
         $query = $this->db->get($table);
 
@@ -338,23 +348,78 @@ class Training_model extends CI_Model {
     public function generate_awp()
     {
 
-        $this->db->truncate(TABLE_TRAINING_MODEL);
-
         $result = $this->db->get(TABLE_TRAINING);
-        $data = [];
+        $raw_dataset = [];
+        $stemmed_dataset = [];
 
         foreach($result->result_array() as $model) {
             
             if ( $model['count'] > THRESSHOLD ) {
-                unset($model['id']);
-                $data[] = $model;
+
+                $raw_dataset[] = [
+                    $model['item_raw'] => $model['count']
+                ];
+
+                $stemmed_dataset[] = [
+                    $model['item_stemmed'] => $model['count']
+                ];
             }
 
         }
+
+
+        $this->db->where('classification', '004');
+        $doc_count_004 = $this->db->count_all_results(TABLE_EBOOK);
+
+        $this->db->where('classification', '005');
+        $doc_count_005 = $this->db->count_all_results(TABLE_EBOOK);
+
+        $this->db->where('classification', '006');
+        $doc_count_006 = $this->db->count_all_results(TABLE_EBOOK);
+
+        $doc_count_all = $this->db->count_all(TABLE_EBOOK);
+
+        $prior_004 = $doc_count_004 / $doc_count_all;
+        $prior_005 = $doc_count_005 / $doc_count_all;
+        $prior_006 = $doc_count_006 / $doc_count_all;
+
+        $this->db->where('count >', THRESSHOLD);
+        $corpus_num_unique_words = $this->db->count_all_results(TABLE_TRAINING);
+
+        $corpus_doc_count_004 = $this->frequency_sum('004', TABLE_TRAINING, true);
+        $corpus_doc_count_005 = $this->frequency_sum('005', TABLE_TRAINING, true);
+        $corpus_doc_count_006 = $this->frequency_sum('006', TABLE_TRAINING, true);
+
+        $prior_probability = [
+            'doc_count_004' => $doc_count_004,
+            'doc_count_005' => $doc_count_005,
+            'doc_count_006' => $doc_count_006,
+            'doc_count_all' => $doc_count_all,
+            'prior_004' => $prior_004,
+            'prior_005' => $prior_005,
+            'prior_006' => $prior_006,
+            'corpus_num_unique_words' => $corpus_num_unique_words,
+            'corpus_doc_count_004' => $corpus_doc_count_004,
+            'corpus_doc_count_005' => $corpus_doc_count_005,
+            'corpus_doc_count_006' => $corpus_doc_count_006
+        ];
         
-        if (count($data) > 0) {
-            $this->db->insert_batch(TABLE_TRAINING_MODEL, $data);
-        }
+        $this->db->insert(TABLE_TRAINING_MODEL, [
+                'raw_dataset' => '',
+                'stemmed_dataset' => '',
+                'prior_probability' => json_encode($prior_probability)
+            ]);
+
+        $id = $this->db->insert_id();
+
+        $this->create_file(DATA_SET.'raw_dataset_'.$id.'.txt', json_encode($raw_dataset));
+        $this->create_file(DATA_SET.'stemmed_dataset_'.$id.'.txt', json_encode($stemmed_dataset));
+
+        $this->db->where('model_id', $id);
+        $this->db->update(TABLE_TRAINING_MODEL, [
+                'raw_dataset' => DATA_SET.'raw_dataset_'.$id.'.txt',
+                'stemmed_dataset' => DATA_SET.'stemmed_dataset_'.$id.'.txt'
+            ]);
 
     }
 
