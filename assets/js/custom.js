@@ -33,7 +33,7 @@ $(function() {
   
   $(document).delegate('.do_ajax', 'click', function(e) {
 	e.preventDefault();
-	$('.feedback').html('<strong>Thank you! Your feedback would be a great help.</strong>');
+	$('.feedback').html('');
 	var token = $('#finaltokens_encoded').html();
   var nb_class = $('#nb_classification').html();
   
