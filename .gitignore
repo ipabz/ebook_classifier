@@ -8,3 +8,5 @@ assets/ebooks/*
 vendor/
 assets/testing/*
 !assets/testing/.gitignore
+assets/dataset/*
+!assets/dataset/.gitignore
