@@ -325,8 +325,13 @@ class Training_model extends CI_Model {
         return $sum;
     }
 
-    public function get_training_set($class = "004", $table=TABLE_TRAINING) {
+    public function get_training_set($class = "004", $table=TABLE_TRAINING, $awp=false) {
         $this->db->where('class', $class);
+
+        if ($awp) {
+            $this->db->where('count >', THRESSHOLD);
+        }
+
         $this->db->order_by('item_stemmed');
         $query = $this->db->get($table);
 

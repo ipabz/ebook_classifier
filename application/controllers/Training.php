@@ -180,9 +180,9 @@ class Training extends CI_Controller {
         $this->training_model->generate_awp();
         
         $data['classifications'] = $this->classifications->get_all();
-        $data['class004'] = $this->training_model->get_training_set('004', TABLE_TRAINING_MODEL);
-        $data['class005'] = $this->training_model->get_training_set('005', TABLE_TRAINING_MODEL);
-        $data['class006'] = $this->training_model->get_training_set('006', TABLE_TRAINING_MODEL);
+        $data['class004'] = $this->training_model->get_training_set('004', TABLE_TRAINING, true);
+        $data['class005'] = $this->training_model->get_training_set('005', TABLE_TRAINING, true);
+        $data['class006'] = $this->training_model->get_training_set('006', TABLE_TRAINING, true);
 
         if ($type === 'plus1') {
             $type = '+1';
