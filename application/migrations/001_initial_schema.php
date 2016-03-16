@@ -111,17 +111,23 @@ class Migration_Initial_schema extends CI_Migration {
       'filename' => array(
           'type' => 'VARCHAR', 'constraint' => 255, 'null' => FALSE
       ),
-      'classification' => array(
+      'classifier_result' => array(
           'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
       ),
-      'actual' => array(
+      'actual_class' => array(
           'type' => 'VARCHAR', 'constraint' => 10, 'null' => FALSE
       ),
-      'tokens' => array(
+      'dataset' => array(
+          'type' => 'TEXT', 'null' => TRUE
+      ),
+      'NB_classification' => array(
           'type' => 'TEXT', 'null' => TRUE
       ),
       'file_num' => array(
           'type' => 'TEXT', 'null' => FALSE
+      ),
+      'model_id' => array(
+          'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE
       )
     );
     
