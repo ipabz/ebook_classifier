@@ -10,3 +10,4 @@ assets/testing/*
 !assets/testing/.gitignore
 assets/dataset/*
 !assets/dataset/.gitignore
+.phpintel/

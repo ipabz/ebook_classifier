@@ -279,7 +279,7 @@ class Training_model extends CI_Model {
 
         foreach ($data as $item) {
 
-            $this->db->where('item_stemmed', $item['item_stemmed']);
+            $this->db->where('item_stemmed', trim($item['item_stemmed']));
             $this->db->where('class', $item['class']);
             $this->db->limit(1);
 
