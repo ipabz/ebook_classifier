@@ -30,9 +30,9 @@
       <tbody>
       <?php
       
-      $class_004 = $class004->result_array();
-      $class_005 = $class005->result_array();
-      $class_006 = $class006->result_array();
+      $class_004 = $this->training_model->corpus_sort($class004->result_array());
+      $class_005 = $this->training_model->corpus_sort($class005->result_array());
+      $class_006 = $this->training_model->corpus_sort($class006->result_array());
       
       $ftotal004 = $this->training_model->frequency_sum('004', TABLE_TRAINING_MODEL);
       $ftotal005 = $this->training_model->frequency_sum('005', TABLE_TRAINING_MODEL);

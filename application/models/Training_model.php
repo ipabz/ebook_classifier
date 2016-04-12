@@ -331,16 +331,37 @@ class Training_model extends CI_Model {
     }
 
     public function get_training_set($class = "004", $table=TABLE_TRAINING, $awp=false) {
-        $this->db->where('class', $class);
+
+        $sql = "SELECT * FROM $table WHERE class = '$class'";
 
         if ($awp) {
-            $this->db->where('count >', THRESSHOLD);
+            $sql .= " AND count > '".THRESSHOLD."'";
         }
 
-        $this->db->order_by('item_stemmed');
-        $query = $this->db->get($table);
+        $sql .= " ORDER BY item_stemmed ASC";        
+        
+        return $this->db->query($sql);
+    }
 
-        return $query;
+    public function corpus_sort($data)
+    {
+        $unigram = [];
+        $bigram = [];
+
+        foreach($data as $row) {
+
+            $temp = explode(' ', $row['item_stemmed']);
+
+            if (count($temp) > 1) {
+                $bigram[] = $row;
+            } else {    
+                $unigram[] = $row;
+            }
+
+        }
+
+        $result = array_merge($unigram, $bigram);
+        return $result;
     }
 
 
