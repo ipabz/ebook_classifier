@@ -383,8 +383,7 @@ class Training_model extends CI_Model {
         $prior_005 = $doc_count_005 / $doc_count_all;
         $prior_006 = $doc_count_006 / $doc_count_all;
 
-        $this->db->where('count >', THRESSHOLD);
-        $corpus_num_unique_words = $this->db->count_all_results(TABLE_TRAINING);
+        $corpus_num_unique_words = $this->corpusNumUniqueWords();
 
         $corpus_doc_count_004 = $this->frequency_sum('004', TABLE_TRAINING, true);
         $corpus_doc_count_005 = $this->frequency_sum('005', TABLE_TRAINING, true);
@@ -421,6 +420,15 @@ class Training_model extends CI_Model {
                 'stemmed_dataset' => DATA_SET.'stemmed_dataset_'.$id.'.txt'
             ]);
 
+    }
+
+
+    public function corpusNumUniqueWords()
+    {
+        $sql = "SELECT DISTINCT item_stemmed FROM ".TABLE_TRAINING." WHERE count > '".THRESSHOLD."'";
+        $result = $this->db->query($sql);
+
+        return $result->num_rows();
     }
 
 }
