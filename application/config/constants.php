@@ -47,6 +47,7 @@ define('TABLE_EBOOK', 'ebook');
 define('TABLE_TRAINING', 'training');
 define('TABLE_TESTING', 'testing');
 define('TABLE_TRAINING_MODEL', 'training_model');
+define('TABLE_EBOOK_TEXTFILE', 'ebook_textfile');
 
 define('EBOOKS_DIR', 'assets/ebooks/');
 define('DATA_SET', 'assets/dataset/');

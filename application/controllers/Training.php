@@ -24,6 +24,7 @@ class Training extends CI_Controller {
     public function train() {
 
         $this->session->unset_userdata('training_ids');
+        $this->session->set_userdata('PDFxStreamInUse', 'no');
 
         define('TRAINING', true);
         $this->session->unset_userdata('class');

@@ -11,6 +11,28 @@ class Migration_Initial_schema extends CI_Migration {
     $this->dbforge->drop_table('training', true);
     $this->dbforge->drop_table('training_model', true);
     $this->dbforge->drop_table('testing', true);
+    $this->dbforge->drop_table('ebook_textfile', true);
+
+
+     /**
+     * Create 'training_models' table
+     */
+
+    $this->dbforge->add_key('id', TRUE);
+    
+    $ebook_textfile = array(
+      'id' => array(
+          'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE 
+      ),'ebook_id' => array(
+          'type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE
+      ),
+      'file' => array(
+          'type' => 'VARCHAR', 'constraint' => 255, 'null' => FALSE
+      )
+    );
+    
+    $this->dbforge->add_field($ebook_textfile);
+    $this->dbforge->create_table('ebook_textfile');
 
 
 

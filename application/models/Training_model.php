@@ -13,54 +13,11 @@ class Training_model extends CI_Model {
                 'classification' => $class,
                 'file_num' => @time()
             );
-
-            /*
-              if (trim($tokens) !== '') {
-              $data['tokens'] = json_encode($tokens);
-              }
-             * 
-             */
-            /*
-              if (trim($counted) !== '') {
-              $data['tokens_count'] = json_encode($counted);
-              }
-             * 
-             */
-            /*
-              if (trim($removed_stop_words) !== '') {
-              $data['removed_stop_words'] = json_encode($removed_stop_words);
-              }
-             * 
-             */
-
-            /*
-              if (trim($corpus_counted) !== '') {
-              $data['corpus_count'] = json_encode($corpus_counted);
-              }
-             * 
-             */
+    
 
             if (count($meta_data) > 0) {
                 $data['meta_data'] = json_encode($meta_data);
             }
-            /*
-              if ( count($bigram_raw) > 0 ) {
-              $data['bigram_raw'] = json_encode(($bigram_raw));
-              }
-             * 
-             */
-            /*
-              if ( count($bigram_counted) > 0 ) {
-              $data['bigram_counted'] = json_encode(($bigram_counted));
-              }
-             * 
-             */
-            /*
-              if ( count($final_tokens) > 0 ) {
-              $data['final_tokens'] = json_encode($final_tokens);
-              }
-             * 
-             */
 
             $this->db->insert(TABLE_EBOOK, $data);
             $ebook_id = $this->db->insert_id();
@@ -68,47 +25,66 @@ class Training_model extends CI_Model {
             if (count($final_tokens) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_final_tokens.txt";
                 $this->create_file($_filename, json_encode($final_tokens));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (count($bigram_counted) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_counted.txt";
                 $this->create_file($_filename, json_encode($bigram_counted));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (count($bigram_raw) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_raw.txt";
                 $this->create_file($_filename, json_encode($bigram_raw));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (count($corpus_counted) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_corpus_count.txt";
                 $this->create_file($_filename, json_encode($corpus_counted));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (count($removed_stop_words) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_removed_stop_words.txt";
                 $this->create_file($_filename, json_encode($removed_stop_words));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (count($counted) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_tokens_count.txt";
                 $this->create_file($_filename, json_encode($counted));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (count($tokens) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_tokens.txt";
                 $this->create_file($_filename, json_encode($tokens));
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             if (trim($all_text) !== '') {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_all_text.txt";
                 $this->create_file($_filename, $all_text);
+                $this->saveTextFile($ebook_id, $_filename);
             }
 
             return $ebook_id;
         }
 
         return NULL;
+    }
+
+
+    public function saveTextFile($ebookID, $file)
+    {   
+        $data = [
+            'ebook_id' => $ebookID,
+            'file' => $file
+        ];
+
+        $this->db->insert(TABLE_EBOOK_TEXTFILE, $data);
     }
 
     public function get_preprocess_data($ebook_id) {
