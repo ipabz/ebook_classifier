@@ -60,6 +60,9 @@ class Testing extends CI_Controller {
         $this->classifier->save_entry(
                     $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text']
             );
+
+        $pdf_file = $data['file_data']['file_name'];
+        $this->session->set_userdata('testing_pdf_file', $pdf_file);
 		
 
         $this->load->view('common/header', $data);

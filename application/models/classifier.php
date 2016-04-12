@@ -92,6 +92,12 @@ class Classifier extends CI_Model {
             $accuracy = '006';   
         }
 
+      $pdf_file = $this->session->userdata('testing_pdf_file');
+
+      if ($class === $accuracy) {
+            @copy('assets/uploads/'.$pdf_file, 'classified_ebooks/'.$accuracy.'/'.$pdf_file);
+      }
+
 	  $data = array(
 		'filename' => base64_decode(urldecode($filename)),
 		'classifier_result' => $class,

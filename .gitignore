@@ -11,3 +11,10 @@ assets/testing/*
 assets/dataset/*
 !assets/dataset/.gitignore
 .phpintel/
+!classified_ebooks/.gitignore
+classified_ebooks/004/*
+!classified_ebooks/004/.gitignore
+classified_ebooks/005/*
+!classified_ebooks/005/.gitignore
+classified_ebooks/006/*
+!classified_ebooks/006/.gitignore
