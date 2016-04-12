@@ -59,5 +59,10 @@ define('TESTING_DIR', 'assets/testing/');
 
 define('THRESSHOLD', 13);
 
+//C:\Program Files (x86)\Java\jdk1.7.0_79\bin
+define('JAVA_PATH', 'C:\Program Files\Java\jdk1.8.0_73\bin');
+
+define('XPDF_PATH', 'C:\xampp\htdocs\xpdfbin-win-3.04\bin64');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

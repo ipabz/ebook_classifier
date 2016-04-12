@@ -3,12 +3,8 @@
 class String {
 
   private $ci = NULL;
-
-  //PDF Vars
-  private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
-
-  //C:\Program Files (x86)\Java\jdk1.7.0_79\bin
-  private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
+  private $get_pdf_meta_data_cmd = XPDF_PATH . '\pdfinfo ';
+  private $javaBin = JAVA_PATH;
 
 
   public function __construct() {
