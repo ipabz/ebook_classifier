@@ -6,8 +6,10 @@ if (!defined('BASEPATH'))
 class String {
 
     private $ci = NULL;
-    private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
-    private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
+//    private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
+//    private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
+    private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
+    private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
 
     public function __construct() {
         $this->ci = & get_instance();
@@ -50,20 +52,26 @@ class String {
     }
 
     public function getOnlyToc($text) {
+
+        $text = strtolower($text);
+
+        $startIndex = $this->getTOCStartIndex($text);
+        $endIndex = $this->getTocEndIndex($text, $startIndex);
+
+        if (!($startIndex >= 0)) {
+            echo 'TOC not found!';
+        }
+
+        return substr($text, $startIndex, $endIndex);
+    }
+
+    public function getTOCStartIndex($text) {
+
         $toc_begin = array(
             'table of contents',
             'table of content',
             'contents',
             'content'
-        );
-
-        $toc_end = array(
-            'index',
-            'appendixes',
-            'bibliography',
-            'author index',
-            'glossary',
-            'references'
         );
 
         $sub = array(
@@ -82,53 +90,101 @@ class String {
             'part'
         );
 
+        $notToc = array(
+            'contents at a glance',
+            'contentsataglance',
+            'contentataglance',
+            'brief contents',
+            'briefcontents',
+            'brief content',
+            'briefcontent'
+        );
 
-        $exp = explode(' ', $text);
-        $_words = array();
-        $start = false;
-        $repeat = 0;
-        $counter = 0;
+        $beginIndex = -1;
+        $startIndex = -1;
 
-        foreach ($exp as $key => $val) {
+        foreach ($toc_begin as $word) {
+            $beginIndex = stripos($text, $word);
 
-            $__tmp = strtolower($val);
-
-            if ($counter > 0) {
-
-                if ($counter === 1 && $__tmp === 'at') {
-                    $counter++;
-                } else if ($counter === 2 && $__tmp === 'a') {
-                    $counter++;
-                } else if ($counter === 3 && $__tmp === 'glance') {
-                    $counter = 0;
-                } else {
-                    if (in_array($__tmp, $sub)) {
-                        $start = true;
-                    }
-                }
-            }
-
-            if (in_array($__tmp, $toc_begin)) {
-                $counter = 1;
-            }
-
-            if ($start) {
-                $_words[] = $__tmp;
-            }
-
-            if ((in_array($__tmp, $toc_end) && $start && count($_words) > 0)) {
-                $start = false;
+            if ($beginIndex === FALSE) {
+                $beginIndex = -1;
+            } else {
                 break;
             }
         }
 
-        $textTOC = trim(implode(' ', $_words));
+        if ($beginIndex >= 0) {
 
-        if ($textTOC === '') {
-            print 'Error: TOC not Identified.';
+            $temp = -1;
+
+            foreach ($notToc as $word) {
+                $temp = @stripos($text, $word, ($beginIndex - 100));
+
+                if ($temp === FALSE) {
+                    $temp = -1;
+                } else {
+                    break;
+                }
+            }
+
+            if ($temp < 0) {
+
+                foreach ($sub as $word) {
+                    $startIndex = stripos($text, $word, $beginIndex);
+
+                    if ($startIndex === FALSE) {
+                        $startIndex = -1;
+                    } else {
+                        $startIndex = $beginIndex;
+                        break;
+                    }
+                }
+            }
         }
 
-        return $textTOC;
+        return $startIndex;
+    }
+
+    public function getTocEndIndex($text, $start) {
+
+        $toc_end = array(
+            'index',
+            'appendixes',
+            'bibliography',
+            'author index',
+            'glossary',
+            'references'
+        );
+
+        $endIndex = -1;
+        $theWord = '';
+
+        foreach ($toc_end as $word) {
+            $endIndex = stripos($text, $word, $start);
+
+            if ($endIndex === FALSE) {
+                $endIndex = -1;
+            } else {
+                $theWord = $word;
+                break;
+            }
+        }
+
+        if ($endIndex === -1) {
+            $endIndex = strlen($text);
+        } else {
+            $text = substr($text, $start, $endIndex);
+            $temp = $endIndex;
+            $endIndex = strripos($text, $theWord);
+
+            if ($endIndex === FALSE) {
+                $endIndex = $temp;
+            } else {
+                $endIndex = $endIndex + strlen($theWord);
+            }
+        }
+
+        return $endIndex;
     }
 
     public function tokenize_by_word($text) {
