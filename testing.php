@@ -73,7 +73,7 @@ function getTOCStartIndex($text) {
 		$temp = -1;
 
 		foreach($notToc as $word) {
-			$temp = stripos($text, $word, ($beginIndex - 100));
+			$temp = @stripos($text, $word, ($beginIndex - 100));
 
 			if ($temp === FALSE) {
 				$temp = -1;

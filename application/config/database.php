@@ -50,7 +50,7 @@ $query_builder  = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'ebook_classifier';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
