@@ -104,7 +104,7 @@ class String {
         $startIndex = -1;
 
         foreach ($toc_begin as $word) {
-            $beginIndex = stripos($text, $word);
+            $beginIndex = @stripos($text, $word);
 
             if ($beginIndex === FALSE) {
                 $beginIndex = -1;
@@ -130,7 +130,7 @@ class String {
             if ($temp < 0) {
 
                 foreach ($sub as $word) {
-                    $startIndex = stripos($text, $word, $beginIndex);
+                    $startIndex = @stripos($text, $word, $beginIndex);
 
                     if ($startIndex === FALSE) {
                         $startIndex = -1;
@@ -160,7 +160,7 @@ class String {
         $theWord = '';
 
         foreach ($toc_end as $word) {
-            $endIndex = stripos($text, $word, $start);
+            $endIndex = @stripos($text, $word, $start);
 
             if ($endIndex === FALSE) {
                 $endIndex = -1;
@@ -175,7 +175,7 @@ class String {
         } else {
             $text = substr($text, $start, $endIndex);
             $temp = $endIndex;
-            $endIndex = strripos($text, $theWord);
+            $endIndex = @strripos($text, $theWord);
 
             if ($endIndex === FALSE) {
                 $endIndex = $temp;

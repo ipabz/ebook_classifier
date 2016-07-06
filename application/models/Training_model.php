@@ -6,7 +6,7 @@ class Training_model extends CI_Model {
         
         $ebookDir = FCPATH . EBOOKS_DIR;
 
-        if (trim($all_text) !== '') {
+        if (trim($all_text) !== '' && trim($toc) !== '') {
 
             $data = array(
                 'filename' => $filename,
@@ -66,7 +66,7 @@ class Training_model extends CI_Model {
 
             if (trim($all_text) !== '') {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_all_text.txt";
-                $this->create_file($_filename, $all_text);
+                $this->create_file($_filename, strtolower($all_text));
                 $this->saveTextFile($ebook_id, $_filename);
             }
             
