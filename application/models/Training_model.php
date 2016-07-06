@@ -296,7 +296,7 @@ class Training_model extends CI_Model {
         $this->db->where('class', $class);
 
         if ($awp) {
-            $this->db->where('count >', THRESSHOLD);
+            $this->db->where('count >', THRESHOLD);
         }
 
         $query = $this->db->get($table);
@@ -317,7 +317,7 @@ class Training_model extends CI_Model {
         $sql = "SELECT * FROM $table WHERE class = '$class'";
 
         if ($awp) {
-            $sql .= " AND count > '".THRESSHOLD."'";
+            $sql .= " AND count > '".THRESHOLD."'";
         }
 
         $sql .= " ORDER BY item_stemmed ASC";        
@@ -357,7 +357,7 @@ class Training_model extends CI_Model {
 
         foreach($result->result_array() as $model) {
             
-            if ( $model['count'] > THRESSHOLD ) {
+            if ( $model['count'] > THRESHOLD ) {
 
                 $raw_dataset[] = [
                     $model['item_raw'] => $model['count']
@@ -428,7 +428,7 @@ class Training_model extends CI_Model {
 
     public function corpusNumUniqueWords()
     {
-        $sql = "SELECT DISTINCT item_stemmed FROM ".TABLE_TRAINING." WHERE count > '".THRESSHOLD."'";
+        $sql = "SELECT DISTINCT item_stemmed FROM ".TABLE_TRAINING." WHERE count > '".THRESHOLD."'";
         $result = $this->db->query($sql);
 
         return $result->num_rows();

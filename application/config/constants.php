@@ -58,7 +58,7 @@ define('TESTING_DIR', 'assets/testing/');
 //@ini_set('post_max_size', '200M');
 //@ini_set('upload_max_filesize', '200M');
 
-define('THRESSHOLD', 13);
+define('THRESHOLD', 13);
 
 //C:\Program Files (x86)\Java\jdk1.7.0_79\bin
 define('JAVA_PATH', 'C:\Program Files\Java\jdk1.8.0_91\bin');
