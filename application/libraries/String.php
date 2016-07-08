@@ -8,8 +8,8 @@ class String {
     private $ci = NULL;
     private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
     private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
-//    private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
-//    private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
+   // private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
+   // private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
 
     public function __construct() {
         $this->ci = & get_instance();
@@ -242,8 +242,21 @@ class String {
         $data['final_tokens_raw'] = $final_tokens_raw;
         $data['all_text'] = $temp_d['allTheText'];
         $data['toc'] = $temp_d['text'];
+        $data['tokenized'] = $this->cleanString($words);
 
         return $data;
+    }
+
+    protected function cleanString($words) {
+
+        $data = array();
+
+        foreach($words as $w) {
+            $data[] = str_replace(array("\n", "\r", "\t", "\\"), '', $w);
+        }
+
+        return $data;
+
     }
 
     public function build_bigram($words) {

@@ -56,9 +56,9 @@ class Testing extends CI_Controller {
         $data['sucess'] = 'yes';
 		    $data['_data'] = $this->classifier->test($data['file_data']);
           
-        $data2 = $data['_data']['pre_process'];
+        $data2 = $data['_data']['pre_process']; 
         $this->classifier->save_entry(
-                    $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text']
+                    $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text'], $data2['toc'], $data2['tokenized']
             );
 
         $pdf_file = $data['file_data']['file_name'];

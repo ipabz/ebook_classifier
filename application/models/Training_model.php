@@ -2,7 +2,7 @@
 
 class Training_model extends CI_Model {
 
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '') {
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '') {
         
         $ebookDir = FCPATH . EBOOKS_DIR;
 
@@ -73,6 +73,12 @@ class Training_model extends CI_Model {
             if (trim($toc) !== '') {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_toc.txt";
                 $this->create_file($_filename, $toc);
+                $this->saveTextFile($ebook_id, $_filename);
+            }
+
+            if (count($tokenized) > 0) {
+                $_filename = $ebookDir . "ebook" . $ebook_id . "_tokenized.txt";
+                $this->create_file($_filename, json_encode($tokenized));
                 $this->saveTextFile($ebook_id, $_filename);
             }
 
