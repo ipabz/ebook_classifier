@@ -30,8 +30,7 @@ class Stringhandler extends CI_Model {
    *
    * @var string
    */
-  public $dictionary_file = 'assets/dictionaries/class004.txt';
-
+  
 
   /**
    * Constructor
