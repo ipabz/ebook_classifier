@@ -4,7 +4,7 @@ use \Litipk\BigNumbers\Decimal as Decimal;
 
 class Classifier extends CI_Model {
     
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '') {
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '') {
         
         $ebookDir = FCPATH . TESTING_DIR;
 
@@ -65,6 +65,11 @@ class Classifier extends CI_Model {
             if (trim($toc) !== '') {
                 $_filename = $ebookDir . "testing-" . $ebook_id . "_toc.txt";
                 $this->create_file($_filename, $toc);
+            }
+
+            if (count($tokenized) > 0) {
+                $_filename = $ebookDir . "testing" . $ebook_id . "_tokenized.txt";
+                $this->create_file($_filename, json_encode($tokenized));
             }
 
             return $ebook_id;

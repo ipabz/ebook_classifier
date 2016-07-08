@@ -8,8 +8,8 @@ class String {
     private $ci = NULL;
     private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
     private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
-//    private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
-//    private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
+   // private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
+   // private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
 
     public function __construct() {
         $this->ci = & get_instance();
@@ -113,6 +113,9 @@ class String {
             }
         }
 
+		 //---------- if a match is found, check if it is not found in  $notToc
+		 // - 100 moves the pointer 100 characters to the left
+		 
         if ($beginIndex >= 0) {
 
             $temp = -1;
@@ -207,14 +210,16 @@ class String {
         $words = $this->tokenize_by_word($text);
         $removed_stop_words = $this->ci->stringhandler->remove_stop_words($words);
         $removed_stop_words = $this->ci->stringhandler->remove_less_meaningful_words($removed_stop_words);
-        $stemmed = $this->ci->stringhandler->stem_array($removed_stop_words);
-
-        $count = $this->ci->stringhandler->count_occurences($stemmed, implode(' ', $stemmed));
+       
 
         $bigram_temp = $this->build_bigram($removed_stop_words);
         $bigram_raw = $bigram_temp['bigram_raw'];
         $bigram_stemmed = $bigram_temp['bigram_stemmed'];
         $bigram_counted = $this->count_bigram($bigram_stemmed);
+		
+		$stemmed = $this->ci->stringhandler->stem_array($removed_stop_words);
+
+        $count = $this->ci->stringhandler->count_occurences($stemmed, implode(' ', $stemmed));
 
         $raws_temp = array_merge($removed_stop_words, $bigram_raw);
 
@@ -237,8 +242,21 @@ class String {
         $data['final_tokens_raw'] = $final_tokens_raw;
         $data['all_text'] = $temp_d['allTheText'];
         $data['toc'] = $temp_d['text'];
+        $data['tokenized'] = $this->cleanString($words);
 
         return $data;
+    }
+
+    protected function cleanString($words) {
+
+        $data = array();
+
+        foreach($words as $w) {
+            $data[] = str_replace(array("\n", "\r", "\t", "\\"), '', $w);
+        }
+
+        return $data;
+
     }
 
     public function build_bigram($words) {
