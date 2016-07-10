@@ -2,7 +2,7 @@
 
 class Training_model extends CI_Model {
 
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '') {
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '') {
         
         $ebookDir = FCPATH . EBOOKS_DIR;
 
@@ -79,6 +79,12 @@ class Training_model extends CI_Model {
             if (count($tokenized) > 0) {
                 $_filename = $ebookDir . "ebook" . $ebook_id . "_tokenized.txt";
                 $this->create_file($_filename, json_encode($tokenized));
+                $this->saveTextFile($ebook_id, $_filename);
+            }
+            
+            if (count($bigram_stemmed) > 0) {
+                $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_stemmed.txt";
+                $this->create_file($_filename, json_encode($bigram_stemmed));
                 $this->saveTextFile($ebook_id, $_filename);
             }
 
