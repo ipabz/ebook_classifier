@@ -191,7 +191,7 @@ class String {
     }
 
     public function tokenize_by_word($text) {
-        $chars = "\\-=,?!':;_@#$&%^()[]{}/\"<>+*1234567890 ";
+        $chars = " \n\t\\-=,?!'.:;_@#$&%^()[]{}/\"<>+*1234567890 ";
 
         $tok = strtok($text, $chars);
         $words = array();
