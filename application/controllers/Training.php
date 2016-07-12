@@ -72,7 +72,7 @@ class Training extends CI_Controller {
             );
 
             $id = $this->training_model->save_entry(
-                    $data['contents'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text'], $data2['toc'], $data2['tokenized']
+                    $data['contents'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text'], $data2['toc'], $data2['tokenized'], $data2['bigram_stemmed']
             );
 
             $dd[] = $id;
