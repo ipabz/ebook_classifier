@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (! defined('BASEPATH')) {
+     exit('No direct script access allowed');
+ }
 /**
  * String Handler Class
  *
@@ -9,9 +11,10 @@
  * @category Models
  */
 
-class Stringhandler extends CI_Model {
+class Stringhandler extends CI_Model
+{
 
-  /**
+    /**
    * Set of characters used to trigger the splitting of words
    *
    * @var string $tokens
@@ -37,14 +40,15 @@ class Stringhandler extends CI_Model {
    *
    * Initializes everything needed to process strings
    */
-  public function __construct() {
-    parent::__construct();
+  public function __construct()
+  {
+      parent::__construct();
 
     // Load the needed libraries
-	//$this->load->library('pdf2text');
+    //$this->load->library('pdf2text');
     $this->load->library('stemmer');
 
-    $this->stop_words = $this->read_file('assets/stop_words.txt');
+      $this->stop_words = $this->read_file('assets/stop_words.txt');
   }
   // --------------------------------------------------------------------
 
@@ -57,15 +61,13 @@ class Stringhandler extends CI_Model {
    */
   public function remove_stop_words($words)
   {
-    $new_words = array();
+      $new_words = array();
 
-    for($x=0; $x < count($words); $x++) {
-
-      if ( ! in_array($words[$x], $this->stop_words) ) {
-        $new_words[] = $words[$x];
-      }
-
-    } // end foreach
+      for ($x=0; $x < count($words); $x++) {
+          if (! in_array($words[$x], $this->stop_words)) {
+              $new_words[] = $words[$x];
+          }
+      } // end foreach
 
     return $new_words;
   } // End function remove_stop_words
@@ -82,15 +84,15 @@ class Stringhandler extends CI_Model {
    */
   public function read_file($file_name)
   {
-    $file_name = ($file_name);
-    $file = new SplFileObject($file_name);
-    $dictionary = array();
+      $file_name = ($file_name);
+      $file = new SplFileObject($file_name);
+      $dictionary = array();
 
-    while (!$file->eof()) {
-        $dictionary[] = trim($file->fgets());
-    }
+      while (!$file->eof()) {
+          $dictionary[] = trim($file->fgets());
+      }
 
-    return $dictionary;
+      return $dictionary;
   } // End function read_file
   // --------------------------------------------------------------------
 
@@ -103,13 +105,13 @@ class Stringhandler extends CI_Model {
    */
   public function stem($words)
   {
-    $w = $this->stemmer->stem_list($words);
+      $w = $this->stemmer->stem_list($words);
 
-    if ( is_array($w) ) {
-      $w = implode(' ', $w);
-    }
+      if (is_array($w)) {
+          $w = implode(' ', $w);
+      }
 
-    return $w;
+      return $w;
     //return implode(' ', $this->stemmer->stem_list($words));
   } // End function stem
   // --------------------------------------------------------------------
@@ -123,13 +125,13 @@ class Stringhandler extends CI_Model {
    */
   public function stem_array($array_of_words)
   {
-    $file = array();
+      $file = array();
 
-    foreach($array_of_words as $words) {
-      $file[] = $this->stem($words);
-    }
+      foreach ($array_of_words as $words) {
+          $file[] = $this->stem($words);
+      }
 
-    return $file;
+      return $file;
   } // End function stem_array
   // --------------------------------------------------------------------
 
@@ -142,24 +144,24 @@ class Stringhandler extends CI_Model {
    */
   public function count_occurences($words, $text)
   {
-    if ( ! is_array($words) ) {
-      $words = explode(' ', $words);
-    }
-
-    $data = array();
-    $text = ' '.trim($text).' ';
-
-    foreach($words as $word) {
-      if (trim($word) != '') {
-        $count = substr_count($text, ' '.trim($word).' ');
-
-        if ($count > 0) {
-          $data[trim($word)] = $count;
-        }
+      if (! is_array($words)) {
+          $words = explode(' ', $words);
       }
-    }
 
-    return $data;
+      $data = array();
+      $text = ' '.trim($text).' ';
+
+      foreach ($words as $word) {
+          if (trim($word) != '') {
+              $count = substr_count($text, ' '.trim($word).' ');
+
+              if ($count > 0) {
+                  $data[trim($word)] = $count;
+              }
+          }
+      }
+
+      return $data;
   } // End function count_occurences
   // --------------------------------------------------------------------
 
@@ -172,20 +174,18 @@ class Stringhandler extends CI_Model {
    */
   public function remove_less_meaningful_words($words)
   {
-    $final_words = array();
+      $final_words = array();
 
-    foreach($words as $word) {
-      $word = utf8_encode( trim($word) );
-      if ( strlen($word) > 3 && (!preg_match('/[^A-Za-z0-9]/', $word)) ) {
-        $final_words[] = $word;
+      foreach ($words as $word) {
+          $word = utf8_encode(trim($word));
+          if (strlen($word) > 3 && (!preg_match('/[^A-Za-z0-9]/', $word))) {
+              $final_words[] = $word;
+          }
       }
-    }
 
-    return $final_words;
+      return $final_words;
   } // End function remove_less_meaningful_words
   // --------------------------------------------------------------------
-
-
 } // End class StringHandler
 
 

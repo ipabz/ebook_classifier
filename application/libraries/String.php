@@ -1,22 +1,26 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
-class String {
+class String
+{
 
-    private $ci = NULL;
+    private $ci = null;
     private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
     private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
 //    private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
 //    private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->ci = & get_instance();
         $this->ci->load->model('stringhandler');
     }
 
-    public function pdf_to_text($pdf_file) {
+    public function pdf_to_text($pdf_file)
+    {
         $pdf_file = realpath($pdf_file);
 
         $text = '';
@@ -51,8 +55,8 @@ class String {
         return $data;
     }
 
-    public function getOnlyToc($text) {
-
+    public function getOnlyToc($text)
+    {
         $text = strtolower($text);
 
         $startIndex = $this->getTOCStartIndex($text);
@@ -65,8 +69,8 @@ class String {
         return substr($text, $startIndex, $endIndex);
     }
 
-    public function getTOCStartIndex($text) {
-
+    public function getTOCStartIndex($text)
+    {
         $toc_begin = array(
             'table of contents',
             'table of content',
@@ -106,24 +110,23 @@ class String {
         foreach ($toc_begin as $word) {
             $beginIndex = @stripos($text, $word);
 
-            if ($beginIndex === FALSE) {
+            if ($beginIndex === false) {
                 $beginIndex = -1;
             } else {
                 break;
             }
         }
 
-		 //---------- if a match is found, check if it is not found in  $notToc
-		 // - 100 moves the pointer 100 characters to the left
-		 
-        if ($beginIndex >= 0) {
+         //---------- if a match is found, check if it is not found in  $notToc
+         // - 100 moves the pointer 100 characters to the left
 
+        if ($beginIndex >= 0) {
             $temp = -1;
 
             foreach ($notToc as $word) {
                 $temp = @stripos($text, $word, ($beginIndex - 100));
 
-                if ($temp === FALSE) {
+                if ($temp === false) {
                     $temp = -1;
                 } else {
                     break;
@@ -131,11 +134,10 @@ class String {
             }
 
             if ($temp < 0) {
-
                 foreach ($sub as $word) {
                     $startIndex = @stripos($text, $word, $beginIndex);
 
-                    if ($startIndex === FALSE) {
+                    if ($startIndex === false) {
                         $startIndex = -1;
                     } else {
                         $startIndex = $beginIndex;
@@ -148,8 +150,8 @@ class String {
         return $startIndex;
     }
 
-    public function getTocEndIndex($text, $start) {
-
+    public function getTocEndIndex($text, $start)
+    {
         $toc_end = array(
             'index',
             'appendixes',
@@ -165,7 +167,7 @@ class String {
         foreach ($toc_end as $word) {
             $endIndex = @stripos($text, $word, $start);
 
-            if ($endIndex === FALSE) {
+            if ($endIndex === false) {
                 $endIndex = -1;
             } else {
                 $theWord = $word;
@@ -180,7 +182,7 @@ class String {
             $temp = $endIndex;
             $endIndex = @strripos($text, $theWord);
 
-            if ($endIndex === FALSE) {
+            if ($endIndex === false) {
                 $endIndex = $temp;
             } else {
                 $endIndex = $endIndex + strlen($theWord);
@@ -190,7 +192,8 @@ class String {
         return $endIndex;
     }
 
-    public function tokenize_by_word($text) {
+    public function tokenize_by_word($text)
+    {
         $chars = "\\-=,?!':;_@#$&%^()[]{}/\"<>+*1234567890 ";
 
         $tok = strtok($text, $chars);
@@ -204,7 +207,8 @@ class String {
         return $words;
     }
 
-    public function process($pdf_file, $category = "004") {
+    public function process($pdf_file, $category = "004")
+    {
         $temp_d = $this->pdf_to_text($pdf_file);
         $text = $temp_d['text'];
         $words = $this->tokenize_by_word($text);
@@ -216,8 +220,8 @@ class String {
         $bigram_raw = $bigram_temp['bigram_raw'];
         $bigram_stemmed = $bigram_temp['bigram_stemmed'];
         $bigram_counted = $this->count_bigram($bigram_stemmed);
-		
-		$stemmed = $this->ci->stringhandler->stem_array($removed_stop_words);
+        
+        $stemmed = $this->ci->stringhandler->stem_array($removed_stop_words);
 
         $count = $this->ci->stringhandler->count_occurences($stemmed, implode(' ', $stemmed));
 
@@ -247,19 +251,19 @@ class String {
         return $data;
     }
 
-    protected function cleanString($words) {
-
+    protected function cleanString($words)
+    {
         $data = array();
 
-        foreach($words as $w) {
+        foreach ($words as $w) {
             $data[] = str_replace(array("\n", "\r", "\t", "\\"), '', $w);
         }
 
         return $data;
-
     }
 
-    public function build_bigram($words) {
+    public function build_bigram($words)
+    {
         $bigrams = array();
         $stemmed = array();
 
@@ -276,15 +280,15 @@ class String {
         return $data;
     }
 
-    public function count_bigram($bigram) {
-
+    public function count_bigram($bigram)
+    {
         $counts = array_count_values($bigram);
 
         return $counts;
     }
 
-    public function search($needle, $haystack) {
-
+    public function search($needle, $haystack)
+    {
         $index = 0;
 
         foreach ($haystack as $key => $val) {
@@ -297,7 +301,6 @@ class String {
 
         return $index;
     }
-
 }
 
 // End class String

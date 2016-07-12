@@ -4,8 +4,8 @@ $string = file_get_contents('C:\Users\icpabelona\Desktop\Code\ebook_classifier\a
 
 print getOnlyToc($string);
 
-function getOnlyToc($text) {
-
+function getOnlyToc($text)
+{
     $text = strtolower($text);
 
     $startIndex = getTOCStartIndex($text);
@@ -18,8 +18,8 @@ function getOnlyToc($text) {
     return substr($text, $startIndex, $endIndex);
 }
 
-function getTOCStartIndex($text) {
-
+function getTOCStartIndex($text)
+{
     $toc_begin = array(
         'table of contents',
         'table of content',
@@ -59,7 +59,7 @@ function getTOCStartIndex($text) {
     foreach ($toc_begin as $word) {
         $beginIndex = @stripos($text, $word);
 
-        if ($beginIndex === FALSE) {
+        if ($beginIndex === false) {
             $beginIndex = -1;
         } else {
             break;
@@ -67,13 +67,12 @@ function getTOCStartIndex($text) {
     }
 
     if ($beginIndex >= 0) {
-
         $temp = -1;
 
         foreach ($notToc as $word) {
             $temp = @stripos($text, $word, ($beginIndex - 100));
 
-            if ($temp === FALSE) {
+            if ($temp === false) {
                 $temp = -1;
             } else {
                 break;
@@ -81,11 +80,10 @@ function getTOCStartIndex($text) {
         }
 
         if ($temp < 0) {
-
             foreach ($sub as $word) {
                 $startIndex = @stripos($text, $word, $beginIndex);
 
-                if ($startIndex === FALSE) {
+                if ($startIndex === false) {
                     $startIndex = -1;
                 } else {
                     $startIndex = $beginIndex;
@@ -104,10 +102,9 @@ function getTOCStartIndex($text) {
         foreach ($sub as $word) {
             $startIndex = @stripos($text, $word);
 
-            if ($startIndex === FALSE) {
+            if ($startIndex === false) {
                 $startIndex = -1;
             } else {
-
                 switch ($counter) {
                     case 0:
                         $index1 = $startIndex;
@@ -136,8 +133,8 @@ function getTOCStartIndex($text) {
     return $startIndex;
 }
 
-function getTocEndIndex($text, $start) {
-
+function getTocEndIndex($text, $start)
+{
     $toc_end = array(
         'index',
         'appendixes',
@@ -153,7 +150,7 @@ function getTocEndIndex($text, $start) {
     foreach ($toc_end as $word) {
         $endIndex = stripos($text, $word, $start);
 
-        if ($endIndex === FALSE) {
+        if ($endIndex === false) {
             $endIndex = -1;
         } else {
             $theWord = $word;
@@ -168,7 +165,7 @@ function getTocEndIndex($text, $start) {
         $temp = $endIndex;
         $endIndex = strripos($text, $theWord);
 
-        if ($endIndex === FALSE) {
+        if ($endIndex === false) {
             $endIndex = $temp;
         } else {
             $endIndex = $endIndex + strlen($theWord);

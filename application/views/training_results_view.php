@@ -2,16 +2,14 @@
   <div class="container-fluid">
     
     <h2 class="text-center">Word Frequency</h2>
-    <?php print (($this->input->get('corpus')) ? "<div class='text-center'><strong>Corpus ".$this->input->get('corpus')."</strong></div>" : ""); ?>
+    <?php print(($this->input->get('corpus')) ? "<div class='text-center'><strong>Corpus ".$this->input->get('corpus')."</strong></div>" : ""); ?>
     <hr />
     <?php
     $counter = 1;
-    foreach($query->result() as $row_file) {
-      $counted = (array)json_decode($row_file->tokens_count); 
-      $raw = (array)json_decode($row_file->removed_stop_words); 
-      $class_file = 'class'.trim($row_file->classification).'.txt';
-      
-    ?>
+    foreach ($query->result() as $row_file) {
+        $counted = (array)json_decode($row_file->tokens_count);
+        $raw = (array)json_decode($row_file->removed_stop_words);
+        $class_file = 'class'.trim($row_file->classification).'.txt'; ?>
     <br />
     <div class="panel panel-info">
       <div class="panel-heading">
@@ -25,8 +23,7 @@
                 <div>
                 <?php
                 print '<strong>File Name</strong> <br>'.$row_file->filename;
-                print '<br><br><strong>Corpus</strong> <br>'.$row_file->classification;
-                ?>
+        print '<br><br><strong>Corpus</strong> <br>'.$row_file->classification; ?>
                 </div>
               </div>
             </div>
@@ -41,17 +38,15 @@
                 <tbody>
                    <?php
                    $raw_count = 0;
-                   foreach($counted as $word => $count) {
-                     $raw_word = @$raw[$raw_count];
-                   ?>
+        foreach ($counted as $word => $count) {
+            $raw_word = @$raw[$raw_count]; ?>
                   <tr>
                     <td class="text-left"><?php print ucwords($raw_word); ?></td>
                     <td class="text-center"><?php print $count; ?></td>
                   </tr>
                    <?php
                     $raw_count++;
-                   }
-                   ?>
+        } ?>
                 </tbody>
               </table>
             </div>
@@ -60,7 +55,6 @@
     </div>
     <?php
     $counter++;
-    
     }
     ?>
     <br />

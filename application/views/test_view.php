@@ -11,22 +11,22 @@
       <?php
       $dc_digits = 5;
       if (@$error !== '') {
-      ?>
+          ?>
       <div class="alert alert-danger" role="alert">
         <?php print @$error; ?>
       </div>
       <?php
+
       }
       ?>
       
       
         <?php
         if (@$sucess === '') {
-          
-        ?>
+            ?>
         <br>
         <div class="row fileupload-buttonbar text-center">
-            <?php print form_open_multipart('testing/do_upload', 'class="testuploadform"');?>
+            <?php print form_open_multipart('testing/do_upload', 'class="testuploadform"'); ?>
             
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
@@ -42,17 +42,18 @@
             <?php print form_close(); ?>
         </div>
         <?php
+
         } else {
-          /*
+            /*
           print '<pre>';
           print_r($_data);
           print '</pre>';
           
            * 
            */
-		?>
+        ?>
         <div class="text-center alert alert-success">
-          This document ( <?php print $file_data['file_name'];  ?> ) is predicted as <strong><?php print $_data['result']; ?></strong>.
+          This document ( <?php print $file_data['file_name']; ?> ) is predicted as <strong><?php print $_data['result']; ?></strong>.
         </div>
         <br />
         <div id="finaltokens_encoded" style="display: none;"><?php print json_encode($_data['pre_process']['final_tokens_raw']); ?></div>
@@ -61,7 +62,8 @@
         	<strong>Actual</strong> &nbsp;&nbsp; <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/1'); ?>" class="btn btn-success do_ajax">004</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/2'); ?>" class="btn btn-primary do_ajax">005</a> <a href="<?php print site_url('testing/accuracy/'.urlencode(base64_encode($file_data['file_name'])).'/'.$_data['result'].'/3'); ?>" class="btn btn-danger do_ajax">006</a>
         </div>
         <?php
-		}
+
+        }
         ?>
        
     
