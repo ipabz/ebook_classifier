@@ -267,9 +267,12 @@ class String {
 
         for ($x = 1; $x < count($words); $x++) {
             $bigrams[] = utf8_encode($words[$x - 1]) . ' ' . utf8_encode($words[$x]);
-            $stemmed[] = $this->ci->stemmer->stem(utf8_encode($words[$x - 1])) . ' ' . $this->ci->stemmer->stem(utf8_encode($words[$x]));
         }
 
+		 for ($x = 1; $x < count($words); $x++) {
+            $stemmed[] = $this->ci->stemmer->stem(utf8_encode($words[$x - 1])) . ' ' . $this->ci->stemmer->stem(utf8_encode($words[$x]));
+        }
+		
         $data['bigram_raw'] = $bigrams;
         $data['bigram_stemmed'] = $stemmed;
 
