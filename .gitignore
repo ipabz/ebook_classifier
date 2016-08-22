@@ -8,8 +8,8 @@ assets/ebooks/*
 vendor/
 assets/testing/*
 !assets/testing/.gitignore
-assets/dataset/*
-!assets/dataset/.gitignore
+assets/training_model/*
+!assets/training_model/.gitignore
 .phpintel/
 !classified_ebooks/.gitignore
 classified_ebooks/004/*

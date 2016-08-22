@@ -10,8 +10,8 @@ class String
     private $ci = null;
     private $get_pdf_meta_data_cmd = 'C:\wamp\www\xpdfbin-win-3.04\bin64\pdfinfo ';
     private $javaBin = 'C:\Program Files (x86)\Java\jdk1.7.0_79\bin';
-//    private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
-//    private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
+    // private $get_pdf_meta_data_cmd = 'C:\Users\icpabelona\Desktop\Code\xpdfbin-win-3.04\bin64\pdfinfo ';
+    // private $javaBin = 'C:\Program Files\Java\jdk1.8.0_91\bin';
 
     public function __construct()
     {
@@ -194,7 +194,7 @@ class String
 
     public function tokenize_by_word($text)
     {
-        $chars = "\\-=,?!':;_@#$&%^()[]{}/\"<>+*1234567890 ";
+        $chars = " \n\t\\-=,?!'.:;_@#$&%^()[]{}/\"<>+*1234567890 ";
 
         $tok = strtok($text, $chars);
         $words = array();
@@ -271,6 +271,9 @@ class String
 
         for ($x = 1; $x < count($words); $x++) {
             $bigrams[] = utf8_encode($words[$x - 1]) . ' ' . utf8_encode($words[$x]);
+        }
+
+        for ($x = 1; $x < count($words); $x++) {
             $stemmed[] = $this->ci->stemmer->stem(utf8_encode($words[$x - 1])) . ' ' . $this->ci->stemmer->stem(utf8_encode($words[$x]));
         }
 
