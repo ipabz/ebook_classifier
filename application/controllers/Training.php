@@ -1,19 +1,23 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
-class Training extends CI_Controller {
+class Training extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         //$this->training_model->train();
         //$this->session->set_userdata('PDFxStreamInUse', 'no');
     }
 
-    public function index() {
+    public function index()
+    {
         define('TRAINING', true);
-		$this->session->set_userdata('PDFxStreamInUse', 'no');
+        $this->session->set_userdata('PDFxStreamInUse', 'no');
         $data['classifications'] = $this->classifications->get_all();
 
         $this->load->view('common/header', $data);
@@ -21,8 +25,8 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function train() {
-
+    public function train()
+    {
         $this->session->unset_userdata('training_ids');
         $this->session->set_userdata('PDFxStreamInUse', 'no');
 
@@ -36,10 +40,9 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function handle_file_training_v2() {
-
-        
-        while( $this->session->userdata('PDFxStreamInUse') == 'yes' ) {
+    public function handle_file_training_v2()
+    {
+        while ($this->session->userdata('PDFxStreamInUse') == 'yes') {
             usleep(500);
         }
 
@@ -55,15 +58,14 @@ class Training extends CI_Controller {
         $data['date'] = '';
         $data['type'] = 'File Upload';
 
-        if (trim($data['contents']) !== '[]' && trim($data['contents']) !== '' && trim($data['contents']) !== 'null' && trim($data['contents']) !== NULL) {
-
+        if (trim($data['contents']) !== '[]' && trim($data['contents']) !== '' && trim($data['contents']) !== 'null' && trim($data['contents']) !== null) {
             $class = @$_POST['corpus'];
             
             $theFileName = $data['contents'];
             $tempFile = @time() . '-' . (rand() * 100) . '.pdf';
             
             
-            if ( @copy(FCPATH.'server/php/files/'.$data['contents'], FCPATH.'server/php/files/'.$tempFile) ) {
+            if (@copy(FCPATH.'server/php/files/'.$data['contents'], FCPATH.'server/php/files/'.$tempFile)) {
                 $theFileName = $tempFile;
             }
 
@@ -83,7 +85,8 @@ class Training extends CI_Controller {
         $this->session->set_userdata('PDFxStreamInUse', 'no');
     }
 
-    public function show_results() {
+    public function show_results()
+    {
         define('TRAINING', true);
         $ids = $this->input->get('ids');
         $exploded = explode(',', $ids);
@@ -102,7 +105,8 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function view_ebooks($corpus = "all", $per_page = 25, $offset = 0) {
+    public function view_ebooks($corpus = "all", $per_page = 25, $offset = 0)
+    {
         $this->load->library('pagination');
 
         $this->session->set_userdata('PDFxStreamInUse', 'no');
@@ -143,7 +147,8 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function corpora_raw($type = 'raw') {
+    public function corpora_raw($type = 'raw')
+    {
         $this->session->set_userdata('PDFxStreamInUse', 'no');
         $data['classifications'] = $this->classifications->get_all();
         $data['class004'] = $this->training_model->get_training_set('004');
@@ -174,8 +179,8 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function awp($type = 'raw') {
-
+    public function awp($type = 'raw')
+    {
         $this->session->set_userdata('PDFxStreamInUse', 'no');
         
         $this->training_model->generate_awp();
@@ -209,8 +214,8 @@ class Training extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function view_tokens($id) {
-
+    public function view_tokens($id)
+    {
         $this->session->set_userdata('PDFxStreamInUse', 'no');
         $this->db->where('id', $id);
         $query = $this->db->get(TABLE_EBOOK);
@@ -218,7 +223,6 @@ class Training extends CI_Controller {
         $preprocess = $this->training_model->get_preprocess_data($id);
 
         if ($query->num_rows() > 0) {
-
             $row = $query->row();
             $temp_tokens = json_decode($preprocess['final_tokens']);
             $tokens = array();
@@ -251,7 +255,6 @@ class Training extends CI_Controller {
         $this->load->view('main_view');
         $this->load->view('common/footer');
     }
-
 }
 
 /* End of file training.php */

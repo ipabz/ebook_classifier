@@ -15,14 +15,14 @@
                 <div>Corpus</div>
                 <select class="form-control form-class-select">
                   <?php
-                  foreach($classifications->result() as $row) {
-                  ?>
+                  foreach ($classifications->result() as $row) {
+                      ?>
                   <option value="<?php print $row->class_name; ?>">
                   <?php
-                  print $row->class_name;
-                  ?>
+                  print $row->class_name; ?>
                   </option>
                   <?php
+
                   }
                   ?>   
                 </select>

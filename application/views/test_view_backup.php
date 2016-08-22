@@ -11,22 +11,22 @@
       <?php
       $dc_digits = 5;
       if (@$error !== '') {
-      ?>
+          ?>
       <div class="alert alert-danger" role="alert">
         <?php print @$error; ?>
       </div>
       <?php
+
       }
       ?>
       
       
         <?php
         if (@$sucess === '') {
-          
-        ?>
+            ?>
         <br>
         <div class="row fileupload-buttonbar text-center">
-            <?php print form_open_multipart('testing/do_upload', 'class="testuploadform"');?>
+            <?php print form_open_multipart('testing/do_upload', 'class="testuploadform"'); ?>
             
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
@@ -42,24 +42,22 @@
             <?php print form_close(); ?>
         </div>
         <?php
+
         }
         ?>
        <?php
           if (@$sucess !== '') {
-            
-            $class_004 = $class004->result_array();
-            $class_005 = $class005->result_array();
-            $class_006 = $class006->result_array();
+              $class_004 = $class004->result_array();
+              $class_005 = $class005->result_array();
+              $class_006 = $class006->result_array();
 
-            $ftotal004 = $this->training_model->frequency_sum('004');
-            $ftotal005 = $this->training_model->frequency_sum('005');
-            $ftotal006 = $this->training_model->frequency_sum('006');
+              $ftotal004 = $this->training_model->frequency_sum('004');
+              $ftotal005 = $this->training_model->frequency_sum('005');
+              $ftotal006 = $this->training_model->frequency_sum('006');
 
-            $ftotal004 = $ftotal004 + $class004->num_rows() + 1;
-            $ftotal005 = $ftotal005 + $class005->num_rows() + 1;
-            $ftotal006 = $ftotal006 + $class006->num_rows() + 1;
-            
-          ?>
+              $ftotal004 = $ftotal004 + $class004->num_rows() + 1;
+              $ftotal005 = $ftotal005 + $class005->num_rows() + 1;
+              $ftotal006 = $ftotal006 + $class006->num_rows() + 1; ?>
           <br />
         <!-- The table listing the files available for upload/download -->
         <!--
@@ -67,7 +65,7 @@
           
               <tr>
                 <td>
-                  <?php print $file_data['file_name'];  ?>
+                  <?php print $file_data['file_name']; ?>
                 </td>
                 <td class="text-right">
                   <input type="button" value="Show Details" class="btn btn-success showmoreresults" />
@@ -87,95 +85,87 @@
                     </thead>
                     <tbody>
                     <?php
-                    
+
                     $total__004 = 0;
-                    $total__005 = 0;
-                    $total__006 = 0;
+              $total__005 = 0;
+              $total__006 = 0;
                     
-                    foreach($datas['final_tokens_raw'] as $row) {
+              foreach ($datas['final_tokens_raw'] as $row) {
+                  $exploded = explode(' ', $row);
+                  $stemmed = '';
                       
-                      $exploded = explode(' ', $row);
-                      $stemmed = '';
+                  foreach ($exploded as $s) {
+                      $stemmed = $this->stemmer->stem($s). ' ';
+                  }
                       
-                      foreach($exploded as $s) {
-                        $stemmed = $this->stemmer->stem($s). ' ';
-                      }
+                  $stemmed = trim($stemmed);
                       
-                      $stemmed = trim($stemmed);
-                      
-                      $key_004 = $this->string->search($stemmed, $class_004);
-                      $key_005 = $this->string->search($stemmed, $class_005);
-                      $key_006 = $this->string->search($stemmed, $class_006);
-                      
-                    ?>
+                  $key_004 = $this->string->search($stemmed, $class_004);
+                  $key_005 = $this->string->search($stemmed, $class_005);
+                  $key_006 = $this->string->search($stemmed, $class_006); ?>
                       <tr>
                         <td><?php print ucwords($row); ?></td>
                         <td class="text-center">
                         <?php
                         $temp_004 = @$class_004[$key_004]['count'];
                         
-                        if (@$temp_004 !== '') {
-                          $tmp = (($temp_004 + 1) / $ftotal004) / 100;
-                          $total__004 = $total__004 + $tmp;
-						  /*
+                  if (@$temp_004 !== '') {
+                      $tmp = (($temp_004 + 1) / $ftotal004) / 100;
+                      $total__004 = $total__004 + $tmp;
+                          /*
                           if ($total__004 == 0) {
                             $total__004 = $tmp;
                           } else {
                             $total__004 = bcmul($total__004, $tmp, $dc_digits);
                           }
-						  */
+                          */
                           print number_format($tmp, $dc_digits);
-                        }
-                        ?>
+                  } ?>
                         </td>
                         <td class="text-center">
                         <?php
                         $temp_005 = @$class_005[$key_005]['count'];
                         
-                        if (@$temp_005 !== '') {
-                          $tmp = (($temp_005 + 1) / $ftotal005) / 100;
-                          $total__005 = $total__005 + $tmp;
-						  /*
+                  if (@$temp_005 !== '') {
+                      $tmp = (($temp_005 + 1) / $ftotal005) / 100;
+                      $total__005 = $total__005 + $tmp;
+                          /*
                           if ($total__005 == 0) {
                             $total__005 = $tmp;
                           } else {
                             $total__005 = bcmul($total__005, $tmp, $dc_digits);
                           }
-						  */
+                          */
                           print number_format($tmp, $dc_digits);
-                        }
-                        ?>
+                  } ?>
                         </td>
                         <td class="text-center">
                         <?php
                         $temp_006 = @$class_006[$key_006]['count'];
                         
-                        if (@$temp_006 !== '') {
-                          $tmp = (($temp_006 + 1) / $ftotal006) / 100;
-                          $total__006 = $total__006 + $tmp;
-						  /*
+                  if (@$temp_006 !== '') {
+                      $tmp = (($temp_006 + 1) / $ftotal006) / 100;
+                      $total__006 = $total__006 + $tmp;
+                          /*
                           if ($total__006 == 0) {
                             $total__006 = $tmp;
                           } else {
                             $total__006 = bcmul($total__006, $tmp, $dc_digits);
                           }
-						  */
+                          */
                           print number_format($tmp, $dc_digits);
-                        }
-                        ?>
+                  } ?>
                         </td>
                       </tr>
                     <?php
-                    }
-                    ?>
+
+              } ?>
                     </tbody>
                     <?php
-                    
+
                     $total__004 = $total__004 * 100;
-                    $total__005 = $total__005 * 100;
-                    $total__006 = $total__006 * 100;
-                    
-                    ?>
+              $total__005 = $total__005 * 100;
+              $total__006 = $total__006 * 100; ?>
                     <tfoot>
                       <tr>
                         <td colspan="4">&nbsp;</td>
@@ -184,18 +174,15 @@
                         <td>&nbsp;</td>
                         <td class="text-center">
                         <?php
-                          print number_format($total__004, $dc_digits);
-                        ?>
+                          print number_format($total__004, $dc_digits); ?>
                         </td>
                         <td class="text-center">
                         <?php
-                          print number_format($total__005, $dc_digits);
-                        ?>
+                          print number_format($total__005, $dc_digits); ?>
                         </td>
                         <td class="text-center">
                         <?php
-                          print number_format($total__006, $dc_digits);
-                        ?>
+                          print number_format($total__006, $dc_digits); ?>
                         </td>
                       </tr>
                     </tfoot>
@@ -208,17 +195,16 @@
         <?php
         $result_category = '004';
         
-        if ($total__004 < $total__005) {
-          $result_category = '005';
-        }
+              if ($total__004 < $total__005) {
+                  $result_category = '005';
+              }
         
-        if ($total__005 < $total__006) {
-          $result_category = '006';
-        }
-        ?>
+              if ($total__005 < $total__006) {
+                  $result_category = '006';
+              } ?>
         
         <div class="text-center alert alert-success">
-          This document ( <?php print $file_data['file_name'];  ?> ) is classified as <strong><?php print $result_category; ?></strong>.
+          This document ( <?php print $file_data['file_name']; ?> ) is classified as <strong><?php print $result_category; ?></strong>.
         </div>
 		<br />
         <div id="finaltokens_encoded" style="display: none;"><?php print json_encode($datas['final_tokens_raw']); ?></div>
@@ -227,6 +213,7 @@
         </div>
         
         <?php
+
           }
           ?>
     

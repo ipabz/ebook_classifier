@@ -15,7 +15,7 @@
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     
     <?php
-    if (defined('TRAINING') OR defined('JUST_CSS')) :
+    if (defined('TRAINING') or defined('JUST_CSS')) :
       // The below CSS file(s) is loaded only for pages that requires uploading of files.
       // This is to maintain fast loading of pages.
     ?>
@@ -69,16 +69,16 @@
             
             
             <ul class="nav navbar-nav navbar-right main">
-              <li class="<?php print ((in_array('train', $urlSegment)) ? "active" : ""); ?>"><a href="train"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a></li>
-              <li class="<?php print ((in_array('test', $urlSegment)) ? "active" : ""); ?>"><a href="test"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a></li>
+              <li class="<?php print((in_array('train', $urlSegment)) ? "active" : ""); ?>"><a href="train"><span class="glyphicon glyphicon-plus"></span> &nbsp;Train</a></li>
+              <li class="<?php print((in_array('test', $urlSegment)) ? "active" : ""); ?>"><a href="test"><span class="glyphicon glyphicon-ok"></span> &nbsp;Test</a></li>
                 
-                <li class="<?php print ((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>"><a href="<?php print site_url('training/view_ebooks/all'); ?>"><span class="glyphicon glyphicon-file"></span> &nbsp;Ebooks</a></li>
+                <li class="<?php print((in_array('view_ebooks', $urlSegment)) ? "active" : ""); ?>"><a href="<?php print site_url('training/view_ebooks/all'); ?>"><span class="glyphicon glyphicon-file"></span> &nbsp;Ebooks</a></li>
                 
   
 
 
 
-              <li class="dropdown <?php print ((in_array('corpora', $urlSegment)) ? "active" : ""); ?>">
+              <li class="dropdown <?php print((in_array('corpora', $urlSegment)) ? "active" : ""); ?>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;Corpus <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="<?php print site_url('corpora/raw'); ?>">All Words (AW)</a></li>
@@ -87,7 +87,7 @@
               </li>
 
 
-              <li class="<?php print ((in_array('evaluation', $urlSegment)) ? "active" : ""); ?>"><a href="evaluation"><span class="glyphicon glyphicon-list"></span> &nbsp;Evaluation</a></li>
+              <li class="<?php print((in_array('evaluation', $urlSegment)) ? "active" : ""); ?>"><a href="evaluation"><span class="glyphicon glyphicon-list"></span> &nbsp;Evaluation</a></li>
               
             </ul>
           </div><!-- /.navbar-collapse -->

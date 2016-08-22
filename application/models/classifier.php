@@ -2,14 +2,14 @@
 
 use \Litipk\BigNumbers\Decimal as Decimal;
 
-class Classifier extends CI_Model {
+class classifier extends CI_Model
+{
 
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '') {
-
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '')
+    {
         $ebookDir = FCPATH . TESTING_DIR;
 
         if (trim($all_text) !== '') {
-
             $data = array(
                 'filename' => $filename,
                 'classification' => $class,
@@ -80,17 +80,19 @@ class Classifier extends CI_Model {
             return $ebook_id;
         }
 
-        return NULL;
+        return null;
     }
 
-    private function create_file($filename, $contents) {
+    private function create_file($filename, $contents)
+    {
         $myfile = fopen($filename, "w") or die("Unable to open file!");
         $txt = $contents;
         fwrite($myfile, $txt);
         fclose($myfile);
     }
 
-    public function accuracy($filename, $class, $accuracy, $tokens, $nb_class) {
+    public function accuracy($filename, $class, $accuracy, $tokens, $nb_class)
+    {
 
         // Get the latest training model
         $this->db->limit(1);
@@ -100,9 +102,9 @@ class Classifier extends CI_Model {
 
         if ($accuracy === '1') {
             $accuracy = '004';
-        } else if ($accuracy === '2') {
+        } elseif ($accuracy === '2') {
             $accuracy = '005';
-        } else if ($accuracy === '3') {
+        } elseif ($accuracy === '3') {
             $accuracy = '006';
         }
 
@@ -125,15 +127,15 @@ class Classifier extends CI_Model {
         $this->db->insert(TABLE_TESTING, $data);
     }
 
-    public function get() {
+    public function get()
+    {
         $query = $this->db->get(TABLE_TESTING);
 
         return $query;
     }
 
-    public function test($file_data) {
-
-
+    public function test($file_data)
+    {
         $pdf_file = 'assets/uploads/' . $file_data['file_name'];
         $datas = $this->string->process($pdf_file);
         $prior = array();
@@ -158,7 +160,6 @@ class Classifier extends CI_Model {
         $product['006'] = Decimal::create(1, 5);
 
         foreach ($final_tokens_raw as $row) {
-
             $exploded = explode(' ', $row);
             $stemmed = '';
 
@@ -238,7 +239,8 @@ class Classifier extends CI_Model {
 
 // end function test
 
-    public function getEvaluation() {
+    public function getEvaluation()
+    {
         $query = $this->get();
 
         $pg_004_004 = 0;
@@ -309,5 +311,4 @@ class Classifier extends CI_Model {
             'TotalGoldLabel_006' => $pg_004_006 + $pg_005_006 + $pg_006_006
         ];
     }
-
 }

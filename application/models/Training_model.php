@@ -1,13 +1,13 @@
 <?php
 
-class Training_model extends CI_Model {
+class Training_model extends CI_Model
+{
 
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '') {
-        
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '')
+    {
         $ebookDir = FCPATH . EBOOKS_DIR;
 
         if (trim($all_text) !== '' && trim($toc) !== '') {
-
             $data = array(
                 'filename' => $filename,
                 'classification' => $class,
@@ -91,12 +91,12 @@ class Training_model extends CI_Model {
             return $ebook_id;
         }
 
-        return NULL;
+        return null;
     }
 
 
     public function saveTextFile($ebookID, $file)
-    {   
+    {
         $data = [
             'ebook_id' => $ebookID,
             'file' => $file
@@ -105,7 +105,8 @@ class Training_model extends CI_Model {
         $this->db->insert(TABLE_EBOOK_TEXTFILE, $data);
     }
 
-    public function get_preprocess_data($ebook_id) {
+    public function get_preprocess_data($ebook_id)
+    {
         $this->load->helper('file');
         
         $ebookDir = FCPATH . EBOOKS_DIR;
@@ -124,15 +125,16 @@ class Training_model extends CI_Model {
         return $data;
     }
 
-    private function create_file($filename, $contents) {
+    private function create_file($filename, $contents)
+    {
         $myfile = fopen($filename, "w") or die("Unable to open file!");
         $txt = $contents;
         fwrite($myfile, $txt);
         fclose($myfile);
     }
 
-    private function stringify($array) {
-
+    private function stringify($array)
+    {
         $string = '';
 
         foreach ($array as $key => $val) {
@@ -146,7 +148,8 @@ class Training_model extends CI_Model {
         return $string;
     }
 
-    private function stringify_decode($string) {
+    private function stringify_decode($string)
+    {
         $temp = explode('[_]', $string);
         $array = array();
 
@@ -159,11 +162,11 @@ class Training_model extends CI_Model {
         return $array;
     }
 
-    public function get_entries($ids = array(), $class = "all", $limit = 25, $offset = 0) {
+    public function get_entries($ids = array(), $class = "all", $limit = 25, $offset = 0)
+    {
         $custom_where = '';
 
         if (count($ids) > 0) {
-
             foreach ($ids as $id) {
                 if ($custom_where === '') {
                     $custom_where = 'id = "' . $id . '"';
@@ -200,7 +203,8 @@ class Training_model extends CI_Model {
         return $query;
     }
 
-    public function train($ebook_ids = array()) {
+    public function train($ebook_ids = array())
+    {
         $custom_where = "";
 
         if (count($ebook_ids) > 0) {
@@ -226,7 +230,6 @@ class Training_model extends CI_Model {
         $data = array();
 
         foreach ($query->result() as $row) {
-
             $preprocess = $this->get_preprocess_data($row->id);
 
             /*
@@ -266,13 +269,12 @@ class Training_model extends CI_Model {
         $this->insert_training_set($data);
     }
 
-    public function insert_training_set($data) {
-
+    public function insert_training_set($data)
+    {
         $batchItems = array();
         $batchItemsToUpdate = array();
 
         foreach ($data as $item) {
-
             $this->db->where('item_stemmed', trim($item['item_stemmed']));
             $this->db->where('class', $item['class']);
             $this->db->limit(1);
@@ -301,10 +303,10 @@ class Training_model extends CI_Model {
         if (count($batchItemsToUpdate) > 0) {
             $this->db->update_batch(TABLE_TRAINING, $batchItemsToUpdate, 'id');
         }
-        
     }
 
-    public function frequency_sum($class = "004", $table=TABLE_TRAINING, $awp=false) {
+    public function frequency_sum($class = "004", $table=TABLE_TRAINING, $awp=false)
+    {
         $this->db->where('class', $class);
 
         if ($awp) {
@@ -324,15 +326,15 @@ class Training_model extends CI_Model {
         return $sum;
     }
 
-    public function get_training_set($class = "004", $table=TABLE_TRAINING, $awp=false) {
-
+    public function get_training_set($class = "004", $table=TABLE_TRAINING, $awp=false)
+    {
         $sql = "SELECT * FROM $table WHERE class = '$class'";
 
         if ($awp) {
             $sql .= " AND count > '".THRESHOLD."'";
         }
 
-        $sql .= " ORDER BY item_stemmed ASC";        
+        $sql .= " ORDER BY item_stemmed ASC";
         
         return $this->db->query($sql);
     }
@@ -342,16 +344,14 @@ class Training_model extends CI_Model {
         $unigram = [];
         $bigram = [];
 
-        foreach($data as $row) {
-
+        foreach ($data as $row) {
             $temp = explode(' ', $row['item_stemmed']);
 
             if (count($temp) > 1) {
                 $bigram[] = $row;
-            } else {    
+            } else {
                 $unigram[] = $row;
             }
-
         }
 
         $result = array_merge($unigram, $bigram);
@@ -362,15 +362,12 @@ class Training_model extends CI_Model {
 
     public function generate_awp()
     {
-
         $result = $this->db->get(TABLE_TRAINING);
         $raw_dataset = [];
         $stemmed_dataset = [];
 
-        foreach($result->result_array() as $model) {
-            
-            if ( $model['count'] > THRESHOLD ) {
-
+        foreach ($result->result_array() as $model) {
+            if ($model['count'] > THRESHOLD) {
                 $raw_dataset[] = [
                     $model['item_raw'] => $model['count']
                 ];
@@ -379,7 +376,6 @@ class Training_model extends CI_Model {
                     $model['item_stemmed'] => $model['count']
                 ];
             }
-
         }
 
 
@@ -434,7 +430,6 @@ class Training_model extends CI_Model {
                 'raw_dataset' => DATA_SET.'raw_dataset_'.$id.'.txt',
                 'stemmed_dataset' => DATA_SET.'stemmed_dataset_'.$id.'.txt'
             ]);
-
     }
 
 
@@ -445,7 +440,6 @@ class Training_model extends CI_Model {
 
         return $result->num_rows();
     }
-
 }
 
 // End class training_model

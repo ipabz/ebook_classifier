@@ -20,14 +20,14 @@
                 <select name="corpus" class="form-control form-class-select class-dropdown">
                     <option value="">Select Class</option>
                   <?php
-                  foreach($classifications as $row) {
-                  ?>
+                  foreach ($classifications as $row) {
+                      ?>
                   <option value="<?php print $row; ?>">
                   <?php
-                  print $row;
-                  ?>
+                  print $row; ?>
                   </option>
                   <?php
+
                   }
                   ?>   
                 </select>
