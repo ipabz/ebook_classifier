@@ -48,7 +48,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 abstract class CI_Session_driver implements SessionHandlerInterface
 {
-
     protected $_config;
 
     /**

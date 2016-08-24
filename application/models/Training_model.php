@@ -2,7 +2,6 @@
 
 class Training_model extends CI_Model
 {
-
     public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '')
     {
         $ebookDir = FCPATH . EBOOKS_DIR;
@@ -237,7 +236,7 @@ class Training_model extends CI_Model
               $raw = array_unique($raw);
               $bigram_raw = array_unique((array)json_decode(($row->bigram_raw)));
               $final_tokens = (array)json_decode($row->final_tokens);
-             * 
+             *
              */
 
             $raw = (array) json_decode($preprocess['removed_stop_words']);

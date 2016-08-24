@@ -1,10 +1,9 @@
 <?php  if (! defined('BASEPATH')) {
-     exit('No direct script access allowed');
- }
+    exit('No direct script access allowed');
+}
 
 class MY_Upload extends CI_Upload
 {
-    
     public function do_multiple_upload($field = 'userfile')
     {
         $upload_datas = false;

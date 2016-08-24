@@ -861,15 +861,15 @@ class CI_Image_lib
 
         // Build the resizing command
         switch ($this->image_type) {
-            case 1 :
+            case 1:
                 $cmd_in        = 'giftopnm';
                 $cmd_out    = 'ppmtogif';
                 break;
-            case 2 :
+            case 2:
                 $cmd_in        = 'jpegtopnm';
                 $cmd_out    = 'ppmtojpeg';
                 break;
-            case 3 :
+            case 3:
                 $cmd_in        = 'pngtopnm';
                 $cmd_out    = 'ppmtopng';
                 break;
@@ -1414,11 +1414,11 @@ class CI_Image_lib
         header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
 
         switch ($this->image_type) {
-            case 1    :    imagegif($resource);
+            case 1:    imagegif($resource);
                 break;
-            case 2    :    imagejpeg($resource, null, $this->quality);
+            case 2:    imagejpeg($resource, null, $this->quality);
                 break;
-            case 3    :    imagepng($resource);
+            case 3:    imagepng($resource);
                 break;
             default:    echo 'Unable to display the image';
                 break;

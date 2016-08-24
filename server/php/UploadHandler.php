@@ -12,7 +12,6 @@
 
 class UploadHandler
 {
-
     protected $options;
 
     // PHP File Upload error message codes:
@@ -555,7 +554,7 @@ class UploadHandler
             $content_range
         );
     }
-     * 
+     *
      */
     
     

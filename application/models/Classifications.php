@@ -1,6 +1,6 @@
 <?php  if (! defined('BASEPATH')) {
-     exit('No direct script access allowed');
- }
+    exit('No direct script access allowed');
+}
 /**
  * @package CodeIgniter
  * @subpackage Models
@@ -12,7 +12,7 @@ class Classifications extends CI_Model
 
     /**
    * Gets all the book classifications
-   * 
+   *
    * @return object
    */
   public function get_all()

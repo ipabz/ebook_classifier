@@ -2,7 +2,6 @@
 
 class MyDocXHandler
 {
-    
     public function readDocx($filePath)
     {
         // Create new ZIP archive
