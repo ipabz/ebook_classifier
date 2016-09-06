@@ -1253,7 +1253,7 @@ class CI_Email
         $body = '';
 
         switch ($this->_get_content_type()) {
-            case 'plain' :
+            case 'plain':
 
                 $hdr .= 'Content-Type: text/plain; charset='.$this->charset.$this->newline
                     .'Content-Transfer-Encoding: '.$this->_get_encoding();
@@ -1267,7 +1267,7 @@ class CI_Email
 
                 return;
 
-            case 'html' :
+            case 'html':
 
                 if ($this->send_multipart === false) {
                     $hdr .= 'Content-Type: text/html; charset='.$this->charset.$this->newline
@@ -1300,7 +1300,7 @@ class CI_Email
 
                 return;
 
-            case 'plain-attach' :
+            case 'plain-attach':
 
                 $hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
@@ -1317,7 +1317,7 @@ class CI_Email
                     .$this->_body.$this->newline.$this->newline;
 
             break;
-            case 'html-attach' :
+            case 'html-attach':
 
                 $hdr .= 'Content-Type: multipart/'.$this->multipart.'; boundary="'.$this->_atc_boundary.'"';
 
@@ -1841,7 +1841,7 @@ class CI_Email
     protected function _send_command($cmd, $data = '')
     {
         switch ($cmd) {
-            case 'hello' :
+            case 'hello':
 
                         if ($this->_smtp_auth or $this->_get_encoding() === '8bit') {
                             $this->_send_data('EHLO '.$this->_get_hostname());
@@ -1851,17 +1851,17 @@ class CI_Email
 
                         $resp = 250;
             break;
-            case 'starttls'    :
+            case 'starttls':
 
                         $this->_send_data('STARTTLS');
                         $resp = 220;
             break;
-            case 'from' :
+            case 'from':
 
                         $this->_send_data('MAIL FROM:<'.$data.'>');
                         $resp = 250;
             break;
-            case 'to' :
+            case 'to':
 
                         if ($this->dsn) {
                             $this->_send_data('RCPT TO:<'.$data.'> NOTIFY=SUCCESS,DELAY,FAILURE ORCPT=rfc822;'.$data);
@@ -1871,7 +1871,7 @@ class CI_Email
 
                         $resp = 250;
             break;
-            case 'data'    :
+            case 'data':
 
                         $this->_send_data('DATA');
                         $resp = 354;
@@ -1881,7 +1881,7 @@ class CI_Email
                         $this->_send_data('RSET');
                         $resp = 250;
             break;
-            case 'quit'    :
+            case 'quit':
 
                         $this->_send_data('QUIT');
                         $resp = 221;

@@ -4,7 +4,6 @@ use \Litipk\BigNumbers\Decimal as Decimal;
 
 class classifier extends CI_Model
 {
-
     public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '')
     {
         $ebookDir = FCPATH . TESTING_DIR;

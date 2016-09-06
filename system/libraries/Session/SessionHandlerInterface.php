@@ -50,7 +50,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 interface SessionHandlerInterface
 {
-
     public function open($save_path, $name);
     public function close();
     public function read($session_id);

@@ -4,7 +4,6 @@
 
 class Migration_Initial_schema extends CI_Migration
 {
-  
     public function up()
     {
     

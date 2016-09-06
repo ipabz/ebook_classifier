@@ -48,8 +48,8 @@
           print '<pre>';
           print_r($_data);
           print '</pre>';
-          
-           * 
+
+           *
            */
         ?>
         <div class="text-center alert alert-success">
