@@ -4,7 +4,7 @@ use \Litipk\BigNumbers\Decimal as Decimal;
 
 class classifier extends CI_Model
 {
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '')
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '', $word004 = array(), $word005 = array(), $word006 = array())
     {
         $ebookDir = FCPATH . TESTING_DIR;
 
@@ -74,6 +74,21 @@ class classifier extends CI_Model
             if (count($bigram_stemmed) > 0) {
                 $_filename = $ebookDir . "testing" . $ebook_id . "_bigram_stemmed.txt";
                 $this->create_file($_filename, json_encode($bigram_stemmed));
+            }
+
+            if (count($word004) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_004_conditional_probabilities.txt";
+                $this->create_file($_filename, json_encode($word004));
+            }
+
+            if (count($word005) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_005_conditional_probabilities.txt";
+                $this->create_file($_filename, json_encode($word005));
+            }
+
+            if (count($word006) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_006_conditional_probabilities.txt";
+                $this->create_file($_filename, json_encode($word006));
             }
 
             return $ebook_id;
@@ -158,6 +173,10 @@ class classifier extends CI_Model
         $product['005'] = Decimal::create(1, 5);
         $product['006'] = Decimal::create(1, 5);
 
+        $wordCalculation004 = array();
+        $wordCalculation005 = array();
+        $wordCalculation006 = array();
+
         foreach ($final_tokens_raw as $row) {
             $exploded = explode(' ', $row);
             $stemmed = '';
@@ -171,6 +190,9 @@ class classifier extends CI_Model
 
             $t_count = (int) @$final_tokens[$stemmed] + 1;
 
+            $wordCalculation004[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_004 + $corpus_num_unique_words)), 4);
+            $wordCalculation005[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_005 + $corpus_num_unique_words)), 4);
+            $wordCalculation006[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_006 + $corpus_num_unique_words)), 4);
 
             $product['004'] = $product['004'] * ($t_count / ($corpus_doc_count_004 + $corpus_num_unique_words));
             $product['005'] = $product['005'] * ($t_count / ($corpus_doc_count_005 + $corpus_num_unique_words));
@@ -233,6 +255,10 @@ class classifier extends CI_Model
         $data['corpora_num_unique_words'] = $corpus_num_unique_words;
         $data['doc_count_all'] = $doc_count_all;
         $data['pre_process'] = $datas;
+        $data['unique_words_004_calculation'] = $wordCalculation004;
+        $data['unique_words_005_calculation'] = $wordCalculation005;
+        $data['unique_words_006_calculation'] = $wordCalculation006;
+
         return $data;
     }
 
