@@ -58,7 +58,7 @@ class Testing extends CI_Controller
           
             $data2 = $data['_data']['pre_process'];
             $this->classifier->save_entry(
-                    $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text'], $data2['toc'], $data2['tokenized'], $data2['bigram_stemmed'], $data['_data']['unique_words_004_calculation'], $data['_data']['unique_words_005_calculation'], $data['_data']['unique_words_006_calculation']
+                    $data['file_data']['file_name'], $class, $data2['tokens'], $data2['counted'], $data2['removed_stop_words'], $data2['corpus_count'], $data2['meta_data'], $data2['bigram_raw'], $data2['bigram_counted'], $data2['final_tokens'], $data2['all_text'], $data2['toc'], $data2['tokenized'], $data2['bigram_stemmed'], $data['_data']['unique_words_004_calculation'], $data['_data']['unique_words_005_calculation'], $data['_data']['unique_words_006_calculation'], $data['_data']['unique_words_with_count']
             );
 
             $pdf_file = $data['file_data']['file_name'];

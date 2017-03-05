@@ -4,7 +4,7 @@ use \Litipk\BigNumbers\Decimal as Decimal;
 
 class classifier extends CI_Model
 {
-    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '', $word004 = array(), $word005 = array(), $word006 = array())
+    public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '', $word004 = array(), $word005 = array(), $word006 = array(), $allUniqueWords = array())
     {
         $ebookDir = FCPATH . TESTING_DIR;
 
@@ -91,6 +91,11 @@ class classifier extends CI_Model
                 $this->create_file($_filename, json_encode($word006));
             }
 
+            if (count($allUniqueWords) > 0) {
+                $_filename = $ebookDir . "testing-" . $ebook_id . "_unique_words.txt";
+                $this->create_file($_filename, json_encode($allUniqueWords));
+            }
+
             return $ebook_id;
         }
 
@@ -148,6 +153,40 @@ class classifier extends CI_Model
         return $query;
     }
 
+    public function getLatestTrainingModel()
+    {
+        $this->db->limit(1);
+        $this->db->order_by('model_id', 'DESC');
+        $trainingModelResult = $this->db->get(TABLE_TRAINING_MODEL);
+
+        return $trainingModelResult;
+    }
+
+    public function readTextFile($file)
+    {
+        $this->load->helper('file');
+
+        $absFile = FCPATH . $file;
+        $contents = read_file($absFile);
+
+        return $contents;
+    }
+
+    public function getUniqueItemsOnly($items)
+    {
+        $temp = array();
+
+        foreach($items as $key => $val) {
+            if (!in_array($key, $temp)) {
+                $temp[] = $key;
+            } else {
+                unset($items[$key]);
+            }
+        }
+
+        return $items;
+    }
+
     public function test($file_data)
     {
         $pdf_file = 'assets/uploads/' . $file_data['file_name'];
@@ -157,60 +196,75 @@ class classifier extends CI_Model
         $final_tokens_raw = $datas['final_tokens_raw'];
         $final_tokens = $datas['final_tokens'];
 
-
         // Get the latest training model
-        $this->db->limit(1);
-        $this->db->order_by('model_id', 'DESC');
-        $trainingModelResult = $this->db->get(TABLE_TRAINING_MODEL);
+        $trainingModelResult = $this->getLatestTrainingModel();
         $trainingModel = $trainingModelResult->row();
 
         $prior_probability = (array) json_decode($trainingModel->prior_probability);
         extract($prior_probability);
 
+        $trainingModelStemmedItems = (array) json_decode($this->readTextFile($trainingModel->stemmed_dataset));
+        $uniqueWords = $this->getUniqueItemsOnly($final_tokens_raw);
+
         $t_count = 0;
 
-        $product['004'] = Decimal::create(1, 5);
-        $product['005'] = Decimal::create(1, 5);
-        $product['006'] = Decimal::create(1, 5);
+        $product['004'] = Decimal::create(0, 5);
+        $product['005'] = Decimal::create(0, 5);
+        $product['006'] = Decimal::create(0, 5);
 
         $wordCalculation004 = array();
         $wordCalculation005 = array();
         $wordCalculation006 = array();
 
-        foreach ($final_tokens_raw as $row) {
-            $exploded = explode(' ', $row);
-            $stemmed = '';
+        $uniqueWordsWithCount = array();
+        $classificationsArray = array(
+            '004', '005', '006'
+        );
 
-            foreach ($exploded as $s) {
-                $stemmed = $this->stemmer->stem($s) . ' ';
+        foreach($classificationsArray as $cls) {
+            $cdcTemp = 0;
+
+            if ($cls === '004') {
+                $cdcTemp = $corpus_doc_count_004;
+            } else if ($cls === '005') {
+                $cdcTemp = $corpus_doc_count_005;
+            } else if ($cls === '006') {
+                $cdcTemp = $corpus_doc_count_006;
             }
 
-            $stemmed = trim($stemmed);
-            $t_count = 1;
+            foreach ($uniqueWords as $row) {
 
-            $t_count = (int) @$final_tokens[$stemmed] + 1;
+                $exploded = explode(' ', $row);
+                $stemmed = '';
 
-            $wordCalculation004[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_004 + $corpus_num_unique_words)), 4);
-            $wordCalculation005[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_005 + $corpus_num_unique_words)), 4);
-            $wordCalculation006[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_006 + $corpus_num_unique_words)), 4);
+                foreach ($exploded as $s) {
+                    $stemmed = $this->stemmer->stem($s) . ' ';
+                }
 
-            $product['004'] = $product['004'] * ($t_count / ($corpus_doc_count_004 + $corpus_num_unique_words));
-            $product['005'] = $product['005'] * ($t_count / ($corpus_doc_count_005 + $corpus_num_unique_words));
-            $product['006'] = $product['006'] * ($t_count / ($corpus_doc_count_006 + $corpus_num_unique_words));
+                $stemmed = trim($stemmed);
 
-            $_tmp = explode('E', $product['004']);
-            $product['004'] = $_tmp[0];
+                $t_count = (int) @$trainingModelStemmedItems[$cls][$stemmed] + 1;
+                $uniqueWordsWithCount[$stemmed] = (int) @$final_tokens[$stemmed];
+                $product[$cls] = $product[$cls] * ($t_count / ($cdcTemp + $corpus_num_unique_words));
 
-            $_tmp = explode('E', $product['005']);
-            $product['005'] = $_tmp[0];
+                $_tmp = explode('E', $product[$cls]);
+                $product[$cls] = $_tmp[0];
 
-            $_tmp = explode('E', $product['006']);
-            $product['006'] = $_tmp[0];
+                if ($cls === '004') {
+                    $wordCalculation004[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_004 + $corpus_num_unique_words)), 4);
+                } else if ($cls === '005') {
+                    $wordCalculation005[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_005 + $corpus_num_unique_words)), 4);
+                } else if ($cls === '006') {
+                    $wordCalculation006[$stemmed] = number_format( (double)($t_count / ($corpus_doc_count_006 + $corpus_num_unique_words)), 4);
+                }
+
+            }
         }
 
         $product['004'] = $product['004'] * $prior_004;
         $product['005'] = $product['005'] * $prior_005;
         $product['006'] = $product['006'] * $prior_006;
+        
 
         $_tmp = explode('E', $product['004']);
         $product['004'] = $_tmp[0];
@@ -239,9 +293,9 @@ class classifier extends CI_Model
         $data['result'] = @$_class;
         $data['nb_classification'] = [
             't_count' => $t_count,
-            'product_004' => $product['004'],
-            'product_005' => $product['005'],
-            'product_006' => $product['006']
+            'product_004' => number_format($product['004'], 2, '.', ''),
+            'product_005' => number_format($product['005'], 2, '.', ''),
+            'product_006' => number_format($product['006'], 2, '.', '')
         ];
         $data['product_004'] = $product['004'];
         $data['product_005'] = $product['005'];
@@ -258,6 +312,7 @@ class classifier extends CI_Model
         $data['unique_words_004_calculation'] = $wordCalculation004;
         $data['unique_words_005_calculation'] = $wordCalculation005;
         $data['unique_words_006_calculation'] = $wordCalculation006;
+        $data['unique_words_with_count'] = $uniqueWordsWithCount;
 
         return $data;
     }

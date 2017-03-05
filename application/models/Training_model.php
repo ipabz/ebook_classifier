@@ -275,22 +275,22 @@ class Training_model extends CI_Model
 
         foreach ($data as $item) {
             $this->db->where('item_stemmed', trim($item['item_stemmed']));
-            $this->db->where('class', $item['class']);
-            $this->db->limit(1);
-
             $query = $this->db->get(TABLE_TRAINING);
 
             if ($query->num_rows() > 0) {
-                $row = $query->row();
-                $item['count'] = $item['count'] + $row->count;
-                $item['id'] = $row->id;
 
-                $batchItemsToUpdate[] = $item;
+                if ($query->num_rows() > 1) {
+                    $this->db->where('item_stemmed', trim($item['item_stemmed']));
+                    $this->db->delete(TABLE_TRAINING);
+                } else {
+                    $row = $query->row();
+                    $item['count'] = $item['count'] + $row->count;
+                    $item['id'] = $row->id;
 
-                // $this->db->where('id', $row->id);
-                // $this->db->update(TABLE_TRAINING, $item);
+                    $batchItemsToUpdate[] = $item;
+                }
+                
             } else {
-                // $this->db->insert(TABLE_TRAINING, $item);
                 $batchItems[] = $item;
             }
         }
@@ -306,13 +306,13 @@ class Training_model extends CI_Model
 
     public function frequency_sum($class = "004", $table=TABLE_TRAINING, $awp=false)
     {
-        $this->db->where('class', $class);
+        $sql = "SELECT * FROM $table WHERE class = '$class'";
 
         if ($awp) {
-            $this->db->where('count >', THRESHOLD);
+            $sql .= " AND count > '".THRESHOLD."'";
         }
-
-        $query = $this->db->get($table);
+        
+        $query = $this->db->query($sql);
 
         $sum = 0;
 
@@ -357,21 +357,41 @@ class Training_model extends CI_Model
         return $result;
     }
 
+    public function removeDuplicatesFromAWP()
+    {
+        $result = $this->db->get(TABLE_TRAINING);
+        $data = array();
 
+        foreach ($result->result_array() as $model) {
+
+            $this->db->where('item_stemmed', $model['item_stemmed']);
+            $query = $this->db->get(TABLE_TRAINING);
+
+            if ($query->num_rows() > 1) {
+                $data[] = $model['item_stemmed'];
+            }
+        }
+
+        if (count($data) > 0) {
+            $this->db->where_in('item_stemmed', $data);
+            $this->db->delete(TABLE_TRAINING);
+        }
+    }
 
     public function generate_awp()
     {
+        //$this->removeDuplicatesFromAWP();
         $result = $this->db->get(TABLE_TRAINING);
         $raw_dataset = [];
         $stemmed_dataset = [];
 
         foreach ($result->result_array() as $model) {
             if ($model['count'] > THRESHOLD) {
-                $raw_dataset[] = [
+                $raw_dataset[$model['class']][] = [
                     $model['item_raw'] => $model['count']
                 ];
 
-                $stemmed_dataset[] = [
+                $stemmed_dataset[$model['class']][] = [
                     $model['item_stemmed'] => $model['count']
                 ];
             }
@@ -404,9 +424,9 @@ class Training_model extends CI_Model
             'doc_count_005' => $doc_count_005,
             'doc_count_006' => $doc_count_006,
             'doc_count_all' => $doc_count_all,
-            'prior_004' => $prior_004,
-            'prior_005' => $prior_005,
-            'prior_006' => $prior_006,
+            'prior_004' => number_format($prior_004, 2, '.', ''),
+            'prior_005' => number_format($prior_005, 2, '.', ''),
+            'prior_006' => number_format($prior_006, 2, '.', ''),
             'corpus_num_unique_words' => $corpus_num_unique_words,
             'corpus_doc_count_004' => $corpus_doc_count_004,
             'corpus_doc_count_005' => $corpus_doc_count_005,
@@ -434,7 +454,7 @@ class Training_model extends CI_Model
 
     public function corpusNumUniqueWords()
     {
-        $sql = "SELECT DISTINCT item_stemmed FROM ".TABLE_TRAINING." WHERE count > '".THRESHOLD."'";
+        $sql = "SELECT item_stemmed FROM ".TABLE_TRAINING." WHERE count > '".THRESHOLD."'";
         $result = $this->db->query($sql);
 
         return $result->num_rows();
