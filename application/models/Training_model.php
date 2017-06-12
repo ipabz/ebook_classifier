@@ -128,6 +128,7 @@ class Training_model extends CI_Model
     {
         $myfile = fopen($filename, "w") or die("Unable to open file!");
         $txt = $contents;
+
         fwrite($myfile, $txt);
         fclose($myfile);
     }
@@ -152,52 +153,50 @@ class Training_model extends CI_Model
 
         foreach ($temp as $row) {
             $exp = explode('[=]', $row);
-
             $array[$exp[0]] = $exp[1];
         }
 
         return $array;
     }
 
-    public function get_entries($ids = array(), $class = "all", $limit = 25, $offset = 0)
+    protected function customWhereByIds($ids=array())
     {
+        if (empty($ids)) {
+            return '';
+        }
+
         $custom_where = '';
 
-        if (count($ids) > 0) {
-            foreach ($ids as $id) {
-                if ($custom_where === '') {
-                    $custom_where = 'id = "' . $id . '"';
-                } else {
-                    $custom_where .= ' OR id = "' . $id . '"';
-                }
-            }
-
-            if ($custom_where !== '') {
-                $custom_where = '(' . $custom_where . ')';
-            }
+        foreach ($ids as $id) {
+            $custom_where = ($custom_where === '')
+                ? 'id = "' . $id . '"'
+                : $custom_where . ' OR id = "' . $id . '"';
         }
 
-        if ($class !== 'all') {
-            $temp = 'classification = "' . $class . '"';
+        return $custom_where;
+    }
 
-            if ($custom_where !== '') {
-                $custom_where .= ' AND (' . $temp . ')';
-            } else {
-                $custom_where = '(' . $temp . ')';
-            }
+    protected function customWhereByClassification($class, $customWhere='')
+    {
+        if ($class === 'all') {
+            return '';
         }
 
-        $sql = "SELECT * FROM " . TABLE_EBOOK;
+        $condition = 'classification = "' . $class . '"';
 
-        if ($custom_where !== '') {
-            $sql .= " WHERE " . $custom_where;
-        }
+        return ($customWhere !== '')
+            ? $customWhere . ' AND (' . $condition . ')'
+            : '(' . $condition . ')';
+    }
 
-        $sql .= " LIMIT $offset, $limit";
+    public function get_entries($ids = array(), $class = "all", $limit = 25, $offset = 0)
+    {
+        $custom_where = $this->customWhereByIds($ids);
+        $custom_where = $this->customWhereByClassification($class, $custom_where);
 
-        $query = $this->db->query($sql);
+        $sql = "SELECT * FROM " . TABLE_EBOOK . " WHERE " . $custom_where . " LIMIT $offset, $limit";
 
-        return $query;
+        return $this->db->query($sql);
     }
 
     public function train($ebook_ids = array())
