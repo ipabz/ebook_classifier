@@ -216,7 +216,7 @@ class Training_model extends CI_Model
         $tokens_raw = array_merge($raw, $bigram_raw);
         sort($tokens_raw);
 
-        return array_map(function($item) {
+        return array_map(function ($item) {
             $stemmed = $this->stemmer->stem_list($item);
             $stemmed = implode(" ", $stemmed);
             $f = (isset($final_tokens[$stemmed]))
@@ -272,7 +272,7 @@ class Training_model extends CI_Model
 
                 $batchItemsToUpdate[] = $item;
                 continue;
-            } 
+            }
 
             $batchItems[] = $item;
         }
@@ -300,7 +300,7 @@ class Training_model extends CI_Model
             return 0;
         }
 
-        return array_reduce($query->result_array(), function($value1, $value2) {
+        return array_reduce($query->result_array(), function ($value1, $value2) {
             return $value1['count'] + $value2['count'];
         }, 0);
     }
@@ -341,22 +341,22 @@ class Training_model extends CI_Model
 
     public function generate_awp()
     {
-        $result = $this->db->get(TABLE_TRAINING);
+        $result = $this->db->query(
+            "SELECT * FROM ".TABLE_TRAINING." WHERE count > '".THRESHOLD."'"
+        );
+
         $raw_dataset = [];
         $stemmed_dataset = [];
 
         foreach ($result->result_array() as $model) {
-            if ($model['count'] > THRESHOLD) {
-                $raw_dataset[] = [
-                    $model['item_raw'] => $model['count']
-                ];
+            $raw_dataset[] = [
+                $model['item_raw'] => $model['count']
+            ];
 
-                $stemmed_dataset[] = [
-                    $model['item_stemmed'] => $model['count']
-                ];
-            }
+            $stemmed_dataset[] = [
+                $model['item_stemmed'] => $model['count']
+            ];
         }
-
 
         $this->db->where('classification', '004');
         $doc_count_004 = $this->db->count_all_results(TABLE_EBOOK);
