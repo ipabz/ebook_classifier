@@ -271,20 +271,17 @@ class Training_model extends CI_Model
                 $item['id'] = $row->id;
 
                 $batchItemsToUpdate[] = $item;
+                continue;
+            } 
 
-                // $this->db->where('id', $row->id);
-                // $this->db->update(TABLE_TRAINING, $item);
-            } else {
-                // $this->db->insert(TABLE_TRAINING, $item);
-                $batchItems[] = $item;
-            }
+            $batchItems[] = $item;
         }
 
-        if (count($batchItems) > 0) {
+        if (!empty($batchItems)) {
             $this->db->insert_batch(TABLE_TRAINING, $batchItems);
         }
 
-        if (count($batchItemsToUpdate) > 0) {
+        if (!empty($batchItemsToUpdate)) {
             $this->db->update_batch(TABLE_TRAINING, $batchItemsToUpdate, 'id');
         }
     }
