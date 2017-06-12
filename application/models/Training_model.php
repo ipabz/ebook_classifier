@@ -328,13 +328,13 @@ class Training_model extends CI_Model
 
             if (count($temp) > 1) {
                 $bigram[] = $row;
-            } else {
-                $unigram[] = $row;
+                continue;
             }
+
+            $unigram[] = $row;
         }
 
-        $result = array_merge($unigram, $bigram);
-        return $result;
+        return array_merge($unigram, $bigram);
     }
 
 
