@@ -2,95 +2,107 @@
 
 class Training_model extends CI_Model
 {
+    protected function insertEbookData($filename, $class, $meta_data)
+    {
+        $data = array(
+            'filename' => $filename,
+            'classification' => $class,
+            'file_num' => @time()
+        );
+
+        if (!empty($meta_data)) {
+            $data['meta_data'] = json_encode($meta_data);
+        }
+
+        $this->db->insert(TABLE_EBOOK, $data);
+
+        return $this->db->insert_id();
+    }
+
+    protected function saveTrainingFile($data, $ebook_id, $filename)
+    {
+        $this->create_file($filename, json_encode($data));
+        $this->saveTextFile($ebook_id, $filename);
+    }
+
+    protected function saveFinalTokensToFile($final_tokens, $ebook_id, $dir)
+    {
+        $this->saveTrainingFile($final_tokens, $ebook_id, $dir . "ebook" . $ebook_id . "_final_tokens.txt");
+    }
+
+    protected function saveBigramCountedToFile($bigram_counted, $ebook_id, $dir)
+    {
+        $this->saveTrainingFile($bigram_counted, $ebook_id, $dir . "ebook" . $ebook_id . "_bigram_counted.txt");
+    }
+
+    protected function saveBigramRawToFile($bigram_raw, $ebook_id, $dir)
+    {
+        $this->saveTrainingFile($bigram_raw, $ebook_id, $dir . "ebook" . $ebook_id . "_bigram_raw.txt");
+    }
+
     public function save_entry($filename, $class, $tokens = "", $counted = "", $removed_stop_words = "", $corpus_counted = "", $meta_data = array(), $bigram_raw = array(), $bigram_counted = array(), $final_tokens = array(), $all_text = '', $toc = '', $tokenized = '', $bigram_stemmed = '')
     {
         $ebookDir = FCPATH . EBOOKS_DIR;
 
-        if (trim($all_text) !== '' && trim($toc) !== '') {
-            $data = array(
-                'filename' => $filename,
-                'classification' => $class,
-                'file_num' => @time()
-            );
-    
-
-            if (count($meta_data) > 0) {
-                $data['meta_data'] = json_encode($meta_data);
-            }
-
-            $this->db->insert(TABLE_EBOOK, $data);
-            $ebook_id = $this->db->insert_id();
-
-            if (count($final_tokens) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_final_tokens.txt";
-                $this->create_file($_filename, json_encode($final_tokens));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($bigram_counted) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_counted.txt";
-                $this->create_file($_filename, json_encode($bigram_counted));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($bigram_raw) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_raw.txt";
-                $this->create_file($_filename, json_encode($bigram_raw));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($corpus_counted) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_corpus_count.txt";
-                $this->create_file($_filename, json_encode($corpus_counted));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($removed_stop_words) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_removed_stop_words.txt";
-                $this->create_file($_filename, json_encode($removed_stop_words));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($counted) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_tokens_count.txt";
-                $this->create_file($_filename, json_encode($counted));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($tokens) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_tokens.txt";
-                $this->create_file($_filename, json_encode($tokens));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (trim($all_text) !== '') {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_all_text.txt";
-                $this->create_file($_filename, strtolower($all_text));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-            
-            if (trim($toc) !== '') {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_toc.txt";
-                $this->create_file($_filename, $toc);
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            if (count($tokenized) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_tokenized.txt";
-                $this->create_file($_filename, json_encode($tokenized));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-            
-            if (count($bigram_stemmed) > 0) {
-                $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_stemmed.txt";
-                $this->create_file($_filename, json_encode($bigram_stemmed));
-                $this->saveTextFile($ebook_id, $_filename);
-            }
-
-            return $ebook_id;
+        if (trim($all_text) === '' && trim($toc) === '') {
+            return null;
         }
 
-        return null;
+        $ebook_id = $this->insertEbookData($filename, $class, $meta_data);
+
+        $this->saveFinalTokensToFile($final_tokens, $ebook_id, $ebookDir);
+        $this->saveBigramCountedToFile($bigram_counted, $ebook_id, $ebookDir);
+        $this->saveBigramRawToFile($bigram_raw, $ebook_id, $ebookDir);
+
+        if (count($corpus_counted) > 0) {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_corpus_count.txt";
+            $this->create_file($_filename, json_encode($corpus_counted));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+
+        if (count($removed_stop_words) > 0) {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_removed_stop_words.txt";
+            $this->create_file($_filename, json_encode($removed_stop_words));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+
+        if (count($counted) > 0) {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_tokens_count.txt";
+            $this->create_file($_filename, json_encode($counted));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+
+        if (count($tokens) > 0) {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_tokens.txt";
+            $this->create_file($_filename, json_encode($tokens));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+
+        if (trim($all_text) !== '') {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_all_text.txt";
+            $this->create_file($_filename, strtolower($all_text));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+            
+        if (trim($toc) !== '') {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_toc.txt";
+            $this->create_file($_filename, $toc);
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+
+        if (count($tokenized) > 0) {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_tokenized.txt";
+            $this->create_file($_filename, json_encode($tokenized));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+            
+        if (count($bigram_stemmed) > 0) {
+            $_filename = $ebookDir . "ebook" . $ebook_id . "_bigram_stemmed.txt";
+            $this->create_file($_filename, json_encode($bigram_stemmed));
+            $this->saveTextFile($ebook_id, $_filename);
+        }
+
+        return $ebook_id;
     }
 
 
