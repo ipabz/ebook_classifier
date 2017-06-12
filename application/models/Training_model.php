@@ -194,72 +194,60 @@ class Training_model extends CI_Model
         $custom_where = $this->customWhereByIds($ids);
         $custom_where = $this->customWhereByClassification($class, $custom_where);
 
-        $sql = "SELECT * FROM " . TABLE_EBOOK . " WHERE " . $custom_where . " LIMIT $offset, $limit";
+        $sql = "SELECT * FROM " . TABLE_EBOOK;
+
+        if ($custom_where !== '') {
+            $sql .= " WHERE " . $custom_where;
+        }
+
+        $sql .= " LIMIT $offset, $limit";
 
         return $this->db->query($sql);
     }
 
+    protected function prepareData($row)
+    {
+        $this->load->library('stemmer');
+
+        $preprocess = $this->get_preprocess_data($row->id);
+        $raw = array_unique(json_decode($preprocess['removed_stop_words'], true));
+        $bigram_raw = array_unique(json_decode($preprocess['bigram_raw'], true));
+        $final_tokens = json_decode($preprocess['final_tokens'], true);
+        $tokens_raw = array_merge($raw, $bigram_raw);
+        sort($tokens_raw);
+
+        return array_map(function($item) {
+            $stemmed = $this->stemmer->stem_list($item);
+            $stemmed = implode(" ", $stemmed);
+            $f = (isset($final_tokens[$stemmed]))
+                ? $final_tokens[$stemmed]
+                : 0;
+
+            return array(
+                'class' => $row->classification,
+                'item_stemmed' => $stemmed,
+                'item_raw' => $item,
+                'count' => $f
+            );
+        }, $tokens_raw);
+    }
+
     public function train($ebook_ids = array())
     {
-        $custom_where = "";
-
-        if (count($ebook_ids) > 0) {
-            foreach ($ebook_ids as $id) {
-                if ($custom_where === "") {
-                    $custom_where = "id = '" . $id . "'";
-                } else {
-                    $custom_where .= " OR id = '" . $id . "'";
-                }
-            }
-        }
-
         $sql = "SELECT * FROM " . TABLE_EBOOK;
 
-        if ($custom_where !== "") {
+        $custom_where = $this->customWhereByIds($ebook_ids);
+
+        if ($custom_where !== '') {
             $sql .= " WHERE " . $custom_where;
         }
 
         $query = $this->db->query($sql);
 
-        $this->load->library('stemmer');
-
         $data = array();
 
         foreach ($query->result() as $row) {
-            $preprocess = $this->get_preprocess_data($row->id);
-
-            /*
-              $raw = (array)json_decode($row->removed_stop_words);
-              $raw = array_unique($raw);
-              $bigram_raw = array_unique((array)json_decode(($row->bigram_raw)));
-              $final_tokens = (array)json_decode($row->final_tokens);
-             *
-             */
-
-            $raw = (array) json_decode($preprocess['removed_stop_words']);
-            $raw = array_unique($raw);
-            $bigram_raw = array_unique((array) json_decode(($preprocess['bigram_raw'])));
-            $final_tokens = (array) json_decode($preprocess['final_tokens']);
-
-            $tokens_raw = array_merge($raw, $bigram_raw);
-            sort($tokens_raw);
-
-            foreach ($tokens_raw as $item) {
-                $stemmed = $this->stemmer->stem_list($item);
-                $stemmed = implode(" ", $stemmed);
-                $f = 0;
-
-                if (@$final_tokens[$stemmed]) {
-                    $f = @$final_tokens[$stemmed];
-                }
-
-                $data[] = array(
-                    'class' => $row->classification,
-                    'item_stemmed' => $stemmed,
-                    'item_raw' => $item,
-                    'count' => $f
-                );
-            }
+            $data = array_merge($data, $this->prepareData($row));
         }
 
         $this->insert_training_set($data);
