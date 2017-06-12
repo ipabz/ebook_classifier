@@ -137,11 +137,9 @@ class Training_model extends CI_Model
         $string = '';
 
         foreach ($array as $key => $val) {
-            if ($string === '') {
-                $string = $key . '[=]' . $val;
-            } else {
-                $string .= '[_]' . $key . '[=]' . $val;
-            }
+            $string = ($string === '')
+                ? $key . '[=]' . $val
+                : $string . '[_]' . $key . '[=]' . $val;
         }
 
         return $string;

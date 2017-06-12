@@ -18,3 +18,4 @@ classified_ebooks/005/*
 !classified_ebooks/005/.gitignore
 classified_ebooks/006/*
 !classified_ebooks/006/.gitignore
+.php_cs.cache
