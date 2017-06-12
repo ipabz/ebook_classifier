@@ -406,9 +406,9 @@ class Training_model extends CI_Model
 
         $this->db->where('model_id', $id);
         $this->db->update(TABLE_TRAINING_MODEL, [
-                'raw_dataset' => DATA_SET.'raw_training_model_'.$id.'.txt',
-                'stemmed_dataset' => DATA_SET.'stemmed_training_model_'.$id.'.txt'
-            ]);
+            'raw_dataset' => DATA_SET.'raw_training_model_'.$id.'.txt',
+            'stemmed_dataset' => DATA_SET.'stemmed_training_model_'.$id.'.txt'
+        ]);
     }
 
 
