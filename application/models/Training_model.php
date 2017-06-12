@@ -296,15 +296,13 @@ class Training_model extends CI_Model
 
         $query = $this->db->get($table);
 
-        $sum = 0;
-
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $sum += $row->count;
-            }
+        if ($query->num_rows() < 1) {
+            return 0;
         }
 
-        return $sum;
+        return array_reduce($query->result_array(), function($value1, $value2) {
+            return $value1['count'] + $value2['count'];
+        }, 0);
     }
 
     public function get_training_set($class = "004", $table=TABLE_TRAINING, $awp=false)
